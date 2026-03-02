@@ -256,6 +256,7 @@
             cursor: not-allowed;
         }
 
+        /* ===== ESTILOS DAS MENSAGENS DE ENVIO ===== */
         .mensagem-envio {
             background: #eaf6e7;
             border: 1px solid #9ec5a0;
@@ -266,6 +267,24 @@
             text-align: center;
             margin-bottom: 18px;
             font-weight: 500;
+            animation: slideDown 0.5s ease;
+        }
+
+        .mensagem-envio.erro {
+            background: #fee9e7;
+            border-color: #f1a09c;
+            color: #a11f1f;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .oculto {
@@ -292,8 +311,13 @@
         <h1>Banco de Oportunidades</h1>
         <h2>Preencha seus dados</h2>
 
+        <!-- ===== MENSAGENS DE RETORNO ===== -->
         <div id="msgSucesso" class="mensagem-envio oculto">
             <i class="fas fa-check-circle"></i> Formulário enviado com sucesso!
+        </div>
+
+        <div id="msgErro" class="mensagem-envio erro oculto">
+            <i class="fas fa-exclamation-circle"></i> Erro ao enviar formulário. Tente novamente.
         </div>
 
         <form id="formulario" novalidate>
@@ -454,13 +478,16 @@
             </div>
 
             <!-- Botão Enviar -->
-            <button type="submit" class="btn-submit">ENVIAR FORMULÁRIO</button>
+            <button type="submit" class="btn-submit" id="btnEnviar">ENVIAR FORMULÁRIO</button>
         </form>
     </div>
 
     <script>
         (function() {
-            // Elementos do formulário
+            'use strict';
+
+            // ==================== ELEMENTOS DO FORMULÁRIO ====================
+            // Inputs e selects
             const nome = document.getElementById('nome');
             const sexo = document.getElementById('sexo');
             const cpf = document.getElementById('cpf');
@@ -477,8 +504,10 @@
             const escolaridade = document.getElementById('escolaridade');
             const aceiteLGPD = document.getElementById('aceiteLGPD');
             const fakeCheckbox = document.getElementById('fakeCheckbox');
+            const btnEnviar = document.getElementById('btnEnviar');
+            const formulario = document.getElementById('formulario');
             
-            // Helpers
+            // Helpers (mensagens de validação)
             const helperNome = document.getElementById('helper-nome');
             const helperSexo = document.getElementById('helper-sexo');
             const helperCpf = document.getElementById('helper-cpf');
@@ -493,11 +522,13 @@
             const helperTelefone = document.getElementById('helper-telefone');
             const helperEmail = document.getElementById('helper-email');
             const helperEscolaridade = document.getElementById('helper-escolaridade');
+            const helperCursoSenac = document.getElementById('helper-cursoSenac');
 
-            // Mensagem de sucesso
+            // Mensagens de retorno
             const msgSucesso = document.getElementById('msgSucesso');
+            const msgErro = document.getElementById('msgErro');
 
-            // ------------------- CARREGAR CIDADES DA BAHIA -------------------
+            // ==================== CARREGAR CIDADES DA BAHIA ====================
             async function carregarCidadesBahia() {
                 try {
                     const response = await fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados/29/municipios');
@@ -519,7 +550,7 @@
                 } catch (error) {
                     console.error('Erro ao carregar cidades:', error);
                     
-                    // Fallback
+                    // Fallback com cidades principais
                     const fallback = ['Salvador', 'Feira de Santana', 'Vitória da Conquista', 'Camaçari', 'Itabuna', 'Juazeiro', 'Ilhéus', 'Lauro de Freitas', 'Jequié', 'Alagoinhas'];
                     cidade.innerHTML = '<option value="" disabled selected>Selecione a cidade</option>';
                     fallback.sort().forEach(cidadeNome => {
@@ -533,7 +564,9 @@
             }
             carregarCidadesBahia();
 
-            // ------------------- MÁSCARAS -------------------
+            // ==================== MÁSCARAS DE INPUT ====================
+            
+            // Máscara do CPF: 000.000.000-00
             cpf.addEventListener('input', function(e) {
                 let valor = e.target.value.replace(/\D/g, '');
                 if (valor.length <= 11) {
@@ -548,6 +581,7 @@
                 }
             });
 
+            // Máscara do CEP: 00000-000
             cep.addEventListener('input', function(e) {
                 let valor = e.target.value.replace(/\D/g, '');
                 if (valor.length <= 8) {
@@ -558,6 +592,7 @@
                 }
             });
 
+            // Máscara do Celular: (00) 00000-0000
             celular.addEventListener('input', function(e) {
                 let valor = e.target.value.replace(/\D/g, '');
                 if (valor.length <= 11) {
@@ -570,6 +605,7 @@
                 }
             });
 
+            // Máscara do Telefone: (00) 0000-0000
             telefone.addEventListener('input', function(e) {
                 let valor = e.target.value.replace(/\D/g, '');
                 if (valor.length <= 10) {
@@ -582,7 +618,78 @@
                 }
             });
 
-            // ------------------- FUNÇÕES DE VALIDAÇÃO -------------------
+            // ==================== BUSCA DE ENDEREÇO POR CEP ====================
+            
+            /**
+             * Busca endereço na API ViaCEP e preenche os campos
+             */
+            async function buscarEnderecoPorCEP() {
+                let cepNumerico = cep.value.replace(/\D/g, '');
+                
+                if (cepNumerico.length !== 8) {
+                    return;
+                }
+
+                helperCep.textContent = 'Buscando endereço...';
+                helperCep.classList.remove('error-msg', 'success-msg');
+                
+                try {
+                    const response = await fetch(`https://viacep.com.br/ws/${cepNumerico}/json/`);
+                    
+                    if (!response.ok) {
+                        throw new Error('Erro na busca do CEP');
+                    }
+                    
+                    const dados = await response.json();
+                    
+                    if (dados.erro) {
+                        helperCep.textContent = 'CEP não encontrado';
+                        helperCep.classList.add('error-msg');
+                        helperCep.classList.remove('success-msg');
+                        cep.classList.add('error');
+                        return;
+                    }
+                    
+                    // Preenche os campos com os dados retornados
+                    endereco.value = dados.logradouro || '';
+                    bairro.value = dados.bairro || '';
+                    
+                    if (dados.localidade) {
+                        const cidadeExistente = Array.from(cidade.options).find(option => option.value === dados.localidade);
+                        if (cidadeExistente) {
+                            cidade.value = dados.localidade;
+                        } else {
+                            const option = document.createElement('option');
+                            option.value = dados.localidade;
+                            option.textContent = dados.localidade;
+                            cidade.appendChild(option);
+                            cidade.value = dados.localidade;
+                        }
+                    }
+                    
+                    // Valida os campos preenchidos
+                    validarEndereco();
+                    validarBairro();
+                    validarCidade();
+                    
+                    helperCep.textContent = '✓ CEP encontrado';
+                    helperCep.classList.remove('error-msg');
+                    helperCep.classList.add('success-msg');
+                    cep.classList.remove('error');
+                    
+                } catch (error) {
+                    console.error('Erro ao buscar CEP:', error);
+                    helperCep.textContent = 'Erro ao buscar CEP';
+                    helperCep.classList.add('error-msg');
+                    helperCep.classList.remove('success-msg');
+                }
+            }
+
+            // Evento para buscar CEP quando sair do campo
+            cep.addEventListener('blur', buscarEnderecoPorCEP);
+
+            // ==================== FUNÇÕES DE VALIDAÇÃO ====================
+            
             function validarNome() {
                 const val = nome.value.trim();
                 if (val === '') {
@@ -740,7 +847,7 @@
                     endereco.classList.add('error');
                     return false;
                 }
-                if (/[^a-zA-Z0-9\s,.\-\/]/.test(val)) {
+                if (/[^a-zA-Z0-9\s,.\-\/áàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ]/.test(val)) {
                     helperEndereco.textContent = 'Caracteres especiais não permitidos';
                     helperEndereco.classList.add('error-msg');
                     helperEndereco.classList.remove('success-msg');
@@ -763,7 +870,7 @@
                     bairro.classList.add('error');
                     return false;
                 }
-                if (/[^a-zA-Z0-9\s]/.test(val)) {
+                if (/[^a-zA-Z0-9\sáàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ]/.test(val)) {
                     helperBairro.textContent = 'Caracteres especiais não permitidos';
                     helperBairro.classList.add('error-msg');
                     helperBairro.classList.remove('success-msg');
@@ -829,119 +936,14 @@
                     helperCelular.classList.add('error-msg');
                     helperCelular.classList.remove('success-msg');
                     celular.classList.add('error');
-                    return false;
+                    return false;  
                 }
-                helperCelular.textContent = '✓ Celular válido';
-                helperCelular.classList.remove('error-msg');
-                helperCelular.classList.add('success-msg');
+                helperCelular.textContent = '✓ Celular válido';                
                 celular.classList.remove('error');
                 return true;
             }
 
-            function validarTelefone() {
-                const val = telefone.value.replace(/\D/g, '');
-                if (val && val.length !== 10) {
-                    helperTelefone.textContent = 'Telefone deve ter 10 dígitos';
-                    helperTelefone.classList.add('error-msg');
-                    helperTelefone.classList.remove('success-msg');
-                    telefone.classList.add('error');
-                    return false;
-                }
-                helperTelefone.textContent = val ? '✓ Telefone válido' : '✓ Campo opcional';
-                helperTelefone.classList.remove('error-msg');
-                if (val) helperTelefone.classList.add('success-msg');
-                telefone.classList.remove('error');
-                return true;
-            }
-
-            function validarEmail() {
-                const val = email.value.trim();
-                const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (val === '') {
-                    helperEmail.textContent = 'E-mail é obrigatório';
-                    helperEmail.classList.add('error-msg');
-                    helperEmail.classList.remove('success-msg');
-                    email.classList.add('error');
-                    return false;
-                }
-                if (!regex.test(val)) {
-                    helperEmail.textContent = 'E-mail inválido';
-                    helperEmail.classList.add('error-msg');
-                    helperEmail.classList.remove('success-msg');
-                    email.classList.add('error');
-                    return false;
-                }
-                helperEmail.textContent = '✓ E-mail válido';
-                helperEmail.classList.remove('error-msg');
-                helperEmail.classList.add('success-msg');
-                email.classList.remove('error');
-                return true;
-            }
-
-            function validarEscolaridade() {
-                if (!escolaridade.value) {
-                    helperEscolaridade.textContent = 'Selecione a escolaridade';
-                    helperEscolaridade.classList.add('error-msg');
-                    helperEscolaridade.classList.remove('success-msg');
-                    escolaridade.classList.add('error');
-                    return false;
-                }
-                helperEscolaridade.textContent = '✓ Escolaridade selecionada';
-                helperEscolaridade.classList.remove('error-msg');
-                helperEscolaridade.classList.add('success-msg');
-                escolaridade.classList.remove('error');
-                return true;
-            }
-
-            // ------------------- EVENTOS DE VALIDAÇÃO EM TEMPO REAL -------------------
-            nome.addEventListener('input', validarNome);
-            nome.addEventListener('blur', validarNome);
-            
-            sexo.addEventListener('change', validarSexo);
-            sexo.addEventListener('blur', validarSexo);
-            
-            cpf.addEventListener('input', validarCPF);
-            cpf.addEventListener('blur', validarCPF);
-            
-            rg.addEventListener('input', validarRG);
-            rg.addEventListener('blur', validarRG);
-            
-            naturalidade.addEventListener('change', validarNaturalidade);
-            naturalidade.addEventListener('blur', validarNaturalidade);
-            
-            nomeMae.addEventListener('input', validarNomeMae);
-            nomeMae.addEventListener('blur', validarNomeMae);
-            
-            endereco.addEventListener('input', validarEndereco);
-            endereco.addEventListener('blur', validarEndereco);
-            
-            bairro.addEventListener('input', validarBairro);
-            bairro.addEventListener('blur', validarBairro);
-            
-            cep.addEventListener('input', validarCEP);
-            cep.addEventListener('blur', validarCEP);
-            
-            cidade.addEventListener('change', validarCidade);
-            cidade.addEventListener('blur', validarCidade);
-            
-            celular.addEventListener('input', validarCelular);
-            celular.addEventListener('blur', validarCelular);
-            
-            telefone.addEventListener('input', validarTelefone);
-            telefone.addEventListener('blur', validarTelefone);
-            
-            email.addEventListener('input', validarEmail);
-            email.addEventListener('blur', validarEmail);
-            
-            escolaridade.addEventListener('change', validarEscolaridade);
-            escolaridade.addEventListener('blur', validarEscolaridade);
-
-                        // ------------------- RECAPTCHA VISUAL -------------------
-                        fakeCheckbox.addEventListener('click', function(e) {
-                            e.preventDefault();
-                            this.classList.toggle('checked');
-                        });
-                    })();
-                </script>
-            </body>
-            </html>
+        })();
+    </script>
+    </body>
+</html>

@@ -107,6 +107,9 @@
         .helper-text.error-msg {
             color: #b91c1c;
         }
+        .helper-text.success-msg {
+            color: #15803d;
+        }
         /* botão enviar */
         .btn-enviar {
             background:#004A8D;
@@ -445,24 +448,31 @@
             return true;
         }
 
-        // bairro: sem caracteres especiais (apenas letras, números, espaços)
-        function validarBairro() {
-            const val = bairro.value.trim();
-            if (val === '') { bairroHelper.textContent = 'Bairro obrigatório'; bairro.classList.add('error'); return false; }
-            if (/[^a-zA-Z0-9\s]/.test(val)) {
-                bairroHelper.textContent = 'Não use caracteres especiais';
-                bairro.classList.add('error');
-                return false;
-            }
-            bairroHelper.textContent = '✓ bairro válido';
-            bairro.classList.remove('error');
-            return true;
-        }
+       // bairro: permitindo acentos e caracteres especiais comuns
+function validarBairro() {
+    const val = bairro.value.trim();
+    if (val === '') { 
+        bairroHelper.textContent = 'Bairro obrigatório'; 
+        bairro.classList.add('error'); 
+        return false; 
+    }
+    
+    // CORREÇÃO: adicionei a barra no início e ajustei os acentos
+    if (/[^a-zA-Z0-9\sáàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ]/.test(val)) {
+        bairroHelper.textContent = 'Não é permitido a utilização de caracteres especiais';
+        bairro.classList.add('error');
+        return false;
+    }
+    
+    bairroHelper.textContent = '✓ bairro válido';
+    bairro.classList.remove('error');
+    return true;
+}
 
         // responsável: sem números nem caracteres especiais (apenas letras e espaços)
         function validarResponsavel() {
             const val = responsavel.value.trim();
-            if (val === '') { responsavelHelper.textContent = 'Obrigatório'; responsavel.classList.add('error'); return false; }
+            if (val === '') { responsavelHelper.textContent = 'Nome de responsável obrigatório'; responsavel.classList.add('error'); return false; }
             if (/[^a-zA-ZÀ-ÿ\s]/.test(val)) {  // permite acentos, letras e espaços
                 responsavelHelper.textContent = 'Apenas letras e espaços';
                 responsavel.classList.add('error');
@@ -478,7 +488,7 @@
             let val = cnpj.value.trim().replace(/[^\d]/g, '');
             if (val === '') { cnpjHelper.textContent = 'CNPJ obrigatório'; cnpj.classList.add('error'); return false; }
             if (val.length !== 14) {
-                cnpjHelper.textContent = 'Deve ter 14 números';
+                cnpjHelper.textContent = ' CNPJ deve ter 14 números';
                 cnpj.classList.add('error');
                 return false;
             }
@@ -514,7 +524,7 @@
             let val = telefone.value.trim().replace(/\s/g, '');
             if (val === '') { telefoneHelper.textContent = 'Telefone obrigatório'; telefone.classList.add('error'); return false; }
             if (!/^\d+$/.test(val)) {
-                telefoneHelper.textContent = 'Apenas números';
+                telefoneHelper.textContent = 'Somente números são permitidos neste campo.';
                 telefone.classList.add('error');
                 return false;
             }
@@ -543,7 +553,7 @@
         // área de interesse: verificar se selecionou
         function validarArea() {
             if (!areaInteresse.value) {
-                areaHelper.textContent = 'Escolha uma área';
+                areaHelper.textContent = 'Escolha uma área de interesse';
                 areaInteresse.classList.add('error');
                 return false;
             }
