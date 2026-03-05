@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Conteúdo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #F7941E 0%, #0052A1 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 700px;
+            overflow: hidden;
+        }
+
+        .form-header {
+            background: linear-gradient(135deg, #F7941E 0%, #0052A1 100%);
+            color: white;
+            padding: 30px 40px;
+        }
+
+        .form-header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .form-header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .form-content {
+            padding: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 8px;
+            letter-spacing: 0.3px;
+        }
+
+        label .required {
+            color: #fc8181;
+            margin-left: 4px;
+        }
+
+        .select-wrapper {
+            position: relative;
+        }
+
+        .select-wrapper::after {
+            content: '▼';
+            font-size: 12px;
+            color: #718096;
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        select, input, textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 15px;
+            font-family: inherit;
+            background: #f8fafc;
+            transition: all 0.3s ease;
+            color: #2d3748;
+        }
+
+        select {
+            appearance: none;
+            cursor: pointer;
+            background: #f8fafc;
+        }
+
+        select:focus, input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        select.error, input.error, textarea.error {
+            border-color: #fc8181;
+            background: #fff5f5;
+        }
+
+        select.success, input.success, textarea.success {
+            border-color: #68d391;
+            background: #f0fff4;
+        }
+
+        /* Estilo específico para o campo "Notícia" pré-selecionado */
+       
+
+        /* Estilo para o placeholder "Selecione" */
+        select option[value=""] {
+            color: #a0aec0;
+        }
+
+        .date-group {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .date-field {
+            flex: 1;
+            position: relative;
+        }
+
+        .date-field input {
+            padding-right: 40px;
+        }
+
+        .date-field::after {
+            content: '';
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 16px;
+            color: #a0aec0;
+            pointer-events: none;
+        }
+
+        .date-separator {
+            color: #a0aec0;
+            font-weight: 500;
+            font-size: 20px;
+            margin-top: 8px;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Placeholder styles */
+        ::placeholder {
+            color: #213d63;
+            opacity: 1;
+        }
+
+        :-ms-input-placeholder {
+            color: #284b79;
+        }
+
+        ::-ms-input-placeholder {
+            color: #2e496d;
+        }
+
+        .validation-message {
+            font-size: 13px;
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .validation-message.error {
+            color: #cc2e2e;
+        }
+
+        .validation-message.success {
+            color: #68d391;
+        }
+
+        .validation-message.warning {
+            color: #fbbf24;
+        }
+
+      /* ESTILO 3 - MINIMALISTA COM BORDAS LATERAIS */
+.alert-box {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-left-width: 6px;
+    padding: 16px 20px;
+    border-radius: 8px;
+    margin: 20px 0 10px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    transition: all 0.2s ease;
+}
+
+.alert-box:hover {
+    transform: translateX(4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.alert-box.info {
+    border-left-color: #667eea;
+    background: #ffffff;
+}
+
+.alert-box.success {
+    border-left-color: #68d391;
+    background: #ffffff;
+}
+
+.alert-box.warning {
+    border-left-color: #fbbf24;
+    background: #ffffff;
+}
+
+.alert-box.error {
+    border-left-color: #fc8181;
+    background: #ffffff;
+}
+
+.alert-icon {
+    font-size: 20px;
+    opacity: 0.8;
+}
+
+.alert-box.info .alert-icon {
+    color: #667eea;
+}
+
+.alert-box.success .alert-icon {
+    color: #68d391;
+}
+
+.alert-box.warning .alert-icon {
+    color: #fbbf24;
+}
+
+.alert-box.error .alert-icon {
+    color: #f34646;
+}
+
+.alert-content {
+    flex: 1;
+}
+
+.alert-title {
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 4px;
+    color: #2d3748;
+    letter-spacing: -0.01em;
+}
+
+.alert-description {
+    font-size: 14px;
+    color: #718096;
+}
+
+        .requirements-panel {
+            background: #f7fafc;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 25px 0 20px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .requirements-panel h3 {
+            font-size: 16px;
+            color: #2d3748;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .requirements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+        }
+
+        .requirement-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: #4a5568;
+        }
+
+        .requirement-status {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status-valid {
+            background: #d1fae5;
+            color: #22543d;
+        }
+
+        .status-invalid {
+            background: #fee2e2;
+            color: #742a2a;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+           background:#004A8D;
+            color: white;
+            border: none;
+            border-radius: 40px;
+            padding: 18px 24px;
+            font-size: 18px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            margin: 12px 0 18px;
+            transition: background 0.6s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            color: white;
+            
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            background: #F7941D;
+            
+        }
+
+        .btn-primary:disabled {
+            background: #787a7c;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: #edf2f7;
+            color: #4a5568;
+            border: none;
+            border-radius: 40px;
+            padding: 18px 24px;
+            font-size: 18px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            margin: 12px 0 18px;
+            cursor: pointer;
+            transition: background 0.6s ease, transform 0.2s ease;
+            color: white;
+
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+             background: #606163;
+        }
+
+        .character-count {
+            text-align: right;
+            font-size: 12px;
+            color: #a0aec0;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 640px) {
+            .form-content {
+                padding: 25px;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .date-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .date-separator {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-card">
+        <div class="form-header">
+            <h1>Criação de Novo Conteúdo</h1>
+            <p>Preencha as informações abaixo para publicar o card.</p>
+        </div>
+
+        <div class="form-content">
+            <form id="contentForm">
+                <!-- Primeira Linha: Tipo de Conteúdo e Status -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Tipo de Conteúdo <span class="required">*</span></label>
+                        <div class="select-wrapper">
+                            <select id="contentType" required>
+                                <option value="" disabled selected>Selecione</option>
+                                <option value="noticia"> Notícia</option>
+                                <option value="blog"> Blog</option>
+                                <option value="eventos"> Eventos</option>
+                                <option value="resultado"> Resultado de Seleção</option>
+                                <option value="oportunidades"> Banco de Oportunidades</option>
+                                <option value="corporativo"> Corporativo</option>
+                            </select>
+                        </div>
+                        <div id="contentTypeMessage" class="validation-message"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Status <span class="required">*</span></label>
+                        <div class="select-wrapper">
+                            <select id="status" required>
+                                <option value="" disabled selected>Selecione</option>
+                                <option value="rascunho"> Rascunho</option>
+                                <option value="revisao"> Em revisão</option>
+                                <option value="publicada"> Publicada</option>
+                                <option value="suspensa">Suspensa</option>
+                            </select>
+                        </div>
+                        <div id="statusMessage" class="validation-message"></div>
+                    </div>
+                </div>
+
+                <!-- Linha das Datas -->
+                <div class="form-group">
+                    <label>Data de Exibição <span class="required">*</span></label>
+                    <div class="date-group">
+                        <div class="date-field">
+                            <input type="date" id="startDate" placeholder="dd/mm/aaaa" required>
+                        </div>
+                        <div class="date-separator">→</div>
+                        <div class="date-field">
+                            <input type="date" id="endDate" placeholder="dd/mm/aaaa" required>
+                        </div>
+                    </div>
+                    <div id="dateMessage" class="validation-message"></div>
+                </div>
+
+                <!-- Título -->
+                <div class="form-group">
+                    <label>Título <span class="required">*</span></label>
+                    <input type="text" id="title" placeholder="Digite o título do conteúdo" maxlength="100" required>
+                    <div class="character-count" id="titleCount">0/100</div>
+                    <div id="titleMessage" class="validation-message"></div>
+                </div>
+
+                <!-- Local -->
+                <div class="form-group">
+                    <label>Local</label>
+                    <input type="text" id="location" placeholder="">
+                    <div id="locationMessage" class="validation-message"></div>
+                </div>
+
+                <!-- Resumo -->
+                <div class="form-group">
+                    <label>Resumo <span class="required">*</span></label>
+                    <textarea id="summary" placeholder="Digite um resumo do conteúdo..." maxlength="300" required></textarea>
+                    <div class="character-count" id="summaryCount">0/300</div>
+                    <div id="summaryMessage" class="validation-message"></div>
+                </div>
+
+                <!-- Painel de Requisitos (opcional, para feedback visual) -->
+                <div class="requirements-panel">
+                    <h3> Checklist de Validação</h3>
+                    <div class="requirements-grid" id="requirementsList">
+                        <div class="requirement-item">
+                            <span class="requirement-status status-invalid" id="reqType">✗</span>
+                            <span>Tipo selecionado</span>
+                        </div>
+                        <div class="requirement-item">
+                            <span class="requirement-status status-invalid" id="reqStatus">✗</span>
+                            <span>Status selecionado</span>
+                        </div>
+                        <div class="requirement-item">
+                            <span class="requirement-status status-invalid" id="reqTitle">✗</span>
+                            <span>Título preenchido</span>
+                        </div>
+                        <div class="requirement-item">
+                            <span class="requirement-status status-invalid" id="reqSummary">✗</span>
+                            <span>Resumo preenchido</span>
+                        </div>
+                        <div class="requirement-item">
+                            <span class="requirement-status status-invalid" id="reqDates">✗</span>
+                            <span>Datas preenchidas</span>
+                        </div>
+                        <div class="requirement-item">
+                            <span class="requirement-status status-invalid" id="reqOrder">✗</span>
+                            <span>Datas válidas</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Alert Box -->
+                <div id="alertBox" class="alert-box" style="display: none;">
+                    <div class="alert-icon"></div>
+                    <div class="alert-content">
+                        <div class="alert-title" id="alertTitle">Atenção</div>
+                        <div class="alert-description" id="alertMessage"></div>
+                    </div>
+                </div>
+
+                <!-- Botões -->
+                <div class="button-group">
+                    <button type="button" class="btn btn-secondary" onclick="resetForm()">
+                        <span>↺</span> Limpar
+                    </button>
+                    <button type="submit" class="btn btn-primary" id="submitBtn" disabled>
+                        <span></span> Publicar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        class FormValidator {
+            constructor() {
+                this.form = document.getElementById('contentForm');
+                this.contentType = document.getElementById('contentType');
+                this.status = document.getElementById('status');
+                this.title = document.getElementById('title');
+                this.location = document.getElementById('location');
+                this.startDate = document.getElementById('startDate');
+                this.endDate = document.getElementById('endDate');
+                this.summary = document.getElementById('summary');
+                this.submitBtn = document.getElementById('submitBtn');
+                this.alertBox = document.getElementById('alertBox');
+                this.alertTitle = document.getElementById('alertTitle');
+                this.alertMessage = document.getElementById('alertMessage');
+
+                this.today = new Date();
+                this.today.setHours(0, 0, 0, 0);
+                
+                this.initEventListeners();
+                this.setMinDates();
+                this.validateAll(); // Validação inicial
+            }
+
+            initEventListeners() {
+                this.contentType.addEventListener('change', () => this.validateAll());
+                this.status.addEventListener('change', () => this.validateAll());
+                this.title.addEventListener('input', () => {
+                    this.updateCharacterCount(this.title, 'titleCount', 100);
+                    this.validateAll();
+                });
+                this.summary.addEventListener('input', () => {
+                    this.updateCharacterCount(this.summary, 'summaryCount', 300);
+                    this.validateAll();
+                });
+                this.startDate.addEventListener('change', () => this.validateAll());
+                this.endDate.addEventListener('change', () => this.validateAll());
+                this.location.addEventListener('input', () => this.validateAll());
+
+                this.form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    if (this.allValidationsPass()) {
+                        this.showAlert('success', 'Sucesso!', 'Conteúdo publicado com sucesso!');
+                        console.log('Formulário válido, enviando...');
+                    }
+                });
+            }
+
+            setMinDates() {
+                const year = this.today.getFullYear();
+                const month = String(this.today.getMonth() + 1).padStart(2, '0');
+                const day = String(this.today.getDate()).padStart(2, '0');
+                const todayFormatted = `${year}-${month}-${day}`;
+                
+                this.startDate.min = todayFormatted;
+                this.endDate.min = todayFormatted;
+            }
+
+            updateCharacterCount(element, countId, max) {
+                const count = element.value.length;
+                const countElement = document.getElementById(countId);
+                countElement.textContent = `${count}/${max}`;
+            }
+
+            validateAll() {
+                this.validateContentType();
+                this.validateStatus();
+                this.validateTitle();
+                this.validateSummary();
+                this.validateDates();
+                this.updateRequirements();
+                this.updateAlert();
+                this.updateSubmitButton();
+            }
+
+            validateContentType() {
+                const value = this.contentType.value;
+                const messageEl = document.getElementById('contentTypeMessage');
+                
+                if (!value) {
+                    this.showMessage(messageEl, 'Selecione um tipo', 'error');
+                    this.updateFieldStyle(this.contentType, false);
+                    return false;
+                }
+                
+                this.showMessage(messageEl, '✓ Tipo válido', 'success');
+                this.updateFieldStyle(this.contentType, true);
+                return true;
+            }
+
+            validateStatus() {
+                const value = this.status.value;
+                const messageEl = document.getElementById('statusMessage');
+                
+                if (!value) {
+                    this.showMessage(messageEl, 'Selecione um status', 'error');
+                    this.updateFieldStyle(this.status, false);
+                    return false;
+                }
+                
+                this.showMessage(messageEl, '✓ Status válido', 'success');
+                this.updateFieldStyle(this.status, true);
+                return true;
+            }
+
+            validateTitle() {
+                const value = this.title.value.trim();
+                const messageEl = document.getElementById('titleMessage');
+                
+                if (!value) {
+                    this.showMessage(messageEl, 'Título obrigatório', 'error');
+                    this.updateFieldStyle(this.title, false);
+                    return false;
+                }
+                
+                this.showMessage(messageEl, '✓ Título válido', 'success');
+                this.updateFieldStyle(this.title, true);
+                return true;
+            }
+
+            validateSummary() {
+                const value = this.summary.value.trim();
+                const messageEl = document.getElementById('summaryMessage');
+                
+                if (!value) {
+                    this.showMessage(messageEl, 'Resumo obrigatório', 'error');
+                    this.updateFieldStyle(this.summary, false);
+                    return false;
+                }
+                
+                this.showMessage(messageEl, '✓ Resumo válido', 'success');
+                this.updateFieldStyle(this.summary, true);
+                return true;
+            }
+
+            validateDates() {
+                const startValue = this.startDate.value;
+                const endValue = this.endDate.value;
+                const messageEl = document.getElementById('dateMessage');
+
+                if (!startValue || !endValue) {
+                    this.showMessage(messageEl, 'Preencha ambas as datas', 'error');
+                    this.updateFieldStyle(this.startDate, false);
+                    this.updateFieldStyle(this.endDate, false);
+                    return false;
+                }
+
+                const startDate = new Date(startValue);
+                const endDate = new Date(endValue);
+                
+                startDate.setHours(0, 0, 0, 0);
+                endDate.setHours(0, 0, 0, 0);
+
+                if (startDate < this.today) {
+                    this.showMessage(messageEl, 'Data inicial não pode ser no passado', 'error');
+                    this.updateFieldStyle(this.startDate, false);
+                    return false;
+                }
+
+                if (endDate <= startDate) {
+                    this.showMessage(messageEl, 'Data final deve ser após a inicial', 'error');
+                    this.updateFieldStyle(this.endDate, false);
+                    return false;
+                }
+
+                this.showMessage(messageEl, '✓ Datas válidas', 'success');
+                this.updateFieldStyle(this.startDate, true);
+                this.updateFieldStyle(this.endDate, true);
+                return true;
+            }
+
+            updateRequirements() {
+                const reqs = {
+                    type: this.contentType.value !== '',
+                    status: this.status.value !== '',
+                    title: this.title.value.trim() !== '',
+                    summary: this.summary.value.trim() !== '',
+                    dates: this.startDate.value !== '' && this.endDate.value !== '',
+                    order: this.checkDateOrder()
+                };
+
+                this.updateRequirement('reqType', reqs.type);
+                this.updateRequirement('reqStatus', reqs.status);
+                this.updateRequirement('reqTitle', reqs.title);
+                this.updateRequirement('reqSummary', reqs.summary);
+                this.updateRequirement('reqDates', reqs.dates);
+                this.updateRequirement('reqOrder', reqs.order && reqs.dates);
+            }
+
+            checkDateOrder() {
+                if (!this.startDate.value || !this.endDate.value) return false;
+                const start = new Date(this.startDate.value);
+                const end = new Date(this.endDate.value);
+                return end > start;
+            }
+
+            updateRequirement(id, isValid) {
+                const element = document.getElementById(id);
+                if (isValid) {
+                    element.innerHTML = '✓';
+                    element.className = 'requirement-status status-valid';
+                } else {
+                    element.innerHTML = '✗';
+                    element.className = 'requirement-status status-invalid';
+                }
+            }
+
+            updateAlert() {
+                if (!this.contentType.value || !this.status.value || !this.title.value.trim() || 
+                    !this.summary.value.trim() || !this.startDate.value || !this.endDate.value) {
+                    this.showAlert('warning', 'Campos Obrigatórios', 'Preencha todos os campos obrigatórios');
+                } else if (!this.checkDateOrder()) {
+                    this.showAlert('error', 'Erro nas Datas', 'A data final deve ser após a data inicial');
+                } else {
+                    this.alertBox.style.display = 'none';
+                }
+            }
+
+            showAlert(type, title, message) {
+                this.alertBox.className = `alert-box ${type}`;
+                this.alertTitle.textContent = title;
+                this.alertMessage.textContent = message;
+                this.alertBox.style.display = 'flex';
+            }
+
+            showMessage(element, text, type) {
+                element.textContent = text;
+                element.className = `validation-message ${type}`;
+            }
+
+            updateFieldStyle(field, isValid) {
+                field.classList.remove('error', 'success');
+                if (isValid) {
+                    field.classList.add('success');
+                } else {
+                    field.classList.add('error');
+                }
+            }
+
+            updateSubmitButton() {
+                this.submitBtn.disabled = !this.allValidationsPass();
+            }
+
+            allValidationsPass() {
+                return this.contentType.value &&
+                       this.status.value &&
+                       this.title.value.trim() &&
+                       this.summary.value.trim() &&
+                       this.startDate.value &&
+                       this.endDate.value &&
+                       this.checkDateOrder();
+            }
+        }
+
+        function resetForm() {
+            document.getElementById('contentForm').reset();
+            
+            // Reset character counts
+            document.getElementById('titleCount').textContent = '0/100';
+            document.getElementById('summaryCount').textContent = '0/300';
+            
+            // Reset field styles
+            document.querySelectorAll('input, select, textarea').forEach(field => {
+                field.classList.remove('success', 'error');
+            });
+            
+            // Reset messages
+            document.querySelectorAll('.validation-message').forEach(msg => {
+                msg.textContent = '';
+                msg.className = 'validation-message';
+            });
+            
+            // Reinitialize validator
+            new FormValidator();
+        }
+
+        // Inicializar o validador
+        document.addEventListener('DOMContentLoaded', () => {
+            new FormValidator();
+        });
+    </script>
+</body>
+</html>
