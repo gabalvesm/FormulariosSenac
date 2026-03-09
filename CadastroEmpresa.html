@@ -8,8 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
-    <!-- Font Awesome para ícone de "não sou robô" (check) e reCAPTCHA visual -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
     <style>
         * {
             margin: 0;
@@ -112,7 +111,7 @@
         }
         /* botão enviar */
         .btn-enviar {
-            background:#004A8D;
+                      background:#004A8D;
             color: white;
             border: none;
             border-radius: 40px;
@@ -122,74 +121,15 @@
             letter-spacing: 0.5px;
             cursor: pointer;
             margin: 12px 0 18px;
-            transition: background 0.3s;        
-            border: 1px solid #1d3449;
+            transition: background 0.6s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            color: white;
+
         }
         .btn-enviar:hover {
+            transform: translateY(-2px);
             background: #F7941D;
         }
-        /* área recaptcha */
-        .recaptcha-box {
-            background: #f1f5f9;
-            border-radius: 20px;
-            padding: 16px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border: 1px solid #ccdae8;
-            margin-top: 8px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        .recaptcha-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .fake-checkbox {
-            width: 26px;
-            height: 26px;
-            background: white;
-            border: 2px solid #5f6b7a;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 16px;
-        }
-        .fake-checkbox.checked {
-            background: #1a5d9c;
-            border-color: #1a5d9c;
-        }
-        .fake-checkbox i {
-            color: white;
-        }
-        .recaptcha-text {
-            font-size: 15px;
-            color: #1e293b;
-        }
-        .recaptcha-text small {
-            display: block;
-            font-size: 11px;
-            color: #556579;
-            margin-top: 2px;
-        }
-        .recaptcha-logo {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            font-size: 12px;
-            color: #2c3f5c;
-        }
-        .recaptcha-logo strong {
-            font-size: 18px;
-            letter-spacing: 1px;
-        }
-        .recaptcha-logo span {
-            font-size: 10px;
-            color: #4f658d;
-        }
+       
         .termos-link {
             text-align: right;
             font-size: 11px;
@@ -201,21 +141,7 @@
             text-decoration: none;
             font-weight: 500;
         }
-        .rodape-recaptcha {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 11px;
-            color: #556579;
-            border-top: 1px dashed #b9c7da;
-            margin-top: 16px;
-            padding-top: 14px;
-        }
-        .rodape-recaptcha a {
-            color: #0a2c4e;
-            text-decoration: none;
-            margin: 0 6px;
-        }
+      
         i.fa-robot {
             opacity: 0.7;
             margin-right: 4px;
@@ -239,7 +165,7 @@
 <body>
 <div class="card" color="#F7941E">
     <h1>CADASTRE SUA EMPRESA</h1>
-    <div class="gratis"><i class="far fa-check-circle" style="margin-right: 6px; color:#F7941E;"></i>O cadastro é gratuito</div>
+    <div class="gratis"><i class="far fa-check-circle" style="margin-right: 6px; color:#F7941E;"></i>O cadastro é gratuito ✔️</div>
 
     <!-- formulário -->
     <form id="empresaForm" novalidate>
@@ -331,29 +257,10 @@
         <!-- BOTÃO ENVIAR (dentro do form, mas vamos tratar com JS) -->
         <button type="submit" class="btn-enviar">ENVIAR FORMULÁRIO</button>
 
-        <!-- área com "Não sou um robô" e reCAPTCHA visual (mesmo design) -->
-        <div class="recaptcha-box" id="recaptchaMock">
-            <div class="recaptcha-left">
-                <div class="fake-checkbox" id="fakeCheckbox"><i class="fas fa-check"></i></div>
-                <div class="recaptcha-text">
-                    Não sou um robô
-                    <small>Os Termos de Serviço do reCAPTCHA estão mudando. Acesse.</small>
-                </div>
-            </div>
-            <div class="recaptcha-logo">
-                <strong>reCAPTCHA</strong>
-                <span>Privacidade - Termos</span>
-            </div>
-        </div>
+        
 
         <!-- rodape com os mesmos links da imagem -->
-        <div class="rodape-recaptcha">
-            <span><i class="fas fa-robot"></i> reCAPTCHA</span>
-            <span>
-                <a href="#">Privacidade</a> - 
-                <a href="#">Termos</a>
-            </span>
-        </div>
+       
 
         <!-- Mensagem de sucesso (aparece ao enviar válido) -->
         <div id="msgSucesso" class="mensagem-envio oculto">
@@ -459,7 +366,7 @@ function validarBairro() {
     
     // CORREÇÃO: adicionei a barra no início e ajustei os acentos
     if (/[^a-zA-Z0-9\sáàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ]/.test(val)) {
-        bairroHelper.textContent = 'Não é permitido a utilização de caracteres especiais';
+        bairroHelper.textContent = 'Caracteres especiais não são permitidos';
         bairro.classList.add('error');
         return false;
     }
@@ -486,7 +393,7 @@ function validarBairro() {
         // CNPJ (validação simplificada de formato e dígitos)
         function validarCnpj() {
             let val = cnpj.value.trim().replace(/[^\d]/g, '');
-            if (val === '') { cnpjHelper.textContent = 'CNPJ obrigatório'; cnpj.classList.add('error'); return false; }
+            if (val === '') { cnpjHelper.textContent = 'CNPJ obrigatório(somente números)'; cnpj.classList.add('error'); return false; }
             if (val.length !== 14) {
                 cnpjHelper.textContent = ' CNPJ deve ter 14 números';
                 cnpj.classList.add('error');
