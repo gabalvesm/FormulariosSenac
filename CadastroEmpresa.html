@@ -8,6 +8,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
+    <!-- Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   
     <style>
         * {
@@ -51,6 +53,10 @@
             margin-bottom: 24px;
             border: 1px solid #d9e1ec;
         }
+        .gratis i {
+            color: #F7941E;
+            margin-right: 6px;
+        }
         .linha-divisora {
             height: 1px;
             background: #e2e8f0;
@@ -77,8 +83,16 @@
             color: #334155;
             text-transform: uppercase;
             letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
-        .campo input, .campo select {
+        .required-star {
+            color: #dc2626;
+            font-size: 14px;
+        }
+        .campo input, 
+        .campo select {
             background: #f9fcff;
             border: 1px solid #cbd5e1;
             border-radius: 14px;
@@ -87,47 +101,71 @@
             outline: none;
             transition: 0.15s;
             font-family: 'Inter', sans-serif;
+            width: 100%;
         }
-        .campo input:focus, .campo select:focus {
+        .campo input:focus, 
+        .campo select:focus {
             border-color: #1e4f8a;
             box-shadow: 0 0 0 3px rgba(30,79,138,0.15);
             background: white;
         }
-        .campo input.error, .campo select.error {
-            border-color: #c2410c;
-            background: #fff6f2;
+        .campo input.error, 
+        .campo select.error {
+            border-color: #dc2626;
+            background: #fef2f2;
+        }
+        .campo input.success, 
+        .campo select.success {
+            border-color: #16a34a;
+            background: #f0fdf4;
         }
         .helper-text {
             font-size: 12px;
-            color: #64748b;
             margin-left: 6px;
             min-height: 18px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
         .helper-text.error-msg {
-            color: #b91c1c;
+            color: #dc2626;
+        }
+        .helper-text.error-msg i {
+            color: #dc2626;
         }
         .helper-text.success-msg {
-            color: #15803d;
+            color: #16a34a;
         }
+        .helper-text.success-msg i {
+            color: #16a34a;
+        }
+        
         /* botão enviar */
         .btn-enviar {
-                      background:#004A8D;
+            background: #005b96;
             color: white;
             border: none;
             border-radius: 40px;
-            padding: 18px 24px;
+            padding: 15px 40px;
             font-size: 18px;
-            font-weight: 500;
-            letter-spacing: 0.5px;
+            font-weight: 600;
             cursor: pointer;
-            margin: 12px 0 18px;
-            transition: background 0.6s ease, transform 0.2s ease, box-shadow 0.2s ease;
-            color: white;
-
+            margin: 20px auto 0;
+            min-width: 200px;
+            border: 1px solid #1d3449;
+            transition: all 0.6s ease;
+            display: block;
         }
-        .btn-enviar:hover {
-            transform: translateY(-2px);
+        .btn-enviar:hover:not(:disabled) {
             background: #F7941D;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(247,148,29,0.3);
+        }
+        .btn-enviar:disabled {
+            background: #cccccc;
+            border-color: #999999;
+            cursor: not-allowed;
+            opacity: 0.7;
         }
        
         .termos-link {
@@ -141,11 +179,7 @@
             text-decoration: none;
             font-weight: 500;
         }
-      
-        i.fa-robot {
-            opacity: 0.7;
-            margin-right: 4px;
-        }
+        
         .mensagem-envio {
             background: #eaf6e7;
             border: 1px solid #9ec5a0;
@@ -156,42 +190,93 @@
             text-align: center;
             margin-bottom: 18px;
             font-weight: 500;
+            animation: slideDown 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
+        .mensagem-envio.erro {
+            background: #fee9e7;
+            border-color: #f1a09c;
+            color: #a11f1f;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
         .oculto {
             display: none;
+        }
+
+        /* Indicador de campos obrigatórios */
+        .campos-obrigatorios-info {
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 16px;
+            text-align: right;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 4px;
+        }
+
+        .campos-obrigatorios-info .required-star {
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
-<div class="card" color="#F7941E">
+<div class="card">
     <h1>CADASTRE SUA EMPRESA</h1>
-    <div class="gratis"><i class="far fa-check-circle" style="margin-right: 6px; color:#F7941E;"></i>O cadastro é gratuito ✔️</div>
+    <div class="gratis"><i class="far fa-check-circle"></i>O cadastro é gratuito ✔️</div>
+
+    <!-- Indicador de campos obrigatórios -->
+    <div class="campos-obrigatorios-info">
+        <span class="required-star">*</span> Campos obrigatórios
+    </div>
+
+    <!-- Mensagens de feedback -->
+    <div id="msgSucesso" class="mensagem-envio oculto">
+        <i class="fas fa-check-circle"></i> Formulário enviado com sucesso!
+    </div>
+    <div id="msgErro" class="mensagem-envio erro oculto">
+        <i class="fas fa-exclamation-circle"></i> Erro ao enviar formulário. Verifique os campos.
+    </div>
 
     <!-- formulário -->
     <form id="empresaForm" novalidate>
-        <!-- linha: nome + endereço (antigo Rua/Av.N°) -->
+        <!-- linha: nome + endereço -->
         <div class="dois-campos">
             <div class="campo">
-                <label>NOME <span style="font-weight: 400; color:#5f6f84;"></span></label>
-                <input type="text" id="nome" placeholder="Ex: Comercial Dias" value="">
+                <label>NOME <span class="required-star">*</span></label>
+                <input type="text" id="nome" placeholder="Ex: Comercial Dias">
                 <div class="helper-text" id="nomeHelper"></div>
             </div>
             <div class="campo">
-                <label>ENDEREÇO COMPLETO</label>
-                <input type="text" id="endereco" placeholder="Av. Paulista, 1000" value="">
+                <label>ENDEREÇO COMPLETO <span class="required-star">*</span></label>
+                <input type="text" id="endereco" placeholder="Av. Paulista, 1000">
                 <div class="helper-text" id="enderecoHelper"></div>
             </div>
         </div>
 
-        <!-- bairro + cidade (dropdown cidades BA) -->
+        <!-- bairro + cidade -->
         <div class="dois-campos">
             <div class="campo">
-                <label>BAIRRO</label>
-                <input type="text" id="bairro" placeholder="Centro" value="">
+                <label>BAIRRO <span class="required-star">*</span></label>
+                <input type="text" id="bairro" placeholder="Centro">
                 <div class="helper-text" id="bairroHelper"></div>
             </div>
             <div class="campo">
-                <label>CIDADE (BA)</label>
+                <label>CIDADE (BA) <span class="required-star">*</span></label>
                 <select id="cidade">
                     <option value="" disabled selected>Carregando cidades...</option>
                 </select>
@@ -202,13 +287,13 @@
         <!-- responsável + cnpj -->
         <div class="dois-campos">
             <div class="campo">
-                <label>RESPONSÁVEL</label>
+                <label>RESPONSÁVEL <span class="required-star">*</span></label>
                 <input type="text" id="responsavel" placeholder="Nome completo">
                 <div class="helper-text" id="responsavelHelper"></div>
             </div>
             <div class="campo">
-                <label>CNPJ</label>
-                <input type="text" id="cnpj" placeholder="00.000.000/0000-00">
+                <label>CNPJ <span class="required-star">*</span></label>
+                <input type="text" id="cnpj" placeholder="00.000.000/0000-00" maxlength="18">
                 <div class="helper-text" id="cnpjHelper"></div>
             </div>
         </div>
@@ -216,21 +301,21 @@
         <!-- email + telefone -->
         <div class="dois-campos">
             <div class="campo">
-                <label>E-MAIL</label>
+                <label>E-MAIL <span class="required-star">*</span></label>
                 <input type="email" id="email" placeholder="contato@empresa.com">
                 <div class="helper-text" id="emailHelper"></div>
             </div>
             <div class="campo">
-                <label>TELEFONE</label>
-                <input type="tel" id="telefone" placeholder="71988887777" maxlength="11">
+                <label>TELEFONE <span class="required-star">*</span></label>
+                <input type="tel" id="telefone" placeholder="(71) 98888-7777" maxlength="15">
                 <div class="helper-text" id="telefoneHelper"></div>
             </div>
         </div>
 
-        <!-- Nº pessoas + área de interesse (dropdowns) -->
+        <!-- Nº pessoas + área de interesse -->
         <div class="dois-campos">
             <div class="campo">
-                <label>Nº DE PESSOAS CAPACITADAS</label>
+                <label>Nº DE PESSOAS CAPACITADAS <span class="required-star">*</span></label>
                 <select id="numPessoas">
                     <option value="" disabled selected>Selecione</option>
                     <option value="1 pessoa">1 pessoa</option>
@@ -239,312 +324,393 @@
                     <option value="4 pessoas">4 pessoas</option>
                     <option value="4 ou mais">4 pessoas ou mais</option>
                 </select>
+                <div class="helper-text" id="numPessoasHelper"></div>
             </div>
             <div class="campo">
-                <label>ÁREAS DE INTERESSE</label>
+                <label>ÁREAS DE INTERESSE <span class="required-star">*</span></label>
                 <select id="areaInteresse">
                     <option value="" disabled selected>Selecione</option>
                     <option value="Comércio exterior">Comércio exterior</option>
-                    <option value="Finanças">finanças</option>
-                    <option value="Logística">logística</option>
-                    <option value="Marketing">marketing</option>
-                    <option value="Vendas">vendas</option>
+                    <option value="Finanças">Finanças</option>
+                    <option value="Logística">Logística</option>
+                    <option value="Marketing">Marketing</option>
+                    <option value="Vendas">Vendas</option>
                 </select>
                 <div class="helper-text" id="areaHelper"></div>
             </div>
         </div>
 
-        <!-- BOTÃO ENVIAR (dentro do form, mas vamos tratar com JS) -->
-        <button type="submit" class="btn-enviar">ENVIAR FORMULÁRIO</button>
-
-        
-
-        <!-- rodape com os mesmos links da imagem -->
-       
-
-        <!-- Mensagem de sucesso (aparece ao enviar válido) -->
-        <div id="msgSucesso" class="mensagem-envio oculto">
-            <i class="fas fa-check-circle"></i> Formulário enviado com sucesso.
-        </div>
+        <!-- BOTÃO ENVIAR -->
+        <button type="submit" class="btn-enviar" id="btnEnviar">ENVIAR FORMULÁRIO</button>
     </form>
 </div>
 
 <script>
     (function() {
-        // ------------------- 1. CONSUMIR API DE CIDADES DA BAHIA (IBGE) -------------------
-        const selectCidade = document.getElementById('cidade');
-        const cidadeHelper = document.getElementById('cidadeHelper');
+        'use strict';
 
+        // ------------------- ELEMENTOS DO FORMULÁRIO -------------------
+        const elementos = {
+            nome: document.getElementById('nome'),
+            endereco: document.getElementById('endereco'),
+            bairro: document.getElementById('bairro'),
+            cidade: document.getElementById('cidade'),
+            responsavel: document.getElementById('responsavel'),
+            cnpj: document.getElementById('cnpj'),
+            email: document.getElementById('email'),
+            telefone: document.getElementById('telefone'),
+            numPessoas: document.getElementById('numPessoas'),
+            areaInteresse: document.getElementById('areaInteresse'),
+            btnEnviar: document.getElementById('btnEnviar'),
+            formulario: document.getElementById('empresaForm')
+        };
+
+        // Helpers
+        const helpers = {
+            nome: document.getElementById('nomeHelper'),
+            endereco: document.getElementById('enderecoHelper'),
+            bairro: document.getElementById('bairroHelper'),
+            cidade: document.getElementById('cidadeHelper'),
+            responsavel: document.getElementById('responsavelHelper'),
+            cnpj: document.getElementById('cnpjHelper'),
+            email: document.getElementById('emailHelper'),
+            telefone: document.getElementById('telefoneHelper'),
+            numPessoas: document.getElementById('numPessoasHelper'),
+            area: document.getElementById('areaHelper')
+        };
+
+        // Mensagens
+        const msgSucesso = document.getElementById('msgSucesso');
+        const msgErro = document.getElementById('msgErro');
+
+        // ------------------- MÁSCARAS -------------------
+        function mascaraCNPJ(e) {
+            let valor = e.target.value.replace(/\D/g, '');
+            if (valor.length <= 14) {
+                if (valor.length > 12) {
+                    valor = valor.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
+                } else if (valor.length > 8) {
+                    valor = valor.replace(/(\d{2})(\d{3})(\d{3})(\d{1,4})/, '$1.$2.$3/$4');
+                } else if (valor.length > 5) {
+                    valor = valor.replace(/(\d{2})(\d{3})(\d{1,3})/, '$1.$2.$3');
+                } else if (valor.length > 2) {
+                    valor = valor.replace(/(\d{2})(\d{1,3})/, '$1.$2');
+                }
+                e.target.value = valor;
+            }
+            validarCnpj();
+        }
+
+        function mascaraTelefone(e) {
+            let valor = e.target.value.replace(/\D/g, '');
+            if (valor.length <= 11) {
+                if (valor.length > 7) {
+                    valor = valor.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+                } else if (valor.length > 2) {
+                    valor = valor.replace(/(\d{2})(\d{1,5})/, '($1) $2');
+                }
+                e.target.value = valor;
+            }
+            validarTelefone();
+        }
+
+        elementos.cnpj.addEventListener('input', mascaraCNPJ);
+        elementos.telefone.addEventListener('input', mascaraTelefone);
+
+        // ------------------- CARREGAR CIDADES DA BAHIA -------------------
         async function carregarCidadesBa() {
             try {
                 const response = await fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados/29/municipios');
                 if (!response.ok) throw new Error('falha na api');
                 const municipios = await response.json();
-                // ordenar alfabeticamente
                 municipios.sort((a,b) => a.nome.localeCompare(b.nome));
-                selectCidade.innerHTML = '<option value="" disabled selected>Selecione a cidade</option>';
+                
+                elementos.cidade.innerHTML = '<option value="" disabled selected>Selecione a cidade</option>';
                 municipios.forEach(m => {
                     const option = document.createElement('option');
                     option.value = m.nome;
                     option.textContent = m.nome;
-                    selectCidade.appendChild(option);
+                    elementos.cidade.appendChild(option);
                 });
-                cidadeHelper.textContent = `${municipios.length} cidades carregadas`;
+                
+                helpers.cidade.textContent = `${municipios.length} cidades carregadas`;
+                helpers.cidade.className = 'helper-text success-msg';
             } catch (error) {
                 console.warn('Erro ao buscar cidades, usando lista fallback');
-                cidadeHelper.textContent = 'lista offline (simulação)';
-                // fallback com cidades principais da Bahia
-                const fallback = ['Salvador', 'Feira de Santana', 'Vitória da Conquista', 'Camaçari', 'Itabuna', 'Juazeiro', 'Ilhéus', 'Lauro de Freitas', 'Jequié', 'Abaíra'];
-                selectCidade.innerHTML = '<option value="" disabled selected>Selecione a cidade</option>';
-                fallback.forEach(cidade => {
+                const fallback = ['Salvador', 'Feira de Santana', 'Vitória da Conquista', 'Camaçari', 'Itabuna', 'Juazeiro', 'Ilhéus', 'Lauro de Freitas', 'Jequié', 'Alagoinhas'];
+                
+                elementos.cidade.innerHTML = '<option value="" disabled selected>Selecione a cidade</option>';
+                fallback.sort().forEach(cidade => {
                     const option = document.createElement('option');
                     option.value = cidade;
                     option.textContent = cidade;
-                    selectCidade.appendChild(option);
+                    elementos.cidade.appendChild(option);
                 });
+                
+                helpers.cidade.textContent = 'Modo offline - cidades principais';
             }
         }
         carregarCidadesBa();
 
-        // ------------------- VALIDAÇÕES INDIVIDUAIS -------------------
-        const nome = document.getElementById('nome');
-        const endereco = document.getElementById('endereco');
-        const bairro = document.getElementById('bairro');
-        const responsavel = document.getElementById('responsavel');
-        const cnpj = document.getElementById('cnpj');
-        const email = document.getElementById('email');
-        const telefone = document.getElementById('telefone');
-        const numPessoas = document.getElementById('numPessoas');
-        const areaInteresse = document.getElementById('areaInteresse');
-        // helpers
-        const nomeHelper = document.getElementById('nomeHelper');
-        const enderecoHelper = document.getElementById('enderecoHelper');
-        const bairroHelper = document.getElementById('bairroHelper');
-        const responsavelHelper = document.getElementById('responsavelHelper');
-        const cnpjHelper = document.getElementById('cnpjHelper');
-        const emailHelper = document.getElementById('emailHelper');
-        const telefoneHelper = document.getElementById('telefoneHelper');
-        const areaHelper = document.getElementById('areaHelper');
+        // ------------------- FUNÇÕES DE VALIDAÇÃO -------------------
+        function mostrarErro(helper, elemento, mensagem) {
+            helper.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${mensagem}`;
+            helper.className = 'helper-text error-msg';
+            elemento.classList.add('error');
+            elemento.classList.remove('success');
+        }
 
-        // Validação de campo: não permitir caracteres especiais (nome)
+        function mostrarSucesso(helper, elemento, mensagem) {
+            helper.innerHTML = `<i class="fas fa-check-circle"></i> ${mensagem}`;
+            helper.className = 'helper-text success-msg';
+            elemento.classList.add('success');
+            elemento.classList.remove('error');
+        }
+
+        function limparHelper(helper, elemento) {
+            helper.innerHTML = '';
+            helper.className = 'helper-text';
+            elemento.classList.remove('error', 'success');
+        }
+
+        // Validações específicas
         function validarNome() {
-            const val = nome.value.trim();
-            if (val === '') { nomeHelper.textContent = 'Campo obrigatório'; nome.classList.add('error'); return false; }
-            if (/[^a-zA-Z0-9\s,.\-\/]/.test(val)) {
-                nomeHelper.textContent = 'Caracteres especiais não são permitidos';
-                nome.classList.add('error');
+            const val = elementos.nome.value.trim();
+            if (val === '') {
+                mostrarErro(helpers.nome, elementos.nome, 'Nome da empresa é obrigatório');
                 return false;
             }
-            nomeHelper.textContent = '✓ Nome da empresa é válido';
-            nome.classList.remove('error');
+            if (val.length < 3) {
+                mostrarErro(helpers.nome, elementos.nome, 'Nome deve ter pelo menos 3 caracteres');
+                return false;
+            }
+            if (/[^a-zA-Z0-9\s,.\-\/]/.test(val)) {
+                mostrarErro(helpers.nome, elementos.nome, 'Caracteres especiais não permitidos');
+                return false;
+            }
+            mostrarSucesso(helpers.nome, elementos.nome, 'Nome válido');
             return true;
         }
 
-        // endereço: não permitir caracteres especiais (exceto espaços, vírgulas, pontos, traços, números e letras)
         function validarEndereco() {
-            const val = endereco.value.trim();
-            if (val === '') { enderecoHelper.textContent = 'Endereço obrigatório'; endereco.classList.add('error'); return false; }
-            // permitir letras, números, espaços, vírgulas, pontos, hífen, barra (para n°)
-            if (/[^a-zA-Z0-9\s,.\-\/]/.test(val)) {
-                enderecoHelper.textContent = 'Caracteres especiais não são permitidos';
-                endereco.classList.add('error');
+            const val = elementos.endereco.value.trim();
+            if (val === '') {
+                mostrarErro(helpers.endereco, elementos.endereco, 'Endereço é obrigatório');
                 return false;
             }
-            enderecoHelper.textContent = '✓ endereço válido';
-            endereco.classList.remove('error');
+            if (val.length < 5) {
+                mostrarErro(helpers.endereco, elementos.endereco, 'Endereço muito curto');
+                return false;
+            }
+            mostrarSucesso(helpers.endereco, elementos.endereco, 'Endereço válido');
             return true;
         }
 
-       // bairro: permitindo acentos e caracteres especiais comuns
-function validarBairro() {
-    const val = bairro.value.trim();
-    if (val === '') { 
-        bairroHelper.textContent = 'Bairro obrigatório'; 
-        bairro.classList.add('error'); 
-        return false; 
-    }
-    
-    // CORREÇÃO: adicionei a barra no início e ajustei os acentos
-    if (/[^a-zA-Z0-9\sáàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ]/.test(val)) {
-        bairroHelper.textContent = 'Caracteres especiais não são permitidos';
-        bairro.classList.add('error');
-        return false;
-    }
-    
-    bairroHelper.textContent = '✓ bairro válido';
-    bairro.classList.remove('error');
-    return true;
-}
+        function validarBairro() {
+            const val = elementos.bairro.value.trim();
+            if (val === '') {
+                mostrarErro(helpers.bairro, elementos.bairro, 'Bairro é obrigatório');
+                return false;
+            }
+            if (val.length < 3) {
+                mostrarErro(helpers.bairro, elementos.bairro, 'Bairro muito curto');
+                return false;
+            }
+            if (/[^a-zA-Z0-9\sáàâãéèêíïóôõöúçñÁÀÂÃÉÈÊÍÏÓÔÕÖÚÇÑ,.\-\/]/.test(val)) {
+                mostrarErro(helpers.bairro, elementos.bairro, 'Caracteres especiais não permitidos');
+                return false;
+            }
+            mostrarSucesso(helpers.bairro, elementos.bairro, 'Bairro válido');
+            return true;
+        }
 
-        // responsável: sem números nem caracteres especiais (apenas letras e espaços)
         function validarResponsavel() {
-            const val = responsavel.value.trim();
-            if (val === '') { responsavelHelper.textContent = 'Nome de responsável obrigatório'; responsavel.classList.add('error'); return false; }
-            if (/[^a-zA-ZÀ-ÿ\s]/.test(val)) {  // permite acentos, letras e espaços
-                responsavelHelper.textContent = 'Apenas letras e espaços';
-                responsavel.classList.add('error');
+            const val = elementos.responsavel.value.trim();
+            if (val === '') {
+                mostrarErro(helpers.responsavel, elementos.responsavel, 'Nome do responsável é obrigatório');
                 return false;
             }
-            responsavelHelper.textContent = '✓ Nome de responsável válido';
-            responsavel.classList.remove('error');
+            if (val.length < 3) {
+                mostrarErro(helpers.responsavel, elementos.responsavel, 'Nome deve ter pelo menos 3 caracteres');
+                return false;
+            }
+            if (/[^a-zA-ZÀ-ÖØ-öø-ÿ\s]/.test(val)) {
+                mostrarErro(helpers.responsavel, elementos.responsavel, 'Apenas letras e espaços');
+                return false;
+            }
+            mostrarSucesso(helpers.responsavel, elementos.responsavel, 'Nome válido');
             return true;
         }
 
-        // CNPJ (validação simplificada de formato e dígitos)
         function validarCnpj() {
-            let val = cnpj.value.trim().replace(/[^\d]/g, '');
-            if (val === '') { cnpjHelper.textContent = 'CNPJ obrigatório(somente números)'; cnpj.classList.add('error'); return false; }
+            const val = elementos.cnpj.value.replace(/[^\d]/g, '');
+            if (val === '') {
+                mostrarErro(helpers.cnpj, elementos.cnpj, 'CNPJ é obrigatório');
+                return false;
+            }
             if (val.length !== 14) {
-                cnpjHelper.textContent = ' CNPJ deve ter 14 números';
-                cnpj.classList.add('error');
+                mostrarErro(helpers.cnpj, elementos.cnpj, 'CNPJ deve ter 14 dígitos');
                 return false;
             }
-            // validar dígitos repetidos (simples)
             if (/^(\d)\1+$/.test(val)) {
-                cnpjHelper.textContent = 'CNPJ inválido';
-                cnpj.classList.add('error');
+                mostrarErro(helpers.cnpj, elementos.cnpj, 'CNPJ inválido');
                 return false;
             }
-            // Pode-se implementar cálculo dos dígitos, mas por simplicidade aceitamos qualquer 14 dígitos não repetidos
-            cnpjHelper.textContent = '✓ CNPJ com formato válido';
-            cnpj.classList.remove('error');
+            mostrarSucesso(helpers.cnpj, elementos.cnpj, 'CNPJ válido');
             return true;
         }
 
-        // e-mail regex
         function validarEmail() {
-            const val = email.value.trim();
+            const val = elementos.email.value.trim();
             const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (val === '') { emailHelper.textContent = 'E-mail obrigatório'; email.classList.add('error'); return false; }
-            if (!regex.test(val)) {
-                emailHelper.textContent = 'E-mail inválido';
-                email.classList.add('error');
+            if (val === '') {
+                mostrarErro(helpers.email, elementos.email, 'E-mail é obrigatório');
                 return false;
             }
-            emailHelper.textContent = '✓ E-mail válido';
-            email.classList.remove('error');
+            if (!regex.test(val)) {
+                mostrarErro(helpers.email, elementos.email, 'E-mail inválido');
+                return false;
+            }
+            mostrarSucesso(helpers.email, elementos.email, 'E-mail válido');
             return true;
         }
 
-        // telefone: somente números
         function validarTelefone() {
-            let val = telefone.value.trim().replace(/\s/g, '');
-            if (val === '') { telefoneHelper.textContent = 'Telefone obrigatório'; telefone.classList.add('error'); return false; }
-            if (!/^\d+$/.test(val)) {
-                telefoneHelper.textContent = 'Somente números são permitidos neste campo.';
-                telefone.classList.add('error');
+            const val = elementos.telefone.value.replace(/\D/g, '');
+            if (val === '') {
+                mostrarErro(helpers.telefone, elementos.telefone, 'Telefone é obrigatório');
                 return false;
             }
             if (val.length < 10 || val.length > 11) {
-                telefoneHelper.textContent = '10 ou 11 dígitos';
-                telefone.classList.add('error');
+                mostrarErro(helpers.telefone, elementos.telefone, 'Telefone deve ter 10 ou 11 dígitos');
                 return false;
             }
-            telefoneHelper.textContent = '✓ Telefone válido';
-            telefone.classList.remove('error');
+            mostrarSucesso(helpers.telefone, elementos.telefone, 'Telefone válido');
             return true;
         }
 
-        // cidade: apenas verifica se selecionou (pode ser vazio)
         function validarCidade() {
-            if (!selectCidade.value) {
-                cidadeHelper.textContent = 'Selecione uma cidade';
-                selectCidade.classList.add('error');
+            if (!elementos.cidade.value) {
+                mostrarErro(helpers.cidade, elementos.cidade, 'Selecione uma cidade');
                 return false;
             }
-            cidadeHelper.textContent = '✓ Cidade selecionada';
-            selectCidade.classList.remove('error');
+            mostrarSucesso(helpers.cidade, elementos.cidade, 'Cidade selecionada');
             return true;
         }
 
-        // área de interesse: verificar se selecionou
+        function validarNumPessoas() {
+            if (!elementos.numPessoas.value) {
+                mostrarErro(helpers.numPessoas, elementos.numPessoas, 'Selecione o número de pessoas');
+                return false;
+            }
+            mostrarSucesso(helpers.numPessoas, elementos.numPessoas, 'Opção selecionada');
+            return true;
+        }
+
         function validarArea() {
-            if (!areaInteresse.value) {
-                areaHelper.textContent = 'Escolha uma área de interesse';
-                areaInteresse.classList.add('error');
+            if (!elementos.areaInteresse.value) {
+                mostrarErro(helpers.area, elementos.areaInteresse, 'Selecione uma área de interesse');
                 return false;
             }
-            areaHelper.textContent = '✓ Área de interesse selecionada';
-            areaInteresse.classList.remove('error');
+            mostrarSucesso(helpers.area, elementos.areaInteresse, 'Área selecionada');
             return true;
         }
 
-        // eventos blur / input
-        nome.addEventListener('input', validarNome);
-        endereco.addEventListener('input', validarEndereco);
-        bairro.addEventListener('input', validarBairro);
-        responsavel.addEventListener('input', validarResponsavel);
-        cnpj.addEventListener('input', validarCnpj);
-        email.addEventListener('input', validarEmail);
-        telefone.addEventListener('input', validarTelefone);
-        selectCidade.addEventListener('change', validarCidade);
-        areaInteresse.addEventListener('change', validarArea);
+        // ==================== EVENTOS DE VALIDAÇÃO ====================
+        elementos.nome.addEventListener('input', validarNome);
+        elementos.nome.addEventListener('blur', validarNome);
+        
+        elementos.endereco.addEventListener('input', validarEndereco);
+        elementos.endereco.addEventListener('blur', validarEndereco);
+        
+        elementos.bairro.addEventListener('input', validarBairro);
+        elementos.bairro.addEventListener('blur', validarBairro);
+        
+        elementos.responsavel.addEventListener('input', validarResponsavel);
+        elementos.responsavel.addEventListener('blur', validarResponsavel);
+        
+        elementos.cnpj.addEventListener('blur', validarCnpj);
+        
+        elementos.email.addEventListener('input', validarEmail);
+        elementos.email.addEventListener('blur', validarEmail);
+        
+        elementos.cidade.addEventListener('change', validarCidade);
+        elementos.cidade.addEventListener('blur', validarCidade);
+        
+        elementos.numPessoas.addEventListener('change', validarNumPessoas);
+        elementos.numPessoas.addEventListener('blur', validarNumPessoas);
+        
+        elementos.areaInteresse.addEventListener('change', validarArea);
+        elementos.areaInteresse.addEventListener('blur', validarArea);
 
-        // Para cidade, validar também no blur
-        selectCidade.addEventListener('blur', validarCidade);
-        areaInteresse.addEventListener('blur', validarArea);
+        // ==================== VALIDAÇÃO GERAL ====================
+        function validarFormulario() {
+            const validacoes = [
+                validarNome(),
+                validarEndereco(),
+                validarBairro(),
+                validarResponsavel(),
+                validarCnpj(),
+                validarEmail(),
+                validarTelefone(),
+                validarCidade(),
+                validarNumPessoas(),
+                validarArea()
+            ];
 
-        // validação final no submit
-        const form = document.getElementById('empresaForm');
-        const msgSucesso = document.getElementById('msgSucesso');
-        const fakeCheckbox = document.getElementById('fakeCheckbox');
+            return validacoes.every(v => v === true);
+        }
 
-        // Simular clique no "Não sou um robô" (apenas visual, não interfere)
-        fakeCheckbox.addEventListener('click', function(e) {
+        // ==================== ENVIO DO FORMULÁRIO ====================
+        elementos.formulario.addEventListener('submit', async function(e) {
             e.preventDefault();
-            this.classList.toggle('checked');
-            // se tiver checked, mantém; apenas visual
-        });
 
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
+            // Esconder mensagens anteriores
+            msgSucesso.classList.add('oculto');
+            msgErro.classList.add('oculto');
 
-            // rodar todas as validações
-            const valNome = validarNome();
-            const valEnd = validarEndereco();
-            const valBairro = validarBairro();
-            const valResp = validarResponsavel();
-            const valCnpj = validarCnpj();
-            const valEmail = validarEmail();
-            const valTel = validarTelefone();
-            const valCid = validarCidade();
-            const valArea = validarArea();
-            // numPessoas dropdown não tem validação especial, mas verificamos se está selecionado
-            if (!numPessoas.value) {
-                alert('Selecione o número de pessoas');
-                numPessoas.classList.add('error');
+            // Validar todos os campos
+            if (!validarFormulario()) {
+                msgErro.classList.remove('oculto');
+                
+                // Rolar para o primeiro erro
+                const primeiroErro = document.querySelector('.error');
+                if (primeiroErro) {
+                    primeiroErro.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
                 return;
-            } else {
-                numPessoas.classList.remove('error');
             }
 
-            if (valNome && valEnd && valBairro && valResp && valCnpj && valEmail && valTel && valCid && valArea) {
-                // Tudo ok – mostrar mensagem e simular envio
+            // Simular envio
+            elementos.btnEnviar.disabled = true;
+            elementos.btnEnviar.textContent = 'ENVIANDO...';
+
+            try {
+                // Simulação de envio
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                // Sucesso
                 msgSucesso.classList.remove('oculto');
-                // Esconder após 5 segundos
-                setTimeout(() => msgSucesso.classList.add('oculto'), 5000);
-                // Opcional: limpar ou apenas feedback
-                console.log('Formulário válido, dados:', {
-                    nome: nome.value,
-                    endereco: endereco.value,
-                    bairro: bairro.value,
-                    cidade: selectCidade.value,
-                    responsavel: responsavel.value,
-                    cnpj: cnpj.value,
-                    email: email.value,
-                    telefone: telefone.value,
-                    numPessoas: numPessoas.value,
-                    area: areaInteresse.value
+                elementos.formulario.reset();
+                
+                // Limpar todas as validações
+                Object.keys(helpers).forEach(key => {
+                    if (helpers[key] && elementos[key]) {
+                        limparHelper(helpers[key], elementos[key]);
+                    }
                 });
-                // Você pode resetar, mas mantemos preenchido
-            } else {
-                alert('Existem campos inválidos. Por favor, corrija antes de enviar.');
+                
+                // Esconder mensagem após 5 segundos
+                setTimeout(() => {
+                    msgSucesso.classList.add('oculto');
+                }, 5000);
+                
+            } catch (error) {
+                msgErro.classList.remove('oculto');
+            } finally {
+                elementos.btnEnviar.disabled = false;
+                elementos.btnEnviar.textContent = 'ENVIAR FORMULÁRIO';
             }
-        });
-
-        // Remover erro ao digitar nos demais campos (básico)
-        numPessoas.addEventListener('change', function() {
-            this.classList.remove('error');
         });
     })();
 </script>

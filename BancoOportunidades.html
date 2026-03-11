@@ -163,82 +163,6 @@
             height: 18px;
         }
 
-       
-
-        .fake-checkbox {
-            width: 26px;
-            height: 26px;
-            background: white;
-            border: 2px solid #5f6b7a;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 16px;
-            transition: all 0.15s;
-        }
-
-        .fake-checkbox.checked {
-            background: #16a34a;
-            border-color: #16a34a;
-        }
-
-        .fake-checkbox i {
-            color: white;
-        }
-
-        .recaptcha-text {
-            font-size: 15px;
-            color: #1e293b;
-        }
-
-        .recaptcha-text small {
-            display: block;
-            font-size: 11px;
-            color: #556579;
-            margin-top: 2px;
-        }
-
-        .recaptcha-logo {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            font-size: 12px;
-            color: #2c3f5c;
-        }
-
-        .recaptcha-logo strong {
-            font-size: 18px;
-            letter-spacing: 1px;
-        }
-
-        .recaptcha-logo span {
-            font-size: 10px;
-            color: #4f658d;
-        }
-
-        .rodape-recaptcha {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 11px;
-            color: #556579;
-            border-top: 1px dashed #b9c7da;
-            margin-top: 16px;
-            padding-top: 14px;
-        }
-
-        .rodape-recaptcha a {
-            color: #0a2c4e;
-            text-decoration: none;
-            margin: 0 6px;
-        }
-
-        .rodape-recaptcha a:hover {
-            text-decoration: underline;
-        }
-
         .btn-submit {
             background: #005b96;
             color: white;
@@ -248,7 +172,7 @@
             font-weight: 600;
             border-radius: 40px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.6s ease;
             display: block;
             margin: 20px auto 0;
             min-width: 200px;
@@ -432,6 +356,16 @@
                     <div class="helper-text" id="helper-nomeMae"></div>
                 </div>
 
+                <!-- CEP (obrigatório) -->
+                <div class="campo full-width">
+                    <label for="cep">
+                        CEP
+                        <span class="required-star">*</span>
+                    </label>
+                    <input type="text" id="cep" name="cep" placeholder="00000-000" maxlength="9">
+                    <div class="helper-text" id="helper-cep"></div>
+                </div>
+
                 <!-- Endereço (obrigatório) -->
                 <div class="campo full-width">
                     <label for="endereco">
@@ -443,7 +377,7 @@
                 </div>
 
                 <!-- Bairro (obrigatório) -->
-                <div class="campo">
+                <div class="campo full-width">
                     <label for="bairro">
                         BAIRRO
                         <span class="required-star">*</span>
@@ -451,17 +385,7 @@
                     <input type="text" id="bairro" name="bairro" placeholder="Centro">
                     <div class="helper-text" id="helper-bairro"></div>
                 </div>
-
-                <!-- CEP (obrigatório) -->
-                <div class="campo">
-                    <label for="cep">
-                        CEP
-                        <span class="required-star">*</span>
-                    </label>
-                    <input type="text" id="cep" name="cep" placeholder="00000-000" maxlength="9">
-                    <div class="helper-text" id="helper-cep"></div>
-                </div>
-
+                
                 <!-- Cidade (obrigatório) -->
                 <div class="campo full-width">
                     <label for="cidade">
@@ -509,10 +433,15 @@
                     </label>
                     <select id="escolaridade" name="escolaridade">
                         <option value="" disabled selected>Selecione...</option>
+                        <option value="fundamental_incompleto">Ensino Fundamental Completo</option>
+                        <option value="fundamental_completo">Ensino Fundamental Incompleto</option>
                         <option value="medio_completo">Ensino Médio Completo</option>
                         <option value="medio_incompleto">Ensino Médio Incompleto</option>
                         <option value="superior_completo">Ensino Superior Completo</option>
                         <option value="superior_incompleto">Ensino Superior Incompleto</option>
+                        <option value="pos_graduacao">Pós-Graduação Completa</option>
+                        <option value="pos_graduacao_completa">Pós-Graduação Incompleta</option>
+
                     </select>
                     <div class="helper-text" id="helper-escolaridade"></div>
                 </div>
@@ -534,8 +463,6 @@
                 </label>
                 <div class="helper-text" id="helper-aceite"></div>
             </div>
-
-           
 
             <!-- Botão Enviar -->
             <button type="submit" class="btn-submit" id="btnEnviar">ENVIAR FORMULÁRIO</button>
@@ -564,10 +491,8 @@
                 escolaridade: document.getElementById('escolaridade'),
                 cursoSenac: document.getElementById('cursoSenac'),
                 aceiteLGPD: document.getElementById('aceiteLGPD'),
-                fakeCheckbox: document.getElementById('fakeCheckbox'),
                 btnEnviar: document.getElementById('btnEnviar'),
-                formulario: document.getElementById('formulario'),
-                recaptchaMock: document.getElementById('recaptchaMock')
+                formulario: document.getElementById('formulario')
             };
 
             // Helpers
@@ -587,16 +512,12 @@
                 email: document.getElementById('helper-email'),
                 escolaridade: document.getElementById('helper-escolaridade'),
                 cursoSenac: document.getElementById('helper-cursoSenac'),
-                aceite: document.getElementById('helper-aceite'),
-                recaptcha: document.getElementById('helper-recaptcha')
+                aceite: document.getElementById('helper-aceite')
             };
 
             // Mensagens
             const msgSucesso = document.getElementById('msgSucesso');
             const msgErro = document.getElementById('msgErro');
-
-            
-          
 
             // ==================== CARREGAR CIDADES ====================
             async function carregarCidadesBahia() {
@@ -616,6 +537,7 @@
                     });
                     
                     helpers.cidade.textContent = `${municipios.length} cidades carregadas`;
+                    helpers.cidade.className = 'helper-text success-msg';
                 } catch (error) {
                     console.error('Erro ao carregar cidades:', error);
                     
@@ -645,6 +567,7 @@
                     }
                     e.target.value = valor;
                 }
+                validarCPF();
             }
 
             function mascaraCEP(e) {
@@ -655,6 +578,7 @@
                     }
                     e.target.value = valor;
                 }
+                validarCEP();
             }
 
             function mascaraCelular(e) {
@@ -667,6 +591,7 @@
                     }
                     e.target.value = valor;
                 }
+                validarCelular();
             }
 
             function mascaraTelefone(e) {
@@ -750,8 +675,8 @@
                 elemento.classList.remove('error');
             }
 
-            function mostrarAviso(helper, elemento, mensagem) {
-                helper.textContent = mensagem;
+            function limparHelper(helper, elemento) {
+                helper.innerHTML = '';
                 helper.className = 'helper-text';
                 elemento.classList.remove('error', 'success');
             }
@@ -759,22 +684,20 @@
             // Validações específicas
             function validarNome() {
                 const val = elementos.nome.value.trim();
-                if (val==="") {
-                   nomehelper.textContent = 'Nome é obrigatório';
-                    nomehelper.classList.add('error-msg');
-                    nomehelper.classList.remove('success-msg');
-                    elementos.nome.classList.add('error');
+                if (val === "") {
+                    mostrarErro(helpers.nome, elementos.nome, 'Nome é obrigatório');
                     return false;
                 }
-                if (/[^a-zA-ZÀ-ÿ\s]/.test(val)) {  // permite acentos, letras e espaços
-                responsavelHelper.textContent = 'Apenas letras e espaços';
-                responsavel.classList.add('error');
-                return false;
-            }
-               
-               responsavelHelper.textContent = '✓ Nome de responsável válido';
-            responsavel.classList.remove('error');
-            return true;
+                if (val.length < 3) {
+                    mostrarErro(helpers.nome, elementos.nome, 'Nome deve ter pelo menos 3 caracteres');
+                    return false;
+                }
+                if (/[^a-zA-ZÀ-ÿ\s]/.test(val)) {
+                    mostrarErro(helpers.nome, elementos.nome, 'Nome não pode conter números ou caracteres especiais');
+                    return false;
+                }
+                mostrarSucesso(helpers.nome, elementos.nome, 'Nome válido');
+                return true;
             }
 
             function validarSexo() {
@@ -853,8 +776,8 @@
                     mostrarErro(helpers.nomeMae, elementos.nomeMae, 'Nome deve ter pelo menos 3 caracteres');
                     return false;
                 }
-                if (/[^a-zA-ZÀ-ÖØ-öø-ÿ\s]/.test(val)) {
-                    mostrarErro(helpers.nomeMae, elementos.nomeMae, 'Apenas letras e espaços');
+                if (/[^a-zA-ZÀ-ÿ\s]/.test(val)) {
+                    mostrarErro(helpers.nomeMae, elementos.nomeMae, ' não pode conter números ou caracteres especiais');
                     return false;
                 }
                 mostrarSucesso(helpers.nomeMae, elementos.nomeMae, 'Nome da mãe válido');
@@ -912,28 +835,151 @@
                 return true;
             }
 
-           function validarCelular() {
-                const val = celular.value.replace(/\D/g, '');
+            function validarCelular() {
+                const val = elementos.celular.value.replace(/\D/g, '');
                 if (val === '') {
-                    helperCelular.textContent = 'Celular é obrigatório';
-                    helperCelular.classList.add('error-msg');
-                    helperCelular.classList.remove('success-msg');
-                    celular.classList.add('error');
+                    mostrarErro(helpers.celular, elementos.celular, 'Celular é obrigatório');
                     return false;
                 }
                 if (val.length !== 11) {
-                    helperCelular.textContent = 'Celular deve ter 11 dígitos';
-                    helperCelular.classList.add('error-msg');
-                    helperCelular.classList.remove('success-msg');
-                    celular.classList.add('error');
-                    return false;  
+                    mostrarErro(helpers.celular, elementos.celular, 'Celular deve ter 11 dígitos');
+                    return false;
                 }
-                helperCelular.textContent = '✓ Celular válido';                
-                celular.classList.remove('error');
+                mostrarSucesso(helpers.celular, elementos.celular, 'Celular válido');
                 return true;
             }
- 
+
+            function validarEmail() {
+                const val = elementos.email.value.trim();
+                if (!val) {
+                    mostrarErro(helpers.email, elementos.email, 'E-mail é obrigatório');
+                    return false;
+                }
+                const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!regex.test(val)) {
+                    mostrarErro(helpers.email, elementos.email, 'E-mail inválido');
+                    return false;
+                }
+                mostrarSucesso(helpers.email, elementos.email, 'E-mail válido');
+                return true;
+            }
+
+            function validarEscolaridade() {
+                if (!elementos.escolaridade.value) {
+                    mostrarErro(helpers.escolaridade, elementos.escolaridade, 'Selecione a escolaridade');
+                    return false;
+                }
+                mostrarSucesso(helpers.escolaridade, elementos.escolaridade, 'Escolaridade selecionada');
+                return true;
+            }
+
+            function validarAceite() {
+                if (!elementos.aceiteLGPD.checked) {
+                    mostrarErro(helpers.aceite, elementos.aceiteLGPD, 'Você deve aceitar os termos');
+                    return false;
+                }
+                mostrarSucesso(helpers.aceite, elementos.aceiteLGPD, 'Termos aceitos');
+                return true;
+            }
+
+            // ==================== VALIDAÇÃO GERAL ====================
+            function validarFormulario() {
+                const validacoes = [
+                    validarNome(),
+                    validarSexo(),
+                    validarCPF(),
+                    validarRG(),
+                    validarNaturalidade(),
+                    validarNomeMae(),
+                    validarEndereco(),
+                    validarBairro(),
+                    validarCEP(),
+                    validarCidade(),
+                    validarCelular(),
+                    validarEmail(),
+                    validarEscolaridade(),
+                    validarAceite()
+                ];
+
+                return validacoes.every(v => v === true);
+            }
+
+            // ==================== EVENTOS DE VALIDAÇÃO EM TEMPO REAL ====================
+            elementos.nome.addEventListener('blur', validarNome);
+            elementos.nome.addEventListener('input', validarNome);
+            
+            elementos.sexo.addEventListener('change', validarSexo);
+            
+            elementos.rg.addEventListener('blur', validarRG);
+            elementos.rg.addEventListener('input', validarRG);
+            
+            elementos.naturalidade.addEventListener('change', validarNaturalidade);
+            
+            elementos.nomeMae.addEventListener('blur', validarNomeMae);
+            elementos.nomeMae.addEventListener('input', validarNomeMae);
+            
+            elementos.endereco.addEventListener('blur', validarEndereco);
+            elementos.endereco.addEventListener('input', validarEndereco);
+            
+            elementos.bairro.addEventListener('blur', validarBairro);
+            elementos.bairro.addEventListener('input', validarBairro);
+            
+            elementos.cidade.addEventListener('change', validarCidade);
+            
+            elementos.email.addEventListener('blur', validarEmail);
+            elementos.email.addEventListener('input', validarEmail);
+            
+            elementos.escolaridade.addEventListener('change', validarEscolaridade);
+            
+            elementos.aceiteLGPD.addEventListener('change', validarAceite);
+
+            // ==================== ENVIO DO FORMULÁRIO ====================
+            elementos.formulario.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                // Esconder mensagens anteriores
+                msgSucesso.classList.add('oculto');
+                msgErro.classList.add('oculto');
+
+                // Validar todos os campos
+                if (!validarFormulario()) {
+                    msgErro.classList.remove('oculto');
+                    
+                    // Rolar para o primeiro erro
+                    const primeiroErro = document.querySelector('.error');
+                    if (primeiroErro) {
+                        primeiroErro.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                    return;
+                }
+
+                // Simular envio
+                elementos.btnEnviar.disabled = true;
+                elementos.btnEnviar.textContent = 'ENVIANDO...';
+
+                try {
+                    // Simulação de envio (substituir por fetch real)
+                    await new Promise(resolve => setTimeout(resolve, 1500));
+                    
+                    // Sucesso
+                    msgSucesso.classList.remove('oculto');
+                    elementos.formulario.reset();
+                    
+                    // Limpar todas as validações
+                    Object.keys(helpers).forEach(key => {
+                        if (helpers[key] && elementos[key]) {
+                            limparHelper(helpers[key], elementos[key]);
+                        }
+                    });
+                    
+                } catch (error) {
+                    msgErro.classList.remove('oculto');
+                } finally {
+                    elementos.btnEnviar.disabled = false;
+                    elementos.btnEnviar.textContent = 'ENVIAR FORMULÁRIO';
+                }
+            });
         })();
     </script>
-    </body>
+</body>
 </html>

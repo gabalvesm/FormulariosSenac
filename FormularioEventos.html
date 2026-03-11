@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Interesse · Espaço para Eventos</title>
+    <!-- Fonte Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
+    <!-- Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+  
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #004A8C 0%, #FA8B1C 100%);
+            font-family: 'Inter', sans-serif;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        
+        /* Grid de 2 colunas - Infraestrutura e Formulário */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 40px;
+            padding: 40px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        /* Coluna da Infraestrutura */
+        .infraestrutura {
+            background: linear-gradient(145deg, #ffffff 0%, #f8faff 100%);
+            border-radius: 30px;
+            padding: 35px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        .infraestrutura h2 {
+            color: #004A8D;
+            font-size: 28px;
+            margin-bottom: 25px;
+            border-bottom: 3px solid #F7941E;
+            padding-bottom: 15px;
+        }
+        
+        .infra-list {
+            list-style: none;
+        }
+        
+        .infra-list li {
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 16px;
+            color: #2c3e50;
+            padding: 10px 15px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+            transition: all 0.3s ease;
+        }
+        
+        .infra-list li:hover {
+            transform: translateX(5px);
+            box-shadow: 0 6px 12px rgba(0, 74, 141, 0.1);
+        }
+        
+        .infra-list li i {
+            color: #F7941E;
+            font-size: 22px;
+            width: 30px;
+            text-align: center;
+        }
+        
+        .fotos-eventos {
+            margin-top: 35px;
+        }
+        
+        .fotos-eventos h3 {
+            color: #004A8D;
+            font-size: 22px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .fotos-eventos h3 i {
+            color: #F7941E;
+        }
+        
+        /* CSS PARA ORGANIZAR OS CHECKBOXES */
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px 20px;
+            margin-top: 8px;
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+        }   
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #334155;
+            cursor: pointer;
+            padding: 5px 0;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #004A8D;
+        }
+
+        .checkbox-item:hover {
+            color: #004A8D;
+        }
+
+        /* CSS PARA AS FOTOS */
+        .galeria-placeholder {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .galeria-item {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            min-height: 250px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .galeria-item:hover {
+            transform: translateY(-5px);
+            border-color: #F7941E;
+            box-shadow: 0 15px 30px rgba(247, 148, 30, 0.3);
+        }
+
+        .evento-imagem {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        
+        .evento-titulo {
+            position: relative;
+            z-index: 2;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            line-height: 1.5;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            word-break: break-word;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 20px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            backdrop-filter: blur(2px);
+        }
+        
+        /* Coluna do Formulário */
+        .form-section {
+            background: white;
+            border-radius: 30px;
+            padding: 35px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-section h2 {
+            color: #004A8D;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .subtitulo {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .campo {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        
+        .campo.full-width {
+            grid-column: span 2;
+        }
+        
+        .campo label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #334155;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .required-star {
+            color: #dc2626;
+            font-size: 14px;
+        }
+        
+        .campo input,
+        .campo select,
+        .campo textarea {
+            background: #f9fcff;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 14px 18px;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+            width: 100%;
+        }
+        
+        .campo textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .campo input:focus,
+        .campo select:focus,
+        .campo textarea:focus {
+            border-color: #004A8D;
+            box-shadow: 0 0 0 4px rgba(0, 74, 141, 0.1);
+            background: white;
+        }
+        
+        .campo input.error,
+        .campo select.error,
+        .campo textarea.error {
+            border-color: #dc2626;
+            background: #fef2f2;
+        }
+        
+        .campo input.success,
+        .campo select.success,
+        .campo textarea.success {
+            border-color: #16a34a;
+            background: #f0fdf4;
+        }
+        
+        .helper-text {
+            font-size: 12px;
+            margin-left: 8px;
+            min-height: 18px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .helper-text.error-msg {
+            color: #dc2626;
+        }
+        
+        .helper-text.success-msg {
+            color: #16a34a;
+        }
+        
+        .helper-text i {
+            font-size: 12px;
+        }
+        
+        /* Checkbox customizado */
+        .recaptcha-area {
+            margin: 25px 0 20px;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .recaptcha-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+        
+        .recaptcha-checkbox input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        
+        .recaptcha-text {
+            font-size: 14px;
+            color: #1e293b;
+        }
+        
+        .recaptcha-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            color: #64748b;
+            border-top: 1px dashed #cbd5e1;
+            margin-top: 15px;
+            padding-top: 15px;
+        }
+        
+        .recaptcha-footer a {
+            color: #004A8D;
+            text-decoration: none;
+            margin: 0 5px;
+        }
+        
+        .recaptcha-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .recaptcha-logo {
+            font-family: monospace;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+       
+        .btn-enviar {
+            background: #004A8D;
+            color: white;
+            border: none;
+            border-radius: 40px;
+            padding: 10px 25px;  
+            font-size: 15px;      
+            font-weight: 600;
+            cursor: pointer;
+            width: auto;          
+            min-width: 160px;     
+            max-width: 200px;     
+            margin: 20px 0 0 auto; 
+            transition: all 0.6s ease;
+            border: 1px solid #1d3449;
+            display: block;    
+        }
+        
+        .btn-enviar:hover:not(:disabled) {
+            background: #F7941E;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(247, 148, 30, 0.3);
+        }
+        
+        .btn-enviar:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        
+        .mensagem-envio {
+            background: #eaf6e7;
+            border: 1px solid #9ec5a0;
+            border-radius: 40px;
+            padding: 14px 22px;
+            font-size: 15px;
+            color: #1f4f2b;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 500;
+            animation: slideDown 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .mensagem-envio.erro {
+            background: #fee9e7;
+            border-color: #f1a09c;
+            color: #a11f1f;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .oculto {
+            display: none;
+        }
+        
+        .campos-obrigatorios-info {
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 16px;
+            text-align: right;
+        }
+        
+        /* RESPONSIVIDADE - AJUSTES PARA TELAS MENORES */
+        @media (max-width: 900px) {
+            .grid-2 {
+                grid-template-columns: 1fr; /* UMA COLUNA EM TELAS PEQUENAS */
+                gap: 20px;
+                padding: 20px;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr; /* CAMPOS DO FORMULÁRIO EM UMA COLUNA */
+            }
+            
+            .campo.full-width {
+                grid-column: span 1;
+            }
+            
+            .galeria-placeholder {
+                grid-template-columns: repeat(2, 1fr); /* MANTÉM 2 FOTOS POR LINHA */
+            }
+            
+            .btn-enviar {
+                margin: 20px auto 0; /* CENTRALIZA EM TELAS PEQUENAS */
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .grid-2 {
+                padding: 15px;
+            }
+            
+            .infraestrutura, .form-section {
+                padding: 20px;
+            }
+            
+            .galeria-placeholder {
+                grid-template-columns: 1fr; /* FOTOS EM UMA COLUNA EM CELULAR */
+            }
+            
+            .checkbox-grid {
+                grid-template-columns: 1fr; /* CHECKBOXES EM UMA COLUNA */
+            }
+            
+            .btn-enviar {
+                width: 100%;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="grid-2">
+            <!-- Coluna da Infraestrutura (ESQUERDA) -->
+            <div class="infraestrutura">
+                <h2><i class="fas fa-building" style="margin-right: 10px; color: #F7941E;"></i> Infraestrutura Completa</h2>
+                
+                <ul class="infra-list">
+                    <li><i class="fa-solid fa-snowflake"></i> <strong>Ambiente climatizado</strong></li>
+                    <li><i class="fa-solid fa-calendar-alt"></i> <strong>Serviço personalizado</strong></li>
+                    <li><i class="fa-solid fa-users"></i> <strong>Assessoria especializada</strong></li>
+                    <li><i class="fa-solid fa-shield-alt"></i> <strong>Segurança 24 horas</strong></li>
+                    <li><i class="fa-solid fa-wifi"></i> <strong>Internet Wi-fi de alta velocidade</strong></li>
+                    <li><i class="fa-solid fa-chair"></i> <strong>Sala de apoio disponível</strong></li>
+                </ul>
+                
+                <!-- DIV DAS FOTOS DE EVENTOS COM IMAGENS -->
+                <div class="fotos-eventos">
+                    <h3><i class="fa-solid fa-camera-retro"></i> FOTOS DE EVENTOS</h3>
+                    <div class="galeria-placeholder">
+                        <!-- Primeira imagem --->
+                        <div class="galeria-item">
+                            <img src="https://lh5.googleusercontent.com/p/AF1QipPjQ16GvFux8KHz7To_JN2use8GjAYkYJ_7VRiN=w408-h272-k-no" alt="imagem 1" class="evento-imagem">
+                            
+                        </div>
+                        
+                        <!-- Segunda imagem --->
+                        <div class="galeria-item">
+                            <img src="https://www.ba.senac.br/publitao/arquivos/imagens/d962857084fc40c8af41af83f09bbf18.jpeg" alt="imagem 2" class="evento-imagem">
+                            
+                        </div>
+                        <!-- Terceira imagem --->
+                        <div class="galeria-item">
+                            <img src="https://www.ba.senac.br/publitao/arquivos/imagens/ff0e067ab08a4ffb922d1e17c1c0c887.jpg" alt="imagem 3" class="evento-imagem">
+                        </div>
+
+                        <!-- Quarta imagem --->
+                        <div class="galeria-item">
+                            <img src="https://www.ba.senac.br/publitao/arquivos/imagens/9b82bcca228c43899d0c86f0f70ad5db.jpg" alt="imagem 4" class="evento-imagem">
+                        </div>
+                        <!-- Quinta imagem --->
+                        <div class="galeria-item">
+                            <img src="https://www.ba.senac.br/publitao/arquivos/imagens/ee4446bc0bc24e80beebd9d6f278b2d5.jpg" alt="imagem 5" class="evento-imagem">
+                        </div>
+                            <!-- Sexta imagem --->
+                            <div class="galeria-item">
+                                <img src="https://www.ba.senac.br/publitao/arquivos/imagens/fab49741fd134ac9b8ffa9c101763dac.jpg" alt="imagem 6" class="evento-imagem">
+                            </div>  
+                            <!-- Sétima imagem --->
+                             <div class="galeria-item">
+                                <img src="https://www.ba.senac.br/publitao/arquivos/imagens/f601a18b4b014fd5822b4d26d370cecf.jpg" alt="imagem 7" class="evento-imagem">
+
+                             </div>  
+                                <!-- Oitava imagem --->
+                                 <div class="galeria-item">
+                                    <img src="https://www.ba.senac.br/publitao/arquivos/imagens/6b8fd5fc8f5541758b302e92a5946151.jpeg" alt="imagem 8" class="evento-imagem">
+
+                                 </div>
+
+                    </div>
+                </div>    
+             
+             </div> <!-- FIM da coluna infraestrutura -->
+            
+            <!-- Coluna do Formulário (DIREITA) -->
+            <div class="form-section">
+                <h2>MOSTRAR INTERESSE</h2>
+                <div class="subtitulo">Preencha os dados para solicitar orçamento e disponibilidade</div>
+                
+                <!-- Indicador de campos obrigatórios -->
+                <div class="campos-obrigatorios-info">
+                    <span class="required-star">*</span> Campos obrigatórios
+                </div>
+                
+                <!-- Mensagens de feedback -->
+                <div id="msgSucesso" class="mensagem-envio oculto">
+                    <i class="fas fa-check-circle"></i> Interesse enviado com sucesso! Entraremos em contato em até 24h.
+                </div>
+                <div id="msgErro" class="mensagem-envio erro oculto">
+                    <i class="fas fa-exclamation-circle"></i> Erro ao enviar. Verifique os campos obrigatórios.
+                </div>
+                
+                <form id="eventoForm" novalidate>
+                    <div class="form-grid">
+                        <!-- Nome -->
+                        <div class="campo full-width">
+                            <label>NOME COMPLETO <span class="required-star">*</span></label>
+                            <input type="text" id="nome" placeholder="Digite seu nome completo">
+                            <div class="helper-text" id="nomeHelper"></div>
+                        </div>
+                        
+                        <!-- CPF/CNPJ -->
+                        <div class="campo">
+                            <label>CPF/CNPJ <span class="required-star">*</span></label>
+                            <input type="text" id="documento" placeholder="000.000.000-00">
+                            <div class="helper-text" id="documentoHelper"></div>
+                        </div>
+                        
+                        <!-- Tipo de Pessoa -->
+                        <div class="campo">
+                            <label>TIPO <span class="required-star">*</span></label>
+                            <select id="tipoPessoa">
+                                <option value="" disabled selected>Selecione</option>
+                                <option value="fisica">Pessoa Física</option>
+                                <option value="juridica">Pessoa Jurídica</option>
+                            </select>
+                            <div class="helper-text" id="tipoPessoaHelper"></div>
+                        </div>
+                        
+                        <!-- Email -->
+                        <div class="campo">
+                            <label>E-MAIL <span class="required-star">*</span></label>
+                            <input type="email" id="email" placeholder="contato@email.com">
+                            <div class="helper-text" id="emailHelper"></div>
+                        </div>
+                        
+                        <!-- Telefone -->
+                        <div class="campo">
+                            <label>TELEFONE <span class="required-star">*</span></label>
+                            <input type="tel" id="telefone" placeholder="(71) 98888-7777" maxlength="15">
+                            <div class="helper-text" id="telefoneHelper"></div>
+                        </div>
+                        
+                        <!-- Tipo de Evento -->
+                        <div class="campo full-width">
+                            <label>TIPO DE EVENTO <span class="required-star">*</span></label>
+                            <select id="tipoEvento">
+                                <option value="" disabled selected>Selecione o tipo de evento</option>
+                                <option value="empresarial">Evento Empresarial</option>
+                                <option value="lancamento">Lançamento de Produto</option>
+                                <option value="festa">Festa/Recepção</option>
+                                <option value="congresso">Congresso/Palestra</option>
+                                <option value="workshop">Workshop/Treinamento</option>
+                                <option value="outro">Outro</option>
+                            </select>
+                            <div class="helper-text" id="tipoEventoHelper"></div>
+                        </div>
+                        
+                        <!-- Data Pretendida -->
+                        <div class="campo">
+                            <label>DATA PREFERENCIAL <span class="required-star">*</span></label>
+                            <input type="date" id="data">
+                            <div class="helper-text" id="dataHelper"></div>
+                        </div>
+                        
+                        <!-- Número de Pessoas -->
+                        <div class="campo">
+                            <label>Nº DE PESSOAS <span class="required-star">*</span></label>
+                            <select id="numPessoas">
+                                <option value="" disabled selected>Selecione</option>
+                                <option value="ate50">Até 50 pessoas</option>
+                                <option value="50a100">50 a 100 pessoas</option>
+                                <option value="100a200">100 a 200 pessoas</option>
+                                <option value="200a300">200 a 300 pessoas</option>
+                                <option value="300mais">Mais de 300 pessoas</option>
+                            </select>
+                            <div class="helper-text" id="numPessoasHelper"></div>
+                        </div>
+                        
+                        <!-- Layout Desejado -->
+                        <div class="campo">
+                            <label>LAYOUT <span class="required-star">*</span></label>
+                            <select id="layout">
+                                <option value="" disabled selected>Selecione</option>
+                                <option value="auditorio">Auditório</option>
+                                <option value="mesaRedonda">Mesa Redonda</option>
+                                <option value="cocktail">Cocktail</option>
+                                <option value="escola">Escolar</option>
+                                <option value="u">Formato U</option>
+                            </select>
+                            <div class="helper-text" id="layoutHelper"></div>
+                        </div>
+
+                        <!-- Espaço Desejado -->
+                        <div class="campo">
+                            <label> ESPAÇO <span class="required-star">*</span></label>
+                            <select id="espaco">
+                                <option value="" disabled selected>Selecione o espaço</option>
+                                <option value="sala1">Espaço Mario Cravo</option>
+                                <option value="sala2">Centro de Eventos Porto Seguro</option>
+                                <option value="sala3">Espaço Mirabeau Sampaio(Principal)</option>
+                                <option value="sala4">Espaço Mirabeau Sampaio(Reserva)</option>
+                                <option value="sala5">Espaço João Ubaldo Ribeiro</option>
+                                <option value="sala6">Espaço Zélia Gattai</option>                               
+                            </select>
+                            <div class="helper-text" id="espacoHelper"></div>
+                        </div>
+
+                        
+                        
+                        <!-- CHECKBOXES ORGANIZADOS (EQUIPAMENTOS) -->
+                        <div class="campo full-width">
+                            <label>EQUIPAMENTOS NECESSÁRIOS</label>
+                            <div class="checkbox-grid">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="eqAudio" value="audio"> Sistema de som
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="eqVideo" value="video"> Projetor/TV
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="eqPalco" value="palco"> Palco
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="eqTradutor" value="tradutor"> Tradução simultânea
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="eqIluminacao" value="iluminacao"> Iluminação especial
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="eqSom" value="som"> Sonorização profissional
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- CHECKBOXES ORGANIZADOS (SERVIÇOS) -->
+                        <div class="campo full-width">
+                            <label>SERVIÇOS ADICIONAIS</label>
+                            <div class="checkbox-grid">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="servBuffet" value="buffet"> Buffet/Coffee break
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="servDecoracao" value="decoracao"> Decoração
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="servFotografia" value="fotografia"> Fotografia/Filmagem
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="servEstacionamento" value="estacionamento"> Estacionamento
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="servLimpeza" value="limpeza"> Limpeza pós-evento
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="servRecepcao" value="recepcao"> Recepcionistas
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="servTraducao" value="traducao"> Tradução/Intérpretes
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Observações -->
+                        <div class="campo full-width">
+                            <label>OBSERVAÇÕES / NECESSIDADES ESPECIAIS</label>
+                            <textarea id="observacoes" placeholder="Descreva aqui necessidades específicas, como acessibilidade, alimentação restritiva, etc."></textarea>
+                            <div class="helper-text" id="observacoesHelper"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Área reCAPTCHA -->
+                    <div class="recaptcha-area">
+                        <label class="recaptcha-checkbox">
+                            <input type="checkbox" id="recaptcha">
+                            <span class="recaptcha-text">Não sou um robô</span>
+                        </label>
+                        
+                        <div class="recaptcha-footer">
+                            <div>
+                                <span class="recaptcha-logo">reCAPTCHA</span>
+                                <span style="margin: 0 5px;">·</span>
+                                <a href="#">Privacidade</a>
+                                <span>-</span>
+                                <a href="#">Termos</a>
+                            </div>
+                            <div>
+                                <i class="fas fa-robot"></i>
+                            </div>
+                        </div>
+                        <div class="helper-text" id="recaptchaHelper"></div>
+                    </div>
+                    
+                    <button type="submit" class="btn-enviar" id="btnEnviar">
+                         ENVIAR INTERESSE
+                    </button>
+                </form>
+            </div> <!-- FIM da coluna formulário -->
+        </div> <!-- FIM do grid-2 -->
+    </div> <!-- FIM container -->
+
+    <script>
+        (function() {
+            'use strict';
+
+            // Elementos do formulário
+            const elementos = {
+                nome: document.getElementById('nome'),
+                documento: document.getElementById('documento'),
+                tipoPessoa: document.getElementById('tipoPessoa'),
+                email: document.getElementById('email'),
+                telefone: document.getElementById('telefone'),
+                tipoEvento: document.getElementById('tipoEvento'),
+                data: document.getElementById('data'),
+                numPessoas: document.getElementById('numPessoas'),
+                layout: document.getElementById('layout'),
+                espaco: document.getElementById('espaco'),    
+                observacoes: document.getElementById('observacoes'),
+                recaptcha: document.getElementById('recaptcha'),
+                btnEnviar: document.getElementById('btnEnviar'),
+                formulario: document.getElementById('eventoForm')
+            };
+
+            // Helpers
+            const helpers = {
+                nome: document.getElementById('nomeHelper'),
+                documento: document.getElementById('documentoHelper'),
+                tipoPessoa: document.getElementById('tipoPessoaHelper'),
+                email: document.getElementById('emailHelper'),
+                telefone: document.getElementById('telefoneHelper'),
+                tipoEvento: document.getElementById('tipoEventoHelper'),
+                data: document.getElementById('dataHelper'),
+                numPessoas: document.getElementById('numPessoasHelper'),
+                layout: document.getElementById('layoutHelper'),
+                espaco: document.getElementById('espacoHelper'),
+                observacoes: document.getElementById('observacoesHelper'),
+                recaptcha: document.getElementById('recaptchaHelper')
+            };
+
+            // Mensagens
+            const msgSucesso = document.getElementById('msgSucesso');
+            const msgErro = document.getElementById('msgErro');
+
+            // Máscaras
+            function mascaraCPF(e) {
+                let valor = e.target.value.replace(/\D/g, '');
+                if (valor.length <= 11) {
+                    if (valor.length > 9) {
+                        valor = valor.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+                    } else if (valor.length > 6) {
+                        valor = valor.replace(/(\d{3})(\d{3})(\d{1,3})/, '$1.$2.$3');
+                    } else if (valor.length > 3) {
+                        valor = valor.replace(/(\d{3})(\d{1,3})/, '$1.$2');
+                    }
+                    e.target.value = valor;
+                }
+            }
+
+            function mascaraCNPJ(e) {
+                let valor = e.target.value.replace(/\D/g, '');
+                if (valor.length <= 14) {
+                    if (valor.length > 12) {
+                        valor = valor.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
+                    } else if (valor.length > 8) {
+                        valor = valor.replace(/(\d{2})(\d{3})(\d{3})(\d{1,4})/, '$1.$2.$3/$4');
+                    } else if (valor.length > 5) {
+                        valor = valor.replace(/(\d{2})(\d{3})(\d{1,3})/, '$1.$2.$3');
+                    } else if (valor.length > 2) {
+                        valor = valor.replace(/(\d{2})(\d{1,3})/, '$1.$2');
+                    }
+                    e.target.value = valor;
+                }
+            }
+
+            function mascaraTelefone(e) {
+                let valor = e.target.value.replace(/\D/g, '');
+                if (valor.length <= 11) {
+                    if (valor.length > 7) {
+                        valor = valor.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+                    } else if (valor.length > 2) {
+                        valor = valor.replace(/(\d{2})(\d{1,5})/, '($1) $2');
+                    }
+                    e.target.value = valor;
+                }
+                validarTelefone();
+            }
+
+            // Aplicar máscara conforme tipo de pessoa
+            elementos.tipoPessoa.addEventListener('change', function() {
+                elementos.documento.value = '';
+                elementos.documento.removeEventListener('input', mascaraCPF);
+                elementos.documento.removeEventListener('input', mascaraCNPJ);
+                
+                if (this.value === 'fisica') {
+                    elementos.documento.placeholder = '000.000.000-00';
+                    elementos.documento.maxLength = 14;
+                    elementos.documento.addEventListener('input', mascaraCPF);
+                } else if (this.value === 'juridica') {
+                    elementos.documento.placeholder = '00.000.000/0000-00';
+                    elementos.documento.maxLength = 18;
+                    elementos.documento.addEventListener('input', mascaraCNPJ);
+                }
+            });
+
+            elementos.telefone.addEventListener('input', mascaraTelefone);
+
+            // Funções de validação
+            function mostrarErro(helper, elemento, mensagem) {
+                helper.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${mensagem}`;
+                helper.className = 'helper-text error-msg';
+                elemento.classList.add('error');
+                elemento.classList.remove('success');
+            }
+
+            function mostrarSucesso(helper, elemento, mensagem) {
+                helper.innerHTML = `<i class="fas fa-check-circle"></i> ${mensagem}`;
+                helper.className = 'helper-text success-msg';
+                elemento.classList.add('success');
+                elemento.classList.remove('error');
+            }
+
+            function limparHelper(helper, elemento) {
+                helper.innerHTML = '';
+                helper.className = 'helper-text';
+                elemento.classList.remove('error', 'success');
+            }
+
+            // Validações específicas
+            function validarNome() {
+                const val = elementos.nome.value.trim();
+                if (val === '') {
+                    mostrarErro(helpers.nome, elementos.nome, 'Nome é obrigatório');
+                    return false;
+                }
+                if (val.length < 3) {
+                    mostrarErro(helpers.nome, elementos.nome, 'Nome deve ter pelo menos 3 caracteres');
+                    return false;
+                }
+                if (/[^a-zA-ZÀ-ÖØ-öø-ÿ\s]/.test(val)) {
+                    mostrarErro(helpers.nome, elementos.nome, 'Apenas letras e espaços');
+                    return false;
+                }
+                mostrarSucesso(helpers.nome, elementos.nome, 'Nome válido');
+                return true;
+            }
+
+            function validarDocumento() {
+                const val = elementos.documento.value.replace(/\D/g, '');
+                const tipo = elementos.tipoPessoa.value;
+                
+                if (!tipo) {
+                    mostrarErro(helpers.tipoPessoa, elementos.tipoPessoa, 'Selecione o tipo de pessoa');
+                    return false;
+                }
+                
+                if (val === '') {
+                    mostrarErro(helpers.documento, elementos.documento, 'Documento é obrigatório');
+                    return false;
+                }
+                
+                if (tipo === 'fisica' && val.length !== 11) {
+                    mostrarErro(helpers.documento, elementos.documento, 'CPF deve ter 11 dígitos');
+                    return false;
+                }
+                
+                if (tipo === 'juridica' && val.length !== 14) {
+                    mostrarErro(helpers.documento, elementos.documento, 'CNPJ deve ter 14 dígitos');
+                    return false;
+                }
+                
+                mostrarSucesso(helpers.documento, elementos.documento, 'Documento válido');
+                return true;
+            }
+
+            function validarTipoPessoa() {
+                if (!elementos.tipoPessoa.value) {
+                    mostrarErro(helpers.tipoPessoa, elementos.tipoPessoa, 'Selecione o tipo');
+                    return false;
+                }
+                mostrarSucesso(helpers.tipoPessoa, elementos.tipoPessoa, 'Tipo selecionado');
+                return true;
+            }
+
+            function validarEmail() {
+                const val = elementos.email.value.trim();
+                const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (val === '') {
+                    mostrarErro(helpers.email, elementos.email, 'E-mail é obrigatório');
+                    return false;
+                }
+                if (!regex.test(val)) {
+                    mostrarErro(helpers.email, elementos.email, 'E-mail inválido');
+                    return false;
+                }
+                mostrarSucesso(helpers.email, elementos.email, 'E-mail válido');
+                return true;
+            }
+
+            function validarTelefone() {
+                const val = elementos.telefone.value.replace(/\D/g, '');
+                if (val === '') {
+                    mostrarErro(helpers.telefone, elementos.telefone, 'Telefone é obrigatório');
+                    return false;
+                }
+                if (val.length < 10 || val.length > 11) {
+                    mostrarErro(helpers.telefone, elementos.telefone, 'Telefone deve ter 10 ou 11 dígitos');
+                    return false;
+                }
+                mostrarSucesso(helpers.telefone, elementos.telefone, 'Telefone válido');
+                return true;
+            }
+
+            function validarTipoEvento() {
+                if (!elementos.tipoEvento.value) {
+                    mostrarErro(helpers.tipoEvento, elementos.tipoEvento, 'Selecione o tipo de evento');
+                    return false;
+                }
+                mostrarSucesso(helpers.tipoEvento, elementos.tipoEvento, 'Tipo selecionado');
+                return true;
+            }
+
+            function validarData() {
+                const val = elementos.data.value;
+                if (!val) {
+                    mostrarErro(helpers.data, elementos.data, 'Data é obrigatória');
+                    return false;
+                }
+                
+                const dataSelecionada = new Date(val);
+                const hoje = new Date();
+                hoje.setHours(0, 0, 0, 0);
+                
+                if (dataSelecionada < hoje) {
+                    mostrarErro(helpers.data, elementos.data, 'Data deve ser futura');
+                    return false;
+                }
+                
+                mostrarSucesso(helpers.data, elementos.data, 'Data válida');
+                return true;
+            }
+
+            function validarNumPessoas() {
+                if (!elementos.numPessoas.value) {
+                    mostrarErro(helpers.numPessoas, elementos.numPessoas, 'Selecione o número de pessoas');
+                    return false;
+                }
+                mostrarSucesso(helpers.numPessoas, elementos.numPessoas, 'Número selecionado');
+                return true;
+            }
+
+            function validarLayout() {
+                if (!elementos.layout.value) {
+                    mostrarErro(helpers.layout, elementos.layout, 'Selecione o layout desejado');
+                    return false;
+                }
+                mostrarSucesso(helpers.layout, elementos.layout, 'Layout selecionado');
+                return true;
+            }
+            function validarEspaco() {
+                if (!elementos.espaco.value) {
+                    mostrarErro(helpers.espaco, elementos.espaco, 'Selecione o espaço desejado');
+                    return false;
+                }
+                mostrarSucesso(helpers.espaco, elementos.espaco, 'Espaço selecionado');
+                return true;
+            }
+
+            function validarRecaptcha() {
+                if (!elementos.recaptcha.checked) {
+                    mostrarErro(helpers.recaptcha, elementos.recaptcha, 'Confirme que não é um robô');
+                    return false;
+                }
+                mostrarSucesso(helpers.recaptcha, elementos.recaptcha, 'Verificado');
+                return true;
+            }
+
+            // Eventos de validação
+            elementos.nome.addEventListener('input', validarNome);
+            elementos.nome.addEventListener('blur', validarNome);
+            
+            elementos.documento.addEventListener('blur', validarDocumento);
+            
+            elementos.tipoPessoa.addEventListener('change', function() {
+                validarTipoPessoa();
+                validarDocumento();
+            });
+            
+            elementos.email.addEventListener('input', validarEmail);
+            elementos.email.addEventListener('blur', validarEmail);
+            
+            elementos.tipoEvento.addEventListener('change', validarTipoEvento);
+            
+            elementos.data.addEventListener('change', validarData);
+            
+            elementos.numPessoas.addEventListener('change', validarNumPessoas);
+            
+            elementos.layout.addEventListener('change', validarLayout);
+            elementos.espaco.addEventListener('change', validarEspaco);
+            
+            elementos.recaptcha.addEventListener('change', validarRecaptcha);
+
+            // Validação geral
+            function validarFormulario() {
+                const validacoes = [
+                    validarNome(),
+                    validarTipoPessoa(),
+                    validarDocumento(),
+                    validarEmail(),
+                    validarTelefone(),
+                    validarTipoEvento(),
+                    validarData(),
+                    validarNumPessoas(),
+                    validarLayout(),
+                    validarEspaco(),
+                    validarRecaptcha()
+                ];
+
+                return validacoes.every(v => v === true);
+            }
+
+            // Envio do formulário
+            elementos.formulario.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                msgSucesso.classList.add('oculto');
+                msgErro.classList.add('oculto');
+
+                if (!validarFormulario()) {
+                    msgErro.classList.remove('oculto');
+                    const primeiroErro = document.querySelector('.error');
+                    if (primeiroErro) {
+                        primeiroErro.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                    return;
+                }
+
+                elementos.btnEnviar.disabled = true;
+                elementos.btnEnviar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ENVIANDO...';
+
+                try {
+                    await new Promise(resolve => setTimeout(resolve, 1500));
+                    
+                    msgSucesso.classList.remove('oculto');
+                    elementos.formulario.reset();
+                    
+                    Object.keys(helpers).forEach(key => {
+                        if (helpers[key] && elementos[key]) {
+                            limparHelper(helpers[key], elementos[key]);
+                        }
+                    });
+                    
+                    setTimeout(() => {
+                        msgSucesso.classList.add('oculto');
+                    }, 5000);
+                    
+                } catch (error) {
+                    msgErro.classList.remove('oculto');
+                } finally {
+                    elementos.btnEnviar.disabled = false;
+                    elementos.btnEnviar.innerHTML = '<i class="fas fa-paper-plane" style="margin-right: 10px;"></i> ENVIAR INTERESSE';
+                }
+            });
+
+            // Adicionar funcionalidade de clique nas fotos
+            document.querySelectorAll('.galeria-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const titulo = this.querySelector('.evento-titulo')?.innerText || 'Evento';
+                    alert(`📸 Foto: ${titulo}\n\n(Simulação - em produção, abriria a galeria de imagens)`);
+                });
+            });
+        })();
+    </script>
+</body>
+</html>
