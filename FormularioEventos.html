@@ -627,10 +627,8 @@
                 <ul class="infra-list">
                     <li><i class="fa-solid fa-snowflake"></i> <strong>Ambiente climatizado</strong></li>
                     <li><i class="fa-solid fa-calendar-alt"></i> <strong>Serviço personalizado</strong></li>
-                    <li><i class="fa-solid fa-users"></i> <strong>Assessoria especializada</strong></li>
                     <li><i class="fa-solid fa-shield-alt"></i> <strong>Segurança 24 horas</strong></li>
                     <li><i class="fa-solid fa-wifi"></i> <strong>Internet Wi-fi de alta velocidade</strong></li>
-                    <li><i class="fa-solid fa-chair"></i> <strong>Sala de apoio disponível</strong></li>
                 </ul>
                 
                 <!-- DIV DAS FOTOS DE EVENTOS COM IMAGENS -->
@@ -638,33 +636,33 @@
                     <h3><i class="fa-solid fa-camera-retro"></i> FOTOS DE EVENTOS</h3>
                     <div class="galeria-placeholder" id="galeriaEventos">
                         <!-- Primeira imagem -->
-                        <div class="galeria-item" data-index="0" data-titulo="EVENTO EMPRESARIAL">
-                            <img src="https://www.ba.senac.br/publitao/arquivos/imagens/40f79f6fa0054c43b45180879a87ef33.JPG" alt="Evento Empresarial" class="evento-imagem">
+                        <div class="galeria-item" data-index="0" data-titulo="AUDITÓRIO">
+                            <img src="C:\Users\gabriel.jesus\OneDrive - SENAC BA\Fotos\Foto auditório pleno.jpg" alt="Auditório Pleno" class="evento-imagem">
                         </div>
                         
                         <!-- Segunda imagem -->
-                        <div class="galeria-item" data-index="1" data-titulo="CONFRATERNIZAÇÃO">
-                            <img src="https://www.ba.senac.br/publitao/arquivos/imagens/d962857084fc40c8af41af83f09bbf18.jpeg" alt="Confraternização" class="evento-imagem">
+                        <div class="galeria-item" data-index="1" data-titulo="HALL DE ENTRADA">
+                            <img src="C:\Users\gabriel.jesus\OneDrive - SENAC BA\Fotos\Foto hall elevador.jpg" alt="HALL DE ENTRADA" class="evento-imagem">
                         </div>
                         
                         <!-- Terceira imagem -->
-                        <div class="galeria-item" data-index="2" data-titulo="WORKSHOP">
-                            <img src="https://www.ba.senac.br/publitao/arquivos/imagens/ff0e067ab08a4ffb922d1e17c1c0c887.jpg" alt="Workshop" class="evento-imagem">
+                        <div class="galeria-item" data-index="2" data-titulo="FOYER NOVA">
+                            <img src="C:\Users\gabriel.jesus\OneDrive - SENAC BA\Fotos\Foto foyer nova 01.jpg" alt="FOYER NOVA" class="evento-imagem">
                         </div>
 
                         <!-- Quarta imagem -->
-                        <div class="galeria-item" data-index="3" data-titulo="PALESTRA">
-                            <img src="https://www.ba.senac.br/publitao/arquivos/imagens/9b82bcca228c43899d0c86f0f70ad5db.jpg" alt="Palestra" class="evento-imagem">
+                        <div class="galeria-item" data-index="3" data-titulo="MESAS PARA JANTAR">
+                            <img src="C:\Users\gabriel.jesus\OneDrive - SENAC BA\Fotos\Foto jantar.jpg" alt="MESAS PARA JANTAR" class="evento-imagem">
                         </div>
                         
                         <!-- Quinta imagem -->
-                        <div class="galeria-item" data-index="4" data-titulo="CONFERÊNCIA">
-                            <img src="https://www.ba.senac.br/publitao/arquivos/imagens/ee4446bc0bc24e80beebd9d6f278b2d5.jpg" alt="Conferência" class="evento-imagem">
+                        <div class="galeria-item" data-index="4" data-titulo="PREPARAÇÃO DE BANQUETES">
+                            <img src="C:\Users\gabriel.jesus\OneDrive - SENAC BA\Fotos\FOTO FORMATO BANQUETES.jpg" alt="PREPARAÇÃO DE BANQUETES" class="evento-imagem">
                         </div>
                         
                         <!-- Sexta imagem -->
-                        <div class="galeria-item" data-index="5" data-titulo="TREINAMENTO">
-                            <img src="https://www.ba.senac.br/publitao/arquivos/imagens/fab49741fd134ac9b8ffa9c101763dac.jpg" alt="Treinamento" class="evento-imagem">
+                        <div class="galeria-item" data-index="5" data-titulo="PALCO MONTADO">
+                            <img src="C:\Users\gabriel.jesus\OneDrive - SENAC BA\Fotos\Foto palco com poltronas.jpg" alt="PALCO MONTADO" class="evento-imagem">
                         </div>  
                         
                         <!-- Sétima imagem -->
@@ -701,7 +699,7 @@
                 
                 <!-- Mensagens de feedback -->
                 <div id="msgSucesso" class="mensagem-envio oculto">
-                    <i class="fas fa-check-circle"></i> Interesse enviado com sucesso! Entraremos em contato em até 24h.
+                    <i class="fas fa-check-circle"></i> Interesse enviado com sucesso! Entraremos em contato em até 48h.
                 </div>
                 <div id="msgErro" class="mensagem-envio erro oculto">
                     <i class="fas fa-exclamation-circle"></i> Erro ao enviar. Verifique os campos obrigatórios.
@@ -711,19 +709,12 @@
                     <div class="form-grid">
                         <!-- Nome -->
                         <div class="campo full-width">
-                            <label>NOME COMPLETO <span class="required-star">*</span></label>
-                            <input type="text" id="nome" placeholder="Digite seu nome completo">
+                            <label>NOME/ EMPRESA CONTRATANTE <span class="required-star">*</span></label>
+                            <input type="text" id="nome" placeholder="Digite o nome da empresa ou seu nome completo">
                             <div class="helper-text" id="nomeHelper"></div>
                         </div>
                         
-                        <!-- CPF/CNPJ -->
-                        <div class="campo">
-                            <label>CPF/CNPJ <span class="required-star">*</span></label>
-                            <input type="text" id="documento" placeholder="000.000.000-00">
-                            <div class="helper-text" id="documentoHelper"></div>
-                        </div>
-                        
-                        <!-- Tipo de Pessoa -->
+                       <!-- Tipo de Pessoa -->
                         <div class="campo">
                             <label>TIPO <span class="required-star">*</span></label>
                             <select id="tipoPessoa">
@@ -733,7 +724,14 @@
                             </select>
                             <div class="helper-text" id="tipoPessoaHelper"></div>
                         </div>
-                        
+                       
+                        <!-- CPF/CNPJ -->
+                        <div class="campo">
+                            <label>CPF/CNPJ <span class="required-star">*</span></label>
+                            <input type="text" id="documento" placeholder="000.000.000-00">
+                            <div class="helper-text" id="documentoHelper"></div>
+                        </div>
+                                                
                         <!-- Email -->
                         <div class="campo">
                             <label>E-MAIL <span class="required-star">*</span></label>
@@ -753,10 +751,13 @@
                             <label>TIPO DE EVENTO <span class="required-star">*</span></label>
                             <select id="tipoEvento">
                                 <option value="" disabled selected>Selecione o tipo de evento</option>
-                                <option value="empresarial">Evento Empresarial</option>
-                                <option value="lancamento">Lançamento de Produto</option>
-                                <option value="festa">Festa/Recepção</option>
+                                <option value="aniversario">Aniversário</option>
+                                <option value="casamento">Casamento</option>
+                                <option value="confraternização">Confraternização</option>
                                 <option value="congresso">Congresso/Palestra</option>
+                                <option value="empresarial">Evento Empresarial</option>
+                                <option value="festa">Festa/Recepção</option>
+                                <option value="lancamento">Lançamento de Produto</option>
                                 <option value="workshop">Workshop/Treinamento</option>
                                 <option value="outro">Outro</option>
                             </select>
@@ -779,92 +780,26 @@
                                 <option value="50a100">50 a 100 pessoas</option>
                                 <option value="100a200">100 a 200 pessoas</option>
                                 <option value="200a300">200 a 300 pessoas</option>
-                                <option value="300mais">Mais de 300 pessoas</option>
+                                
                             </select>
                             <div class="helper-text" id="numPessoasHelper"></div>
                         </div>
                         
-                        <!-- Layout Desejado -->
-                        <div class="campo">
-                            <label>LAYOUT <span class="required-star">*</span></label>
-                            <select id="layout">
-                                <option value="" disabled selected>Selecione</option>
-                                <option value="auditorio">Auditório</option>
-                                <option value="mesaRedonda">Mesa Redonda</option>
-                                <option value="cocktail">Cocktail</option>
-                                <option value="escola">Escolar</option>
-                                <option value="u">Formato U</option>
-                            </select>
-                            <div class="helper-text" id="layoutHelper"></div>
-                        </div>
-
+                       
                         <!-- Espaço Desejado -->
                         <div class="campo">
                             <label> ESPAÇO <span class="required-star">*</span></label>
                             <select id="espaco">
                                 <option value="" disabled selected>Selecione o espaço</option>
                                 <option value="sala1">Espaço Mario Cravo</option>
-                                <option value="sala2">Centro de Eventos Porto Seguro</option>
-                                <option value="sala3">Espaço Mirabeau Sampaio(Principal)</option>
-                                <option value="sala4">Espaço Mirabeau Sampaio(Reserva)</option>
-                                <option value="sala5">Espaço João Ubaldo Ribeiro</option>
-                                <option value="sala6">Espaço Zélia Gattai</option>                               
+                                                             
                             </select>
                             <div class="helper-text" id="espacoHelper"></div>
                         </div>
 
-                        <!-- CHECKBOXES ORGANIZADOS (EQUIPAMENTOS) -->
-                        <div class="campo full-width">
-                            <label>EQUIPAMENTOS NECESSÁRIOS</label>
-                            <div class="checkbox-grid">
-                                <label class="checkbox-item">
-                                    <input type="checkbox" id="eqAudio" value="audio"> Sistema de som
-                                </label>
-                                <label class="checkbox-item">
-                                    <input type="checkbox" id="eqVideo" value="video"> Projetor/TV
-                                </label>
-                                <label class="checkbox-item">
-                                    <input type="checkbox" id="eqPalco" value="palco"> Palco
-                                </label>
-                                <label class="checkbox-item">
-                                    <input type="checkbox" id="eqTradutor" value="tradutor"> Tradução simultânea
-                                </label>
-                                <label class="checkbox-item">
-                                    <input type="checkbox" id="eqIluminacao" value="iluminacao"> Iluminação especial
-                                </label>
-                                <label class="checkbox-item">
-                                    <input type="checkbox" id="eqSom" value="som"> Sonorização profissional
-                                </label>
-                            </div>
-                        </div>
+                      
 
-                        <!-- CHECKBOXES ORGANIZADOS (SERVIÇOS) -->
-                        <div class="campo full-width">
-                            <label>SERVIÇOS ADICIONAIS</label>
-                            <div class="checkbox-grid">
-                                <label class="checkbox-item">
-                                    <input type="checkbox" id="servBuffet" value="buffet"> Buffet/Coffee break
-                                </label>
-                                <label class="checkbox-item">
-                                    <input type="checkbox" id="servDecoracao" value="decoracao"> Decoração
-                                </label>
-                                <label class="checkbox-item">
-                                    <input type="checkbox" id="servFotografia" value="fotografia"> Fotografia/Filmagem
-                                </label>
-                                <label class="checkbox-item">
-                                    <input type="checkbox" id="servEstacionamento" value="estacionamento"> Estacionamento
-                                </label>
-                                <label class="checkbox-item">
-                                    <input type="checkbox" id="servLimpeza" value="limpeza"> Limpeza pós-evento
-                                </label>
-                                <label class="checkbox-item">
-                                    <input type="checkbox" id="servRecepcao" value="recepcao"> Recepcionistas
-                                </label>
-                                <label class="checkbox-item">
-                                    <input type="checkbox" id="servTraducao" value="traducao"> Tradução/Intérpretes
-                                </label>
-                            </div>
-                        </div>
+                      
                         
                         <!-- Observações -->
                         <div class="campo full-width">
