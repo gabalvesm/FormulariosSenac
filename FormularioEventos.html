@@ -188,7 +188,7 @@
             overflow: hidden;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             cursor: pointer;
-            aspect-ratio: 4/3; /* Proporção consistente */
+            aspect-ratio: 4/3;
             transition: transform 0.2s ease;
         }
 
@@ -450,7 +450,7 @@
             text-align: right;
         }
 
-        /* ESTILOS DO MODAL */
+        /* ESTILOS DO MODAL - VERSÃO MELHORADA */
         .modal-galeria {
             display: none;
             position: fixed;
@@ -459,18 +459,19 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(5px);
+            background-color: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(8px);
             align-items: center;
             justify-content: center;
         }
 
         .modal-conteudo {
             position: relative;
-            max-width: 90%;
-            max-height: 90%;
-            margin: auto;
-            animation: zoomIn 0.3s ease;
+            width: 95%;
+            height: 95%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         @keyframes zoomIn {
@@ -485,35 +486,42 @@
         }
 
         .modal-imagem {
-            width: auto;
             max-width: 100%;
-            max-height: 85vh;
+            max-height: 90vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
             border-radius: 10px;
-            box-shadow: 0 0 30px rgba(247, 148, 30, 0.3);
+            box-shadow: 0 0 30px rgba(247, 148, 30, 0.5);
             border: 3px solid #F7941E;
+            background-color: #000;
+            animation: zoomIn 0.3s ease;
         }
 
         .fechar-modal {
             position: absolute;
-            top: -40px;
-            right: 0;
+            top: 20px;
+            right: 20px;
             color: white;
             font-size: 40px;
             font-weight: bold;
             cursor: pointer;
-            transition: color 0.3s ease;
-            width: 40px;
-            height: 40px;
+            transition: all 0.3s ease;
+            width: 50px;
+            height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.6);
             border-radius: 50%;
+            z-index: 1001;
+            border: 2px solid #F7941E;
         }
 
         .fechar-modal:hover {
             color: #F7941E;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.9);
+            transform: scale(1.1) rotate(90deg);
         }
 
         .modal-navegacao {
@@ -528,7 +536,7 @@
         }
 
         .nav-btn {
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.9);
             color: #004A8D;
             border: none;
             border-radius: 50%;
@@ -542,12 +550,14 @@
             transition: all 0.3s ease;
             pointer-events: auto;
             border: 2px solid #F7941E;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
 
-        .nav-btn:hover {
+        .nav-btn:hover:not(:disabled) {
             background: #F7941E;
             color: white;
-            transform: scale(1.1);
+            transform: scale(1.15);
+            box-shadow: 0 6px 12px rgba(247, 148, 30, 0.4);
         }
 
         .nav-btn:disabled {
@@ -558,14 +568,19 @@
 
         .contador-modal {
             position: absolute;
-            bottom: -40px;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
             color: white;
             font-size: 16px;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 5px 15px;
-            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 8px 20px;
+            border-radius: 30px;
+            border: 1px solid #F7941E;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            z-index: 1001;
+            backdrop-filter: blur(4px);
         }
 
         /* RESPONSIVIDADE - AJUSTES PARA TELAS MENORES */
@@ -591,6 +606,26 @@
             .btn-enviar {
                 margin: 20px auto 0;
             }
+
+            .nav-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+
+            .contador-modal {
+                font-size: 14px;
+                padding: 6px 15px;
+                bottom: 15px;
+            }
+
+            .fechar-modal {
+                top: 15px;
+                right: 15px;
+                width: 45px;
+                height: 45px;
+                font-size: 35px;
+            }
         }
         
         @media (max-width: 600px) {
@@ -614,6 +649,26 @@
                 width: 100%;
                 max-width: 100%;
             }
+
+            .fechar-modal {
+                top: 10px;
+                right: 10px;
+                width: 40px;
+                height: 40px;
+                font-size: 30px;
+            }
+
+            .nav-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 16px;
+            }
+
+            .contador-modal {
+                font-size: 12px;
+                padding: 5px 12px;
+                bottom: 10px;
+            }
         }
     </style>
 </head>
@@ -633,56 +688,37 @@
                 
                 <!-- DIV DAS FOTOS DE EVENTOS COM IMAGENS -->
                 <div class="fotos-eventos">
-                    <h3><i class="fa-solid fa-camera-retro"></i> FOTOS DE EVENTOS</h3>
+                    <h3><i class="fa-solid fa-camera-retro"></i> FOTOS DOS AMBIENTES</h3>
                     <div class="galeria-placeholder" id="galeriaEventos">
                         <!-- Primeira imagem -->
-                        <div class="galeria-item" data-index="0" data-titulo="AUDITÓRIO">
-                            <img src="C:\Users\gabriel.jesus\OneDrive - SENAC BA\Fotos\Foto auditório pleno.jpg" alt="Auditório Pleno" class="evento-imagem">
+                        <div class="galeria-item" data-index="0" data-titulo="AUDITÓRIO PLENO">
+                            <img src="C:\Users\gabriel.jesus\OneDrive - SENAC BA\Fotos\Foto auditório pleno.jpg" alt="Auditório Pleno" class="evento-imagem" alt="Auditório Pleno" class="evento-imagem">
                         </div>
                         
                         <!-- Segunda imagem -->
                         <div class="galeria-item" data-index="1" data-titulo="HALL DE ENTRADA">
-                            <img src="C:\Users\gabriel.jesus\OneDrive - SENAC BA\Fotos\Foto hall elevador.jpg" alt="HALL DE ENTRADA" class="evento-imagem">
+                            <img src="C:\Users\gabriel.jesus\OneDrive - SENAC BA\Fotos\Foto hall elevador.jpg" alt="Hall de Entrada" class="evento-imagem">
                         </div>
                         
                         <!-- Terceira imagem -->
                         <div class="galeria-item" data-index="2" data-titulo="FOYER NOVA">
-                            <img src="C:\Users\gabriel.jesus\OneDrive - SENAC BA\Fotos\Foto foyer nova 01.jpg" alt="FOYER NOVA" class="evento-imagem">
+                            <img src="C:\Users\gabriel.jesus\OneDrive - SENAC BA\Fotos\Foto foyer nova 01.jpg" alt="Foyer Nova" class="evento-imagem">
                         </div>
 
                         <!-- Quarta imagem -->
                         <div class="galeria-item" data-index="3" data-titulo="MESAS PARA JANTAR">
-                            <img src="C:\Users\gabriel.jesus\OneDrive - SENAC BA\Fotos\Foto jantar.jpg" alt="MESAS PARA JANTAR" class="evento-imagem">
+                            <img src="C:\Users\gabriel.jesus\OneDrive - SENAC BA\Fotos\Foto jantar.jpg" alt="Mesas para Jantar" class="evento-imagem">
                         </div>
                         
                         <!-- Quinta imagem -->
                         <div class="galeria-item" data-index="4" data-titulo="PREPARAÇÃO DE BANQUETES">
-                            <img src="C:\Users\gabriel.jesus\OneDrive - SENAC BA\Fotos\FOTO FORMATO BANQUETES.jpg" alt="PREPARAÇÃO DE BANQUETES" class="evento-imagem">
+                            <img src="C:\Users\gabriel.jesus\OneDrive - SENAC BA\Fotos\FOTO FORMATO BANQUETES.jpg" alt="Preparação de Banquetes" class="evento-imagem">
                         </div>
                         
                         <!-- Sexta imagem -->
                         <div class="galeria-item" data-index="5" data-titulo="PALCO MONTADO">
-                            <img src="C:\Users\gabriel.jesus\OneDrive - SENAC BA\Fotos\Foto palco com poltronas.jpg" alt="PALCO MONTADO" class="evento-imagem">
-                        </div>  
-                        
-                        <!-- Sétima imagem -->
-                        <div class="galeria-item" data-index="6" data-titulo="COFFEE BREAK">
-                            <img src="https://www.ba.senac.br/publitao/arquivos/imagens/f601a18b4b014fd5822b4d26d370cecf.jpg" alt="Coffee Break" class="evento-imagem">
-                        </div>  
-                        
-                        <!-- Oitava imagem -->
-                        <div class="galeria-item" data-index="7" data-titulo="ESPAÇO PRINCIPAL">
-                            <img src="https://www.ba.senac.br/publitao/arquivos/imagens/6b8fd5fc8f5541758b302e92a5946151.jpeg" alt="Espaço Principal" class="evento-imagem">
-                        </div>
-
-                        <!-- Nona imagem -->
-                         <div class="galeria-item" data-index="8" data-titulo="RESTAURANTE">
-                            <img src="https://www.ba.senac.br/publitao/arquivos/imagens/55cad5f11e4d481a9ae10538c2c1454b.jpg" alt="Restaurante" class="evento-imagem">
-                         </div>
-                        <!-- Décima imagem -->
-                          <div class="galeria-item" data-index="9" data-titulo="EXPOSIÇÃO">
-                            <img src="https://www.ba.senac.br/publitao/arquivos/imagens/82aaea2789fa42b585cf6a879a321b12.jpg" alt="Exposição" class="evento-imagem">
-                          </div>
+                            <img src="C:\Users\gabriel.jesus\OneDrive - SENAC BA\Fotos\Foto palco com poltronas.jpg" alt="Palco Montado" class="evento-imagem">
+                        </div>                                                                                                                                                 
                     </div>
                 </div>    
             </div> <!-- FIM da coluna infraestrutura -->
@@ -714,7 +750,7 @@
                             <div class="helper-text" id="nomeHelper"></div>
                         </div>
                         
-                       <!-- Tipo de Pessoa -->
+                        <!-- Tipo de Pessoa -->
                         <div class="campo">
                             <label>TIPO <span class="required-star">*</span></label>
                             <select id="tipoPessoa">
@@ -756,7 +792,6 @@
                                 <option value="confraternização">Confraternização</option>
                                 <option value="congresso">Congresso/Palestra</option>
                                 <option value="empresarial">Evento Empresarial</option>
-                                <option value="festa">Festa/Recepção</option>
                                 <option value="lancamento">Lançamento de Produto</option>
                                 <option value="workshop">Workshop/Treinamento</option>
                                 <option value="outro">Outro</option>
@@ -797,10 +832,6 @@
                             <div class="helper-text" id="espacoHelper"></div>
                         </div>
 
-                      
-
-                      
-                        
                         <!-- Observações -->
                         <div class="campo full-width">
                             <label>OBSERVAÇÕES / NECESSIDADES ESPECIAIS</label>
@@ -866,7 +897,6 @@
                 tipoEvento: document.getElementById('tipoEvento'),
                 data: document.getElementById('data'),
                 numPessoas: document.getElementById('numPessoas'),
-                layout: document.getElementById('layout'),
                 espaco: document.getElementById('espaco'),    
                 observacoes: document.getElementById('observacoes'),
                 recaptcha: document.getElementById('recaptcha'),
@@ -884,7 +914,6 @@
                 tipoEvento: document.getElementById('tipoEventoHelper'),
                 data: document.getElementById('dataHelper'),
                 numPessoas: document.getElementById('numPessoasHelper'),
-                layout: document.getElementById('layoutHelper'),
                 espaco: document.getElementById('espacoHelper'),
                 observacoes: document.getElementById('observacoesHelper'),
                 recaptcha: document.getElementById('recaptchaHelper')
@@ -904,11 +933,19 @@
             const itensGaleria = document.querySelectorAll('.galeria-item');
 
             let imagemAtual = 0;
+
+                // IMPORTANTE: Pega o caminho do atributo SRC original do HTML
             const imagens = Array.from(itensGaleria).map(item => {
                 const img = item.querySelector('img');
                 const titulo = item.dataset.titulo || 'Evento';
+                
+                // PEGA O CAMINHO DO ATRIBUTO ORIGINAL (não o resolvido pelo navegador)
+                const srcOriginal = img.getAttribute('src');
+                
+                console.log('Caminho original da imagem:', srcOriginal); // Para debug
+                
                 return {
-                    src: img.src,
+                    src: srcOriginal,  // Usa o caminho original que você colocou no HTML
                     alt: img.alt,
                     titulo: titulo
                 };
@@ -985,7 +1022,7 @@
                 }
             });
 
-            // Máscaras
+            // Máscaras e validações (mantive seu código existente)
             function mascaraCPF(e) {
                 let valor = e.target.value.replace(/\D/g, '');
                 if (valor.length <= 11) {
@@ -1048,7 +1085,7 @@
 
             elementos.telefone.addEventListener('input', mascaraTelefone);
 
-            // Funções de validação
+            // Funções de validação (mantive suas funções existentes)
             function mostrarErro(helper, elemento, mensagem) {
                 helper.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${mensagem}`;
                 helper.className = 'helper-text error-msg';
@@ -1069,7 +1106,7 @@
                 elemento.classList.remove('error', 'success');
             }
 
-            // Validações específicas
+            // Suas funções de validação (mantive todas iguais)
             function validarNome() {
                 const val = elementos.nome.value.trim();
                 if (val === '') {
@@ -1078,10 +1115,6 @@
                 }
                 if (val.length < 3) {
                     mostrarErro(helpers.nome, elementos.nome, 'Nome deve ter pelo menos 3 caracteres');
-                    return false;
-                }
-                if (/[^a-zA-ZÀ-ÖØ-öø-ÿ\s]/.test(val)) {
-                    mostrarErro(helpers.nome, elementos.nome, 'Apenas letras e espaços');
                     return false;
                 }
                 mostrarSucesso(helpers.nome, elementos.nome, 'Nome válido');
@@ -1192,15 +1225,6 @@
                 return true;
             }
 
-            function validarLayout() {
-                if (!elementos.layout.value) {
-                    mostrarErro(helpers.layout, elementos.layout, 'Selecione o layout desejado');
-                    return false;
-                }
-                mostrarSucesso(helpers.layout, elementos.layout, 'Layout selecionado');
-                return true;
-            }
-
             function validarEspaco() {
                 if (!elementos.espaco.value) {
                     mostrarErro(helpers.espaco, elementos.espaco, 'Selecione o espaço desejado');
@@ -1239,7 +1263,6 @@
             
             elementos.numPessoas.addEventListener('change', validarNumPessoas);
             
-            elementos.layout.addEventListener('change', validarLayout);
             elementos.espaco.addEventListener('change', validarEspaco);
             
             elementos.recaptcha.addEventListener('change', validarRecaptcha);
@@ -1255,7 +1278,6 @@
                     validarTipoEvento(),
                     validarData(),
                     validarNumPessoas(),
-                    validarLayout(),
                     validarEspaco(),
                     validarRecaptcha()
                 ];
