@@ -4,11 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastre sua Empresa - Senac</title>
-    <!-- Fonte Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
-    <!-- Font Awesome para ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -16,7 +14,6 @@
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             background: #cfd0d1;
             display: flex;
@@ -26,221 +23,152 @@
             font-family: 'Inter', sans-serif;
             padding: 16px;
         }
-
         .container {
             max-width: 780px;
             width: 100%;
             background: white;
             border-radius: 28px;
             box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
-            padding: 32px 32px 28px;
-            border: 1px solid rgba(0,0,0,0.04);
+            padding: 32px;
         }
-
         h1 {
             color: #004A8D;
-            font-size: 32px;
-            margin-bottom: 4px;
+            font-size: 28px;
             text-align: center;
-            padding-bottom: 10px;
-            letter-spacing: -0.02em;
+            margin-bottom: 8px;
         }
-
         .section-title {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 600;
             color: #004A8D;
-            margin: 30px 0 20px;
-            padding-bottom: 8px;
+            margin: 24px 0 16px;
+            padding-bottom: 6px;
             border-bottom: 2px solid #004A8D;
         }
-
+        .form-grid, .form-grid-3 {
+            display: grid;
+            gap: 16px;
+        }
         .form-grid {
-            display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
         }
-
         .form-grid-3 {
-            display: grid;
             grid-template-columns: 1fr 1fr 1fr;
-            gap: 20px;
         }
-
         .campo {
             display: flex;
             flex-direction: column;
             gap: 4px;
-            margin-bottom: 0;
-            position: relative;
         }
-
         .campo.full-width {
             grid-column: span 2;
         }
-
         .campo.full-width-3 {
             grid-column: span 3;
         }
-
-        .campo label {
-            font-size: 13px;
-            font-weight: 500;
+        label {
+            font-size: 12px;
+            font-weight: 600;
             color: #334155;
             text-transform: uppercase;
-            letter-spacing: 0.3px;
             display: flex;
             align-items: center;
             gap: 4px;
         }
-
         .required-star {
             color: #dc2626;
-            font-size: 14px;
         }
-
-        .campo input,
-        .campo select {
+        input, select {
             background: #f9fcff;
             border: 1px solid #cbd5e1;
-            border-radius: 14px;
-            padding: 14px 16px;
-            font-size: 15px;
+            border-radius: 12px;
+            padding: 12px 14px;
+            font-size: 14px;
             outline: none;
-            transition: all 0.15s;
-            width: 100%;
+            transition: 0.2s;
             font-family: 'Inter', sans-serif;
         }
-
-        .campo input:focus,
-        .campo select:focus {
+        input:focus, select:focus {
             border-color: #1e4f8a;
             box-shadow: 0 0 0 3px rgba(30,79,138,0.15);
             background: white;
         }
-
-        .campo input.error,
-        .campo select.error {
+        input.error, select.error {
             border-color: #dc2626;
             background: #fef2f2;
         }
-
-        .campo input.success,
-        .campo select.success {
+        input.success, select.success {
             border-color: #16a34a;
             background: #f0fdf4;
         }
-
         .helper-text {
-            font-size: 12px;
-            margin-left: 6px;
+            font-size: 11px;
+            margin-left: 4px;
             min-height: 18px;
             display: flex;
             align-items: center;
             gap: 4px;
         }
-
         .helper-text.error-msg {
             color: #dc2626;
         }
-
         .helper-text.success-msg {
             color: #16a34a;
         }
-
-        .helper-text i {
-            font-size: 12px;
-        }
-
         .btn-submit {
             background: #005b96;
             color: white;
             border: none;
-            padding: 15px 40px;
-            font-size: 18px;
+            padding: 14px 32px;
+            font-size: 16px;
             font-weight: 600;
             border-radius: 40px;
             cursor: pointer;
-            transition: all 0.6s ease;
+            transition: 0.3s;
             display: block;
-            margin: 20px auto 0;
+            margin: 24px auto 0;
             min-width: 200px;
-            border: 1px solid #1d3449;
         }
-
         .btn-submit:hover:not(:disabled) {
             background: #F7941D;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(247,148,29,0.3);
         }
-
         .btn-submit:disabled {
-            background: #cccccc;
-            border-color: #999999;
+            background: #ccc;
             cursor: not-allowed;
-            opacity: 0.7;
         }
-
         .mensagem-envio {
             background: #eaf6e7;
             border: 1px solid #9ec5a0;
             border-radius: 40px;
-            padding: 14px 22px;
-            font-size: 15px;
+            padding: 12px 20px;
+            font-size: 14px;
             color: #1f4f2b;
             text-align: center;
-            margin-bottom: 18px;
+            margin-bottom: 20px;
             font-weight: 500;
-            animation: slideDown 0.5s ease;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
         }
-
         .mensagem-envio.erro {
             background: #fee9e7;
             border-color: #f1a09c;
             color: #a11f1f;
         }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
         .oculto {
             display: none;
         }
-
-        .campos-obrigatorios-info {
-            font-size: 12px;
-            color: #64748b;
-            margin-bottom: 16px;
-            text-align: right;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            gap: 4px;
-        }
-
         @media (max-width: 700px) {
-            .container {
-                padding: 20px;
-            }
-            .form-grid,
-            .form-grid-3 {
+            .form-grid, .form-grid-3 {
                 grid-template-columns: 1fr;
             }
-            .campo.full-width,
-            .campo.full-width-3 {
+            .campo.full-width, .campo.full-width-3 {
                 grid-column: span 1;
+            }
+            .container {
+                padding: 20px;
             }
         }
     </style>
@@ -254,10 +182,10 @@
         <i class="fa-regular fa-circle-check"></i> Empresa cadastrada com sucesso!
     </div>
     <div id="msgErro" class="mensagem-envio erro oculto">
-        <i class="fas fa-exclamation-circle"></i> Existem campos inválidos. Corrija e tente novamente.
+        <i class="fas fa-exclamation-circle"></i> Corrija os campos em vermelho antes de enviar.
     </div>
 
-    <div class="campos-obrigatorios-info">
+    <div style="text-align: right; font-size: 12px; margin-bottom: 16px;">
         <span class="required-star">*</span> Campos obrigatórios
     </div>
 
@@ -314,7 +242,7 @@
             </div>
             <div class="campo">
                 <label>COMPLEMENTO</label>
-                <input type="text" id="complemento" placeholder="Sala, andar, etc.">
+                <input type="text" id="complemento" placeholder="Sala, andar...">
                 <div class="helper-text" id="helper-complemento"></div>
             </div>
             <div class="campo">
@@ -374,7 +302,7 @@
             </div>
         </div>
 
-        <!-- SOBRE O CONTATO (PESSOA) -->
+        <!-- PESSOA DE CONTATO -->
         <div class="section-title">PESSOA DE CONTATO</div>
         <div class="form-grid">
             <div class="campo">
@@ -400,8 +328,8 @@
 
 <script>
     (function() {
-        // ==================== ELEMENTOS ====================
-        const elements = {
+        // --- Elementos DOM ---
+        const dom = {
             nomeFantasia: document.getElementById('nomeFantasia'),
             razaoSocial: document.getElementById('razaoSocial'),
             ramoAtividade: document.getElementById('ramoAtividade'),
@@ -421,36 +349,53 @@
             telefoneContato: document.getElementById('telefoneContato'),
             nomeContato: document.getElementById('nomeContato'),
             emailContato: document.getElementById('emailContato'),
-            formulario: document.getElementById('formulario'),
-            btnEnviar: document.getElementById('btnEnviar')
+            form: document.getElementById('formulario'),
+            btn: document.getElementById('btnEnviar')
         };
 
-        const helpers = {
-            nomeFantasia: document.getElementById('helper-nomeFantasia'),
-            razaoSocial: document.getElementById('helper-razaoSocial'),
-            ramoAtividade: document.getElementById('helper-ramoAtividade'),
-            inscricaoMunicipal: document.getElementById('helper-inscricaoMunicipal'),
-            inscricaoEstadual: document.getElementById('helper-inscricaoEstadual'),
-            cnpj: document.getElementById('helper-cnpj'),
-            endereco: document.getElementById('helper-endereco'),
-            numero: document.getElementById('helper-numero'),
-            complemento: document.getElementById('helper-complemento'),
-            cep: document.getElementById('helper-cep'),
-            estado: document.getElementById('helper-estado'),
-            cidade: document.getElementById('helper-cidade'),
-            bairro: document.getElementById('helper-bairro'),
-            telefone: document.getElementById('helper-telefone'),
-            outroTelefone: document.getElementById('helper-outroTelefone'),
-            celular: document.getElementById('helper-celular'),
-            telefoneContato: document.getElementById('helper-telefoneContato'),
-            nomeContato: document.getElementById('helper-nomeContato'),
-            emailContato: document.getElementById('helper-emailContato')
-        };
+        // Helpers (mensagens)
+        const helpers = {};
+        for (let key in dom) {
+            if (dom[key] && dom[key].id) {
+                helpers[key] = document.getElementById(`helper-${key}`);
+            }
+        }
+        helpers.inscricaoMunicipal = document.getElementById('helper-inscricaoMunicipal');
+        helpers.inscricaoEstadual = document.getElementById('helper-inscricaoEstadual');
+        helpers.telefoneContato = document.getElementById('helper-telefoneContato');
+        helpers.outroTelefone = document.getElementById('helper-outroTelefone');
 
         const msgSucesso = document.getElementById('msgSucesso');
         const msgErro = document.getElementById('msgErro');
 
-        // ==================== MÁSCARAS ====================
+        // --- Funções auxiliares de UI ---
+        function mostrarErro(helper, elemento, mensagem) {
+            if (helper && elemento) {
+                helper.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${mensagem}`;
+                helper.className = 'helper-text error-msg';
+                elemento.classList.add('error');
+                elemento.classList.remove('success');
+            }
+        }
+
+        function mostrarSucesso(helper, elemento, mensagem) {
+            if (helper && elemento) {
+                helper.innerHTML = `<i class="fas fa-check-circle"></i> ${mensagem}`;
+                helper.className = 'helper-text success-msg';
+                elemento.classList.add('success');
+                elemento.classList.remove('error');
+            }
+        }
+
+        function limparHelper(helper, elemento) {
+            if (helper && elemento) {
+                helper.innerHTML = '';
+                helper.className = 'helper-text';
+                elemento.classList.remove('error', 'success');
+            }
+        }
+
+        // --- Máscaras ---
         function mascaraCNPJ(e) {
             let v = e.target.value.replace(/\D/g, '');
             if (v.length > 14) v = v.slice(0, 14);
@@ -459,7 +404,6 @@
             else if (v.length > 5) v = v.replace(/^(\d{2})(\d{3})(\d{1,3})/, '$1.$2.$3');
             else if (v.length > 2) v = v.replace(/^(\d{2})(\d{1,3})/, '$1.$2');
             e.target.value = v;
-            if (v.replace(/\D/g, '').length === 14) consultarCNPJ();
         }
 
         function mascaraCEP(e) {
@@ -485,295 +429,116 @@
             e.target.value = v;
         }
 
-        elements.cnpj.addEventListener('input', mascaraCNPJ);
-        elements.cep.addEventListener('input', mascaraCEP);
-        elements.telefone.addEventListener('input', mascaraTelefone);
-        elements.outroTelefone.addEventListener('input, mascaraTelefone');
-        elements.celular.addEventListener('input', mascaraCelular);
-        elements.telefoneContato.addEventListener('input', mascaraTelefone);
+        dom.cnpj.addEventListener('input', mascaraCNPJ);
+        dom.cep.addEventListener('input', mascaraCEP);
+        dom.telefone.addEventListener('input', mascaraTelefone);
+        dom.outroTelefone.addEventListener('input', mascaraTelefone);
+        dom.celular.addEventListener('input', mascaraCelular);
+        dom.telefoneContato.addEventListener('input', mascaraTelefone);
 
-        // ==================== CONSULTA CNPJ (API BrasilAPI) ====================
-        let consultandoCNPJ = false;
-        async function consultarCNPJ() {
-            const cnpjNumerico = elements.cnpj.value.replace(/\D/g, '');
-            if (cnpjNumerico.length !== 14) return;
-            
-            consultandoCNPJ = true;
-            helpers.cnpj.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Consultando CNPJ...';
-            helpers.cnpj.className = 'helper-text';
-            
-            try {
-                const response = await fetch(`https://brasilapi.com.br/api/cnpj/v1/${cnpjNumerico}`);
-                if (!response.ok) throw new Error('CNPJ não encontrado');
-                const data = await response.json();
-                
-                // Preencher campos
-                if (data.razao_social) elements.razaoSocial.value = data.razao_social;
-                if (data.nome_fantasia) elements.nomeFantasia.value = data.nome_fantasia;
-                if (data.descricao_situacao_cadastral && data.cnae_fiscal_descricao) {
-                    elements.ramoAtividade.value = `${data.cnae_fiscal_descricao}`;
-                } else if (data.descricao_situacao_cadastral) {
-                    elements.ramoAtividade.value = data.descricao_situacao_cadastral;
-                }
-                // Endereço
-                if (data.logradouro) elements.endereco.value = data.logradouro;
-                if (data.numero) elements.numero.value = data.numero;
-                if (data.complemento) elements.complemento.value = data.complemento;
-                if (data.bairro) elements.bairro.value = data.bairro;
-                if (data.cep) {
-                    let cep = data.cep.replace(/\D/g, '');
-                    if (cep.length === 8) cep = cep.replace(/^(\d{5})(\d{3})/, '$1-$2');
-                    elements.cep.value = cep;
-                }
-                if (data.uf) {
-                    const estadoOption = Array.from(elements.estado.options).find(opt => opt.value === data.uf);
-                    if (estadoOption) elements.estado.value = data.uf;
-                    await carregarCidadesPorEstado(data.uf);
-                    if (data.municipio) {
-                        setTimeout(() => {
-                            const cidadeOption = Array.from(elements.cidade.options).find(opt => opt.value === data.municipio);
-                            if (cidadeOption) elements.cidade.value = data.municipio;
-                            else {
-                                const opt = document.createElement('option');
-                                opt.value = data.municipio;
-                                opt.textContent = data.municipio;
-                                elements.cidade.appendChild(opt);
-                                elements.cidade.value = data.municipio;
-                            }
-                            validarCidade();
-                        }, 100);
-                    }
-                }
-                // Telefones
-                if (data.ddd_telefone_1) {
-                    let tel = data.ddd_telefone_1.replace(/\D/g, '');
-                    if (tel.length === 10) tel = tel.replace(/^(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
-                    elements.telefone.value = tel;
-                }
-                if (data.ddd_telefone_2) {
-                    let tel = data.ddd_telefone_2.replace(/\D/g, '');
-                    if (tel.length === 10) tel = tel.replace(/^(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
-                    elements.outroTelefone.value = tel;
-                }
-                if (data.ddd_fax) {
-                    let fax = data.ddd_fax.replace(/\D/g, '');
-                    if (fax.length === 10) fax = fax.replace(/^(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
-                    if (!elements.outroTelefone.value) elements.outroTelefone.value = fax;
-                }
-                
-                helpers.cnpj.innerHTML = '<i class="fas fa-check-circle"></i> CNPJ encontrado! Dados preenchidos.';
-                helpers.cnpj.className = 'helper-text success-msg';
-                elements.cnpj.classList.add('success');
-                elements.cnpj.classList.remove('error');
-                
-                // Disparar validações dos campos preenchidos
-                validarRazaoSocial();
-                validarNomeFantasia();
-                validarRamoAtividade();
-                validarEndereco();
-                validarNumero();
-                validarBairro();
-                validarCEP();
-                validarEstado();
-                // cidade será validada no setTimeout acima
-            } catch (error) {
-                helpers.cnpj.innerHTML = '<i class="fas fa-exclamation-circle"></i> CNPJ inválido ou não encontrado';
-                helpers.cnpj.className = 'helper-text error-msg';
-                elements.cnpj.classList.add('error');
-                elements.cnpj.classList.remove('success');
-                validarCNPJ(); // executa a validação padrão (formato)
-            } finally {
-                consultandoCNPJ = false;
-            }
-        }
-
-        // ==================== BUSCA POR CEP (ViaCEP) ====================
-        async function buscarEnderecoPorCEP() {
-            const cepNumerico = elements.cep.value.replace(/\D/g, '');
-            if (cepNumerico.length !== 8) return;
-            
-            helpers.cep.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Buscando endereço...';
-            try {
-                const response = await fetch(`https://viacep.com.br/ws/${cepNumerico}/json/`);
-                if (!response.ok) throw new Error();
-                const dados = await response.json();
-                if (dados.erro) throw new Error();
-                
-                elements.endereco.value = dados.logradouro || '';
-                elements.bairro.value = dados.bairro || '';
-                if (dados.uf) {
-                    const estadoOption = Array.from(elements.estado.options).find(opt => opt.value === dados.uf);
-                    if (estadoOption) elements.estado.value = dados.uf;
-                    await carregarCidadesPorEstado(dados.uf);
-                    if (dados.localidade) {
-                        setTimeout(() => {
-                            const cidadeOption = Array.from(elements.cidade.options).find(opt => opt.value === dados.localidade);
-                            if (cidadeOption) elements.cidade.value = dados.localidade;
-                            else {
-                                const opt = document.createElement('option');
-                                opt.value = dados.localidade;
-                                opt.textContent = dados.localidade;
-                                elements.cidade.appendChild(opt);
-                                elements.cidade.value = dados.localidade;
-                            }
-                            validarCidade();
-                        }, 100);
-                    }
-                }
-                helpers.cep.innerHTML = '<i class="fas fa-check-circle"></i> CEP encontrado';
-                helpers.cep.className = 'helper-text success-msg';
-                elements.cep.classList.add('success');
-                elements.cep.classList.remove('error');
-                validarEndereco();
-                validarBairro();
-                validarEstado();
-            } catch (error) {
-                helpers.cep.innerHTML = '<i class="fas fa-exclamation-circle"></i> CEP não encontrado';
-                helpers.cep.className = 'helper-text error-msg';
-                elements.cep.classList.add('error');
-                elements.cep.classList.remove('success');
-            }
-        }
-
-        elements.cep.addEventListener('blur', buscarEnderecoPorCEP);
-
-        // ==================== CARREGAR CIDADES POR ESTADO ====================
-        async function carregarCidadesPorEstado(uf) {
-            if (!uf) return;
-            try {
-                const response = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios`);
-                if (!response.ok) throw new Error();
-                const municipios = await response.json();
-                municipios.sort((a,b) => a.nome.localeCompare(b.nome));
-                elements.cidade.innerHTML = '<option value="" disabled selected>Selecionar</option>';
-                municipios.forEach(m => {
-                    const opt = document.createElement('option');
-                    opt.value = m.nome;
-                    opt.textContent = m.nome;
-                    elements.cidade.appendChild(opt);
-                });
-                helpers.cidade.innerHTML = `${municipios.length} cidades carregadas`;
-                helpers.cidade.className = 'helper-text success-msg';
-            } catch (error) {
-                elements.cidade.innerHTML = '<option value="" disabled selected>Selecionar</option>';
-                helpers.cidade.innerHTML = 'Erro ao carregar cidades';
-                helpers.cidade.className = 'helper-text error-msg';
-            }
-        }
-
-        elements.estado.addEventListener('change', function() {
-            if (this.value) carregarCidadesPorEstado(this.value);
-            validarEstado();
-        });
-
-        // ==================== VALIDAÇÕES ====================
-        function mostrarErro(helper, element, msg) {
-            helper.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${msg}`;
-            helper.className = 'helper-text error-msg';
-            element.classList.add('error');
-            element.classList.remove('success');
-        }
-        function mostrarSucesso(helper, element, msg) {
-            helper.innerHTML = `<i class="fas fa-check-circle"></i> ${msg}`;
-            helper.className = 'helper-text success-msg';
-            element.classList.add('success');
-            element.classList.remove('error');
-        }
-        function limparHelper(helper, element) {
-            helper.innerHTML = '';
-            helper.className = 'helper-text';
-            element.classList.remove('error', 'success');
-        }
-
+        // --- Validações individuais (obrigatórias) ---
         function validarNomeFantasia() {
-            const val = elements.nomeFantasia.value.trim();
-            if (!val) { mostrarErro(helpers.nomeFantasia, elements.nomeFantasia, 'Nome fantasia obrigatório'); return false; }
-            if (val.length < 3) { mostrarErro(helpers.nomeFantasia, elements.nomeFantasia, 'Mínimo 3 caracteres'); return false; }
-            mostrarSucesso(helpers.nomeFantasia, elements.nomeFantasia, 'Válido');
+            const val = dom.nomeFantasia.value.trim();
+            if (!val) { mostrarErro(helpers.nomeFantasia, dom.nomeFantasia, 'Nome fantasia obrigatório'); return false; }
+            if (val.length < 3) { mostrarErro(helpers.nomeFantasia, dom.nomeFantasia, 'Mínimo 3 caracteres'); return false; }
+            mostrarSucesso(helpers.nomeFantasia, dom.nomeFantasia, 'Válido');
             return true;
         }
+
         function validarRazaoSocial() {
-            const val = elements.razaoSocial.value.trim();
-            if (!val) { mostrarErro(helpers.razaoSocial, elements.razaoSocial, 'Razão social obrigatória'); return false; }
-            if (val.length < 5) { mostrarErro(helpers.razaoSocial, elements.razaoSocial, 'Mínimo 5 caracteres'); return false; }
-            mostrarSucesso(helpers.razaoSocial, elements.razaoSocial, 'Válido');
+            const val = dom.razaoSocial.value.trim();
+            if (!val) { mostrarErro(helpers.razaoSocial, dom.razaoSocial, 'Razão social obrigatória'); return false; }
+            if (val.length < 5) { mostrarErro(helpers.razaoSocial, dom.razaoSocial, 'Mínimo 5 caracteres'); return false; }
+            mostrarSucesso(helpers.razaoSocial, dom.razaoSocial, 'Válido');
             return true;
         }
+
         function validarRamoAtividade() {
-            const val = elements.ramoAtividade.value.trim();
-            if (!val) { mostrarErro(helpers.ramoAtividade, elements.ramoAtividade, 'Ramo de atividade obrigatório'); return false; }
-            if (val.length < 3) { mostrarErro(helpers.ramoAtividade, elements.ramoAtividade, 'Mínimo 3 caracteres'); return false; }
-            mostrarSucesso(helpers.ramoAtividade, elements.ramoAtividade, 'Válido');
+            const val = dom.ramoAtividade.value.trim();
+            if (!val) { mostrarErro(helpers.ramoAtividade, dom.ramoAtividade, 'Ramo de atividade obrigatório'); return false; }
+            if (val.length < 3) { mostrarErro(helpers.ramoAtividade, dom.ramoAtividade, 'Mínimo 3 caracteres'); return false; }
+            mostrarSucesso(helpers.ramoAtividade, dom.ramoAtividade, 'Válido');
             return true;
         }
+
         function validarCNPJ() {
-            const val = elements.cnpj.value.replace(/\D/g, '');
-            if (!val) { mostrarErro(helpers.cnpj, elements.cnpj, 'CNPJ obrigatório'); return false; }
-            if (val.length !== 14) { mostrarErro(helpers.cnpj, elements.cnpj, 'CNPJ deve ter 14 dígitos'); return false; }
-            if (/^(\d)\1{13}$/.test(val)) { mostrarErro(helpers.cnpj, elements.cnpj, 'CNPJ inválido'); return false; }
-            mostrarSucesso(helpers.cnpj, elements.cnpj, 'CNPJ válido');
+            const val = dom.cnpj.value.replace(/\D/g, '');
+            if (!val) { mostrarErro(helpers.cnpj, dom.cnpj, 'CNPJ obrigatório'); return false; }
+            if (val.length !== 14) { mostrarErro(helpers.cnpj, dom.cnpj, 'CNPJ deve ter 14 dígitos'); return false; }
+            if (/^(\d)\1{13}$/.test(val)) { mostrarErro(helpers.cnpj, dom.cnpj, 'CNPJ inválido'); return false; }
+            mostrarSucesso(helpers.cnpj, dom.cnpj, 'CNPJ válido');
             return true;
         }
+
         function validarEndereco() {
-            const val = elements.endereco.value.trim();
-            if (!val) { mostrarErro(helpers.endereco, elements.endereco, 'Endereço obrigatório'); return false; }
-            if (val.length < 5) { mostrarErro(helpers.endereco, elements.endereco, 'Endereço muito curto'); return false; }
-            mostrarSucesso(helpers.endereco, elements.endereco, 'Válido');
+            const val = dom.endereco.value.trim();
+            if (!val) { mostrarErro(helpers.endereco, dom.endereco, 'Endereço obrigatório'); return false; }
+            if (val.length < 5) { mostrarErro(helpers.endereco, dom.endereco, 'Endereço muito curto'); return false; }
+            mostrarSucesso(helpers.endereco, dom.endereco, 'Válido');
             return true;
         }
+
         function validarNumero() {
-            const val = elements.numero.value.trim();
-            if (!val) { mostrarErro(helpers.numero, elements.numero, 'Número obrigatório'); return false; }
-            mostrarSucesso(helpers.numero, elements.numero, 'Válido');
+            const val = dom.numero.value.trim();
+            if (!val) { mostrarErro(helpers.numero, dom.numero, 'Número obrigatório'); return false; }
+            mostrarSucesso(helpers.numero, dom.numero, 'Válido');
             return true;
         }
+
         function validarCEP() {
-            const val = elements.cep.value.replace(/\D/g, '');
-            if (!val) { mostrarErro(helpers.cep, elements.cep, 'CEP obrigatório'); return false; }
-            if (!/^\d{8}$/.test(val)) { mostrarErro(helpers.cep, elements.cep, 'Formato: 00000-000'); return false; }
-            mostrarSucesso(helpers.cep, elements.cep, 'CEP válido');
+            const val = dom.cep.value.replace(/\D/g, '');
+            if (!val) { mostrarErro(helpers.cep, dom.cep, 'CEP obrigatório'); return false; }
+            if (!/^\d{8}$/.test(val)) { mostrarErro(helpers.cep, dom.cep, 'Formato: 00000-000'); return false; }
+            mostrarSucesso(helpers.cep, dom.cep, 'CEP válido');
             return true;
         }
+
         function validarBairro() {
-            const val = elements.bairro.value.trim();
-            if (!val) { mostrarErro(helpers.bairro, elements.bairro, 'Bairro obrigatório'); return false; }
-            if (val.length < 3) { mostrarErro(helpers.bairro, elements.bairro, 'Bairro muito curto'); return false; }
-            mostrarSucesso(helpers.bairro, elements.bairro, 'Válido');
+            const val = dom.bairro.value.trim();
+            if (!val) { mostrarErro(helpers.bairro, dom.bairro, 'Bairro obrigatório'); return false; }
+            if (val.length < 3) { mostrarErro(helpers.bairro, dom.bairro, 'Bairro muito curto'); return false; }
+            mostrarSucesso(helpers.bairro, dom.bairro, 'Válido');
             return true;
         }
+
         function validarEstado() {
-            if (!elements.estado.value) { mostrarErro(helpers.estado, elements.estado, 'Selecione o estado'); return false; }
-            mostrarSucesso(helpers.estado, elements.estado, 'Estado selecionado');
+            if (!dom.estado.value) { mostrarErro(helpers.estado, dom.estado, 'Selecione o estado'); return false; }
+            mostrarSucesso(helpers.estado, dom.estado, 'Estado selecionado');
             return true;
         }
+
         function validarCidade() {
-            if (!elements.cidade.value) { mostrarErro(helpers.cidade, elements.cidade, 'Selecione a cidade'); return false; }
-            mostrarSucesso(helpers.cidade, elements.cidade, 'Cidade selecionada');
+            if (!dom.cidade.value) { mostrarErro(helpers.cidade, dom.cidade, 'Selecione a cidade'); return false; }
+            mostrarSucesso(helpers.cidade, dom.cidade, 'Cidade selecionada');
             return true;
         }
+
         function validarCelular() {
-            const val = elements.celular.value.replace(/\D/g, '');
-            if (!val) { mostrarErro(helpers.celular, elements.celular, 'Celular obrigatório'); return false; }
-            if (val.length !== 11) { mostrarErro(helpers.celular, elements.celular, 'Celular deve ter 11 dígitos'); return false; }
-            mostrarSucesso(helpers.celular, elements.celular, 'Celular válido');
+            const val = dom.celular.value.replace(/\D/g, '');
+            if (!val) { mostrarErro(helpers.celular, dom.celular, 'Celular obrigatório'); return false; }
+            if (val.length !== 11) { mostrarErro(helpers.celular, dom.celular, 'Celular deve ter 11 dígitos'); return false; }
+            mostrarSucesso(helpers.celular, dom.celular, 'Celular válido');
             return true;
         }
+
         function validarNomeContato() {
-            const val = elements.nomeContato.value.trim();
-            if (!val) { mostrarErro(helpers.nomeContato, elements.nomeContato, 'Nome obrigatório'); return false; }
-            if (val.length < 3) { mostrarErro(helpers.nomeContato, elements.nomeContato, 'Mínimo 3 caracteres'); return false; }
-            mostrarSucesso(helpers.nomeContato, elements.nomeContato, 'Válido');
+            const val = dom.nomeContato.value.trim();
+            if (!val) { mostrarErro(helpers.nomeContato, dom.nomeContato, 'Nome obrigatório'); return false; }
+            if (val.length < 3) { mostrarErro(helpers.nomeContato, dom.nomeContato, 'Mínimo 3 caracteres'); return false; }
+            mostrarSucesso(helpers.nomeContato, dom.nomeContato, 'Válido');
             return true;
         }
+
         function validarEmailContato() {
-            const val = elements.emailContato.value.trim();
-            if (!val) { mostrarErro(helpers.emailContato, elements.emailContato, 'E-mail obrigatório'); return false; }
+            const val = dom.emailContato.value.trim();
+            if (!val) { mostrarErro(helpers.emailContato, dom.emailContato, 'E-mail obrigatório'); return false; }
             const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!regex.test(val)) { mostrarErro(helpers.emailContato, elements.emailContato, 'E-mail inválido'); return false; }
-            mostrarSucesso(helpers.emailContato, elements.emailContato, 'E-mail válido');
+            if (!regex.test(val)) { mostrarErro(helpers.emailContato, dom.emailContato, 'E-mail inválido'); return false; }
+            mostrarSucesso(helpers.emailContato, dom.emailContato, 'E-mail válido');
             return true;
         }
-        // Campos opcionais: não aplicamos validação obrigatória, mas podemos validar formato se preenchidos
+
+        // Campos opcionais
         function validarTelefoneOpcional(campo, helper) {
             const val = campo.value.replace(/\D/g, '');
             if (val && val.length !== 10) {
@@ -786,31 +551,332 @@
             }
             return true;
         }
-        function validarTodosTelefonesOpcionais() {
-            validarTelefoneOpcional(elements.telefone, helpers.telefone);
-            validarTelefoneOpcional(elements.outroTelefone, helpers.outroTelefone);
-            validarTelefoneOpcional(elements.telefoneContato, helpers.telefoneContato);
-            return true;
+
+        // --- Busca CEP (ViaCEP) ---
+        let buscandoCEP = false;
+        async function buscarEnderecoPorCEP() {
+            const cepNumerico = dom.cep.value.replace(/\D/g, '');
+            if (cepNumerico.length !== 8) return;
+            if (buscandoCEP) return;
+            buscandoCEP = true;
+            helpers.cep.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Buscando...';
+            helpers.cep.className = 'helper-text';
+            try {
+                const resp = await fetch(`https://viacep.com.br/ws/${cepNumerico}/json/`);
+                const data = await resp.json();
+                if (data.erro) throw new Error('CEP não encontrado');
+                // Preencher campos
+                dom.endereco.value = data.logradouro || '';
+                dom.bairro.value = data.bairro || '';
+                if (data.uf) {
+                    const opt = Array.from(dom.estado.options).find(o => o.value === data.uf);
+                    if (opt) dom.estado.value = data.uf;
+                    await carregarCidadesPorEstado(data.uf);
+                    if (data.localidade) {
+                        setTimeout(() => {
+                            const cidadeOpt = Array.from(dom.cidade.options).find(o => o.value === data.localidade);
+                            if (cidadeOpt) dom.cidade.value = data.localidade;
+                            else {
+                                const newOpt = document.createElement('option');
+                                newOpt.value = data.localidade;
+                                newOpt.textContent = data.localidade;
+                                dom.cidade.appendChild(newOpt);
+                                dom.cidade.value = data.localidade;
+                            }
+                            validarCidade();
+                        }, 100);
+                    }
+                }
+                mostrarSucesso(helpers.cep, dom.cep, 'CEP encontrado');
+                validarEndereco();
+                validarBairro();
+                validarEstado();
+            } catch (err) {
+                mostrarErro(helpers.cep, dom.cep, 'CEP não encontrado');
+            } finally {
+                buscandoCEP = false;
+            }
         }
 
-        // Eventos de validação em tempo real
-        elements.nomeFantasia.addEventListener('blur', validarNomeFantasia);
-        elements.razaoSocial.addEventListener('blur', validarRazaoSocial);
-        elements.ramoAtividade.addEventListener('blur', validarRamoAtividade);
-        elements.cnpj.addEventListener('blur', validarCNPJ);
-        elements.endereco.addEventListener('blur', validarEndereco);
-        elements.numero.addEventListener('blur', validarNumero);
-        elements.bairro.addEventListener('blur', validarBairro);
-        elements.estado.addEventListener('change', validarEstado);
-        elements.cidade.addEventListener('change', validarCidade);
-        elements.celular.addEventListener('blur', validarCelular);
-        elements.nomeContato.addEventListener('blur', validarNomeContato);
-        elements.emailContato.addEventListener('blur', validarEmailContato);
-        elements.telefone.addEventListener('blur', () => validarTelefoneOpcional(elements.telefone, helpers.telefone));
-        elements.outroTelefone.addEventListener('blur', () => validarTelefoneOpcional(elements.outroTelefone, helpers.outroTelefone));
-        elements.telefoneContato.addEventListener('blur', () => validarTelefoneOpcional(elements.telefoneContato, helpers.telefoneContato));
+        // --- Carregar cidades por UF (IBGE) ---
+        async function carregarCidadesPorEstado(uf) {
+            if (!uf) return;
+            try {
+                const resp = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios`);
+                const cidades = await resp.json();
+                cidades.sort((a,b) => a.nome.localeCompare(b.nome));
+                dom.cidade.innerHTML = '<option value="" disabled selected>Selecionar</option>';
+                cidades.forEach(c => {
+                    const opt = document.createElement('option');
+                    opt.value = c.nome;
+                    opt.textContent = c.nome;
+                    dom.cidade.appendChild(opt);
+                });
+                helpers.cidade.innerHTML = `${cidades.length} cidades carregadas`;
+                helpers.cidade.className = 'helper-text success-msg';
+            } catch (err) {
+                dom.cidade.innerHTML = '<option value="" disabled selected>Selecionar</option>';
+                helpers.cidade.innerHTML = 'Erro ao carregar cidades';
+                helpers.cidade.className = 'helper-text error-msg';
+            }
+        }
 
-        // ==================== VALIDAÇÃO GERAL E SUBMIT ====================
+        dom.cep.addEventListener('blur', buscarEnderecoPorCEP);
+        dom.estado.addEventListener('change', () => {
+            if (dom.estado.value) carregarCidadesPorEstado(dom.estado.value);
+            validarEstado();
+        });
+
+        // ========== CONSULTA CNPJ COM MÚLTIPLAS APIs ==========
+        // Lista de APIs em ordem de tentativa
+        const apisCNPJ = [
+            {
+                nome: 'cnpj.ws',
+                url: (cnpj) => `https://publica.cnpj.ws/cnpj/${cnpj}`,
+                processar: (data) => {
+                    return {
+                        razao_social: data.razao_social,
+                        nome_fantasia: data.nome_fantasia,
+                        cnae: data.estabelecimento?.cnae_fiscal_descricao,
+                        logradouro: data.estabelecimento?.logradouro,
+                        numero: data.estabelecimento?.numero,
+                        complemento: data.estabelecimento?.complemento,
+                        bairro: data.estabelecimento?.bairro,
+                        cep: data.estabelecimento?.cep,
+                        uf: data.estabelecimento?.estado?.sigla,
+                        municipio: data.estabelecimento?.cidade?.nome,
+                        telefone1: data.estabelecimento?.telefone1,
+                        telefone2: data.estabelecimento?.telefone2
+                    };
+                }
+            },
+            {
+                nome: 'OpenCNPJ',
+                url: (cnpj) => `https://opencnpj.org/api/v1/cnpj/${cnpj}`,
+                processar: (data) => {
+                    return {
+                        razao_social: data.razao_social,
+                        nome_fantasia: data.nome_fantasia,
+                        cnae: data.cnae_fiscal_principal?.descricao,
+                        logradouro: data.logradouro,
+                        numero: data.numero,
+                        complemento: data.complemento,
+                        bairro: data.bairro,
+                        cep: data.cep,
+                        uf: data.uf,
+                        municipio: data.municipio,
+                        telefone1: data.ddd_telefone_1,
+                        telefone2: data.ddd_telefone_2
+                    };
+                }
+            },
+            {
+                nome: 'BrasilAPI',
+                url: (cnpj) => `https://brasilapi.com.br/api/cnpj/v1/${cnpj}`,
+                processar: (data) => {
+                    return {
+                        razao_social: data.razao_social,
+                        nome_fantasia: data.nome_fantasia,
+                        cnae: data.cnae_fiscal_descricao,
+                        logradouro: data.logradouro,
+                        numero: data.numero,
+                        complemento: data.complemento,
+                        bairro: data.bairro,
+                        cep: data.cep,
+                        uf: data.uf,
+                        municipio: data.municipio,
+                        telefone1: data.ddd_telefone_1,
+                        telefone2: data.ddd_telefone_2
+                    };
+                }
+            },
+            {
+                nome: 'MinhaReceita',
+                url: (cnpj) => `https://minhareceita.org/api/v1/cnpj/${cnpj}`,
+                processar: (data) => {
+                    return {
+                        razao_social: data.razao_social,
+                        nome_fantasia: data.nome_fantasia,
+                        cnae: data.cnae_fiscal_descricao,
+                        logradouro: data.logradouro,
+                        numero: data.numero,
+                        complemento: data.complemento,
+                        bairro: data.bairro,
+                        cep: data.cep,
+                        uf: data.uf,
+                        municipio: data.municipio,
+                        telefone1: data.ddd_telefone_1,
+                        telefone2: data.ddd_telefone_2
+                    };
+                }
+            },
+            {
+                nome: 'ReceitaWS (com proxy)',
+                url: (cnpj) => `https://cors-anywhere.herokuapp.com/https://receitaws.com.br/v1/cnpj/${cnpj}`,
+                processar: (data) => {
+                    return {
+                        razao_social: data.nome,
+                        nome_fantasia: data.fantasia,
+                        cnae: data.atividade_principal?.text,
+                        logradouro: data.logradouro,
+                        numero: data.numero,
+                        complemento: data.complemento,
+                        bairro: data.bairro,
+                        cep: data.cep,
+                        uf: data.uf,
+                        municipio: data.municipio,
+                        telefone1: data.telefone,
+                        telefone2: null
+                    };
+                }
+            }
+        ];
+
+        let consultandoCNPJ = false;
+        let debounceTimer;
+
+        async function consultarCNPJ() {
+            const cnpjNum = dom.cnpj.value.replace(/\D/g, '');
+            if (cnpjNum.length !== 14) return;
+            if (consultandoCNPJ) return;
+            consultandoCNPJ = true;
+
+            helpers.cnpj.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Consultando CNPJ...';
+            helpers.cnpj.className = 'helper-text';
+
+            let sucesso = false;
+            let ultimoErro = null;
+
+            for (const api of apisCNPJ) {
+                try {
+                    if (api.nome === 'ReceitaWS (com proxy)') {
+                        helpers.cnpj.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Tentando ${api.nome}...`;
+                    }
+                    const url = api.url(cnpjNum);
+                    const resp = await fetch(url, {
+                        headers: api.nome === 'ReceitaWS (com proxy)' ? { 'Origin': 'https://example.com' } : {}
+                    });
+                    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+                    const data = await resp.json();
+                    
+                    // Verifica se a API retornou erro
+                    if (data.status === 'ERROR' || data.error) throw new Error('API retornou erro');
+                    
+                    const dados = api.processar(data);
+                    
+                    // Preencher campos
+                    if (dados.razao_social) dom.razaoSocial.value = dados.razao_social;
+                    if (dados.nome_fantasia) dom.nomeFantasia.value = dados.nome_fantasia;
+                    if (dados.cnae) dom.ramoAtividade.value = dados.cnae;
+                    if (dados.logradouro) dom.endereco.value = dados.logradouro;
+                    if (dados.numero) dom.numero.value = dados.numero;
+                    if (dados.complemento) dom.complemento.value = dados.complemento;
+                    if (dados.bairro) dom.bairro.value = dados.bairro;
+                    if (dados.cep) {
+                        let cep = dados.cep.replace(/\D/g, '');
+                        if (cep.length === 8) cep = cep.replace(/^(\d{5})(\d{3})/, '$1-$2');
+                        dom.cep.value = cep;
+                        setTimeout(buscarEnderecoPorCEP, 100);
+                    }
+                    if (dados.uf) {
+                        const opt = Array.from(dom.estado.options).find(o => o.value === dados.uf);
+                        if (opt) dom.estado.value = dados.uf;
+                        await carregarCidadesPorEstado(dados.uf);
+                        if (dados.municipio) {
+                            setTimeout(() => {
+                                const cidadeOpt = Array.from(dom.cidade.options).find(o => o.value === dados.municipio);
+                                if (cidadeOpt) dom.cidade.value = dados.municipio;
+                                else {
+                                    const newOpt = document.createElement('option');
+                                    newOpt.value = dados.municipio;
+                                    newOpt.textContent = dados.municipio;
+                                    dom.cidade.appendChild(newOpt);
+                                    dom.cidade.value = dados.municipio;
+                                }
+                                validarCidade();
+                            }, 100);
+                        }
+                    }
+                    if (dados.telefone1) {
+                        let tel = dados.telefone1.replace(/\D/g, '');
+                        if (tel.length === 10) tel = tel.replace(/^(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+                        dom.telefone.value = tel;
+                    }
+                    if (dados.telefone2) {
+                        let tel = dados.telefone2.replace(/\D/g, '');
+                        if (tel.length === 10) tel = tel.replace(/^(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+                        dom.outroTelefone.value = tel;
+                    }
+
+                    mostrarSucesso(helpers.cnpj, dom.cnpj, `CNPJ encontrado via ${api.nome}! Dados preenchidos.`);
+                    sucesso = true;
+                    break;
+                } catch (error) {
+                    ultimoErro = error;
+                    console.warn(`Erro na API ${api.nome}:`, error);
+                    continue; // Tenta próxima API
+                }
+            }
+
+            if (!sucesso) {
+                mostrarErro(helpers.cnpj, dom.cnpj, 'CNPJ inválido ou API indisponível. Tente novamente.');
+                validarCNPJ(); // Valida o formato
+            }
+
+            // Disparar validações dos campos preenchidos
+            validarRazaoSocial();
+            validarNomeFantasia();
+            validarRamoAtividade();
+            validarEndereco();
+            validarNumero();
+            validarBairro();
+            validarCEP();
+            validarEstado();
+
+            consultandoCNPJ = false;
+        }
+
+        // Gatilhos para consulta CNPJ
+        dom.cnpj.addEventListener('blur', () => {
+            const len = dom.cnpj.value.replace(/\D/g, '').length;
+            if (len === 14) consultarCNPJ();
+            else validarCNPJ();
+        });
+        
+        dom.cnpj.addEventListener('input', () => {
+            clearTimeout(debounceTimer);
+            const len = dom.cnpj.value.replace(/\D/g, '').length;
+            if (len === 14) {
+                debounceTimer = setTimeout(() => consultarCNPJ(), 1200);
+            }
+        });
+
+        // --- Eventos de validação em tempo real ---
+        dom.nomeFantasia.addEventListener('blur', validarNomeFantasia);
+        dom.nomeFantasia.addEventListener('input', validarNomeFantasia);
+        dom.razaoSocial.addEventListener('blur', validarRazaoSocial);
+        dom.razaoSocial.addEventListener('input', validarRazaoSocial);
+        dom.ramoAtividade.addEventListener('blur', validarRamoAtividade);
+        dom.ramoAtividade.addEventListener('input', validarRamoAtividade);
+        dom.endereco.addEventListener('blur', validarEndereco);
+        dom.endereco.addEventListener('input', validarEndereco);
+        dom.numero.addEventListener('blur', validarNumero);
+        dom.numero.addEventListener('input', validarNumero);
+        dom.bairro.addEventListener('blur', validarBairro);
+        dom.bairro.addEventListener('input', validarBairro);
+        dom.estado.addEventListener('change', validarEstado);
+        dom.cidade.addEventListener('change', validarCidade);
+        dom.celular.addEventListener('blur', validarCelular);
+        dom.celular.addEventListener('input', validarCelular);
+        dom.nomeContato.addEventListener('blur', validarNomeContato);
+        dom.nomeContato.addEventListener('input', validarNomeContato);
+        dom.emailContato.addEventListener('blur', validarEmailContato);
+        dom.emailContato.addEventListener('input', validarEmailContato);
+        dom.telefone.addEventListener('blur', () => validarTelefoneOpcional(dom.telefone, helpers.telefone));
+        dom.outroTelefone.addEventListener('blur', () => validarTelefoneOpcional(dom.outroTelefone, helpers.outroTelefone));
+        dom.telefoneContato.addEventListener('blur', () => validarTelefoneOpcional(dom.telefoneContato, helpers.telefoneContato));
+
+        // --- Validação geral e submit ---
         function validarFormulario() {
             const obrigatorios = [
                 validarNomeFantasia(),
@@ -820,48 +886,45 @@
                 validarEndereco(),
                 validarNumero(),
                 validarCEP(),
+                validarBairro(),
                 validarEstado(),
                 validarCidade(),
-                validarBairro(),
                 validarCelular(),
                 validarNomeContato(),
                 validarEmailContato()
             ];
-            validarTodosTelefonesOpcionais();
+            validarTelefoneOpcional(dom.telefone, helpers.telefone);
+            validarTelefoneOpcional(dom.outroTelefone, helpers.outroTelefone);
+            validarTelefoneOpcional(dom.telefoneContato, helpers.telefoneContato);
             return obrigatorios.every(v => v === true);
         }
 
-        elements.formulario.addEventListener('submit', async function(e) {
+        dom.form.addEventListener('submit', async (e) => {
             e.preventDefault();
             msgSucesso.classList.add('oculto');
             msgErro.classList.add('oculto');
-
             if (!validarFormulario()) {
                 msgErro.classList.remove('oculto');
                 const primeiroErro = document.querySelector('.error');
                 if (primeiroErro) primeiroErro.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 return;
             }
-
-            elements.btnEnviar.disabled = true;
-            elements.btnEnviar.textContent = 'ENVIANDO...';
-
+            dom.btn.disabled = true;
+            dom.btn.textContent = 'ENVIANDO...';
             try {
                 await new Promise(resolve => setTimeout(resolve, 1500));
                 msgSucesso.classList.remove('oculto');
-                elements.formulario.reset();
-                // Limpar helpers e classes
-                Object.keys(helpers).forEach(key => {
-                    if (helpers[key] && elements[key]) limparHelper(helpers[key], elements[key]);
-                });
-                elements.cidade.innerHTML = '<option value="" disabled selected>Selecionar</option>';
-                // Resetar estado do select de estado
-                elements.estado.value = '';
-            } catch (error) {
+                dom.form.reset();
+                for (let key in dom) {
+                    if (dom[key] && helpers[key]) limparHelper(helpers[key], dom[key]);
+                }
+                dom.cidade.innerHTML = '<option value="" disabled selected>Selecionar</option>';
+                dom.estado.value = '';
+            } catch (err) {
                 msgErro.classList.remove('oculto');
             } finally {
-                elements.btnEnviar.disabled = false;
-                elements.btnEnviar.textContent = 'ENVIAR';
+                dom.btn.disabled = false;
+                dom.btn.textContent = 'ENVIAR';
             }
         });
     })();
