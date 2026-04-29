@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Vagas - Senac</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background:#cfd0d1; display:flex; justify-content:center; align-items:center; min-height:100vh; font-family:'Inter',sans-serif; padding:16px; }
+        .container { max-width:850px; width:100%; background:white; border-radius:28px; box-shadow:0 25px 50px -12px rgba(0,0,0,0.25); padding:32px; }
+        h1 { color:#004A8D; font-size:28px; text-align:center; margin-bottom:4px; }
+        .subtitulo { text-align:center; color:#555; margin-bottom:24px; font-size:14px; border-bottom:1px solid #e2e8f0; padding-bottom:16px; }
+        .section-title { font-size:18px; font-weight:600; color:#004A8D; margin:28px 0 16px; padding-bottom:6px; border-bottom:2px solid #004A8D; }
+        .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+        .form-grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; }
+        .campo { display:flex; flex-direction:column; gap:4px; }
+        .campo.full-width { grid-column:span 2; }
+        .campo.full-width-3 { grid-column:span 3; }
+        label { font-size:12px; font-weight:600; color:#334155; text-transform:uppercase; display:flex; align-items:center; gap:4px; }
+        .required-star { color:#dc2626; }
+        input, select, textarea { background:#f9fcff; border:1px solid #cbd5e1; border-radius:12px; padding:12px 14px; font-size:14px; outline:none; transition:0.2s; font-family:'Inter',sans-serif; width:100%; }
+        textarea { resize:vertical; min-height:80px; }
+        input:focus, select:focus, textarea:focus { border-color:#1e4f8a; box-shadow:0 0 0 3px rgba(30,79,138,0.15); background:white; }
+        input.error, select.error, textarea.error { border-color:#dc2626; background:#fef2f2; }
+        input.success, select.success, textarea.success { border-color:#16a34a; background:#f0fdf4; }
+        .helper-text { font-size:11px; margin-left:4px; min-height:18px; display:flex; align-items:center; gap:4px; }
+        .helper-text.error-msg { color:#dc2626; }
+        .helper-text.success-msg { color:#16a34a; }
+        .btn-submit { background:#005b96; color:white; border:none; padding:14px 32px; font-size:16px; font-weight:600; border-radius:40px; cursor:pointer; transition:0.3s; display:block; margin:32px auto 0; min-width:220px; }
+        .btn-submit:hover:not(:disabled) { background:#F7941D; transform:translateY(-2px); }
+        .btn-submit:disabled { background:#ccc; cursor:not-allowed; }
+        .radio-group { display:flex; gap:24px; align-items:center; flex-wrap:wrap; margin-top:8px; }
+        .radio-group label { font-weight:normal; text-transform:none; font-size:14px; gap:6px; }
+        .campo-condicional { margin-top:12px; }
+        .mensagem-envio { background:#eaf6e7; border:1px solid #9ec5a0; border-radius:40px; padding:12px 20px; font-size:14px; color:#1f4f2b; text-align:center; margin-bottom:20px; font-weight:500; display:flex; align-items:center; justify-content:center; gap:8px; }
+        .mensagem-envio.erro { background:#fee9e7; border-color:#f1a09c; color:#a11f1f; }
+        .oculto { display:none; }
+        /* Estilos para o toggle ao lado do campo salário */
+        .salario-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .salario-row {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+        .salario-input-area {
+            flex: 2;
+            min-width: 180px;
+        }
+        .toggle-area {
+            flex: 1;
+            min-width: 130px;
+            margin-top: 20px; /* Alinha com o campo de input */
+        }
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .3s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #16a34a;
+        }
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+        .toggle-label {
+            font-size: 13px;
+            font-weight: 500;
+            text-transform: none;
+            color: #334155;
+        }
+        @media (max-width: 700px) {
+            .form-grid, .form-grid-3 { grid-template-columns:1fr; }
+            .campo.full-width, .campo.full-width-3 { grid-column:span 1; }
+            .container { padding:20px; }
+            .salario-row {
+                flex-direction: column;
+                gap: 8px;
+            }
+            .toggle-area {
+                margin-top: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1><i class="fas fa-briefcase"></i> CADASTRO DE VAGAS</h1>
+    <div class="subtitulo">Preencha as informações da oportunidade</div>
+
+    <div id="msgSucesso" class="mensagem-envio oculto"><i class="fa-regular fa-circle-check"></i> Vaga cadastrada com sucesso!</div>
+    <div id="msgErro" class="mensagem-envio erro oculto"><i class="fas fa-exclamation-circle"></i> Corrija os campos em vermelho antes de enviar.</div>
+    <div style="text-align: right; font-size: 12px; margin-bottom: 16px;"><span class="required-star">*</span> Campos obrigatórios</div>
+
+    <form id="formVaga" novalidate>
+        <!-- SOBRE A VAGA -->
+        <div class="section-title">SOBRE A VAGA</div>
+        <div class="form-grid">
+            <div class="campo full-width">
+                <label>CARGO/FUNÇÃO <span class="required-star">*</span></label>
+                <input type="text" id="cargo" placeholder="Ex: Analista de Vendas, Auxiliar Administrativo">
+                <div class="helper-text" id="helper-cargo"></div>
+            </div>
+            <div class="campo">
+                <label>HORÁRIO DE TRABALHO <span class="required-star">*</span></label>
+                <input type="text" id="horario" placeholder="Ex: 08h às 18h (seg-sex)">
+                <div class="helper-text" id="helper-horario"></div>
+            </div>
+            <div class="campo">
+                <label>NÚMERO DE VAGAS <span class="required-star">*</span></label>
+                <input type="text" id="numVagas" placeholder="Apenas números" inputmode="numeric">
+                <div class="helper-text" id="helper-numVagas"></div>
+            </div>
+            <div class="campo">
+                <div class="salario-wrapper">
+                    <div class="salario-row">
+                        <div class="salario-input-area">
+                            <label>SALÁRIO <span class="required-star" id="starSalario">*</span></label>
+                            <input type="text" id="salario" placeholder="R$ 0,00">
+                            <div class="helper-text" id="helper-salario"></div>
+                        </div>
+                        <div class="toggle-area">
+                            <div class="toggle-container">
+                                <label class="switch">
+                                    <input type="checkbox" id="salarioACombinar">
+                                    <span class="slider"></span>
+                                </label>
+                                <span class="toggle-label">A combinar</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-grid">
+            <div class="campo">
+                <label>TIPO DE CONTRATAÇÃO <span class="required-star">*</span></label>
+                <div class="radio-group">
+                    <label><input type="radio" name="tipoContratacao" value="Fixa"> Vaga Fixa</label>
+                    <label><input type="radio" name="tipoContratacao" value="Temporária"> Vaga Temporária</label>
+                    <label><input type="radio" name="tipoContratacao" value="Evento"> Evento</label>
+                </div>
+                <div class="helper-text" id="helper-tipoContratacao"></div>
+            </div>
+            <div class="campo">
+                <label>SEXO</label>
+                <select id="sexo">
+                    <option value="" selected disabled>Selecione</option>
+                    <option value="Masculino">Masculino</option>
+                    <option value="Feminino">Feminino</option>
+                    <option value="Outro">Outro</option>
+                </select>
+                <div class="helper-text" id="helper-sexo"></div>
+            </div>
+        </div>
+
+        <div class="form-grid-3">
+            <div class="campo">
+                <label>IDADE MÍNIMA</label>
+                <input type="text" id="idadeMin" placeholder="Ex: 18" inputmode="numeric">
+                <div class="helper-text" id="helper-idadeMin"></div>
+            </div>
+            <div class="campo">
+                <label>IDADE MÁXIMA</label>
+                <input type="text" id="idadeMax" placeholder="Ex: 60" inputmode="numeric">
+                <div class="helper-text" id="helper-idadeMax"></div>
+            </div>
+            <div class="campo">
+                <label>ESCOLARIDADE MÍNIMA <span class="required-star">*</span></label>
+                <select id="escolaridade">
+                    <option value="" disabled selected>Selecione</option>
+                    <option value="Fundamental incompleto">Fundamental incompleto</option>
+                    <option value="Fundamental completo">Fundamental completo</option>
+                    <option value="Médio incompleto">Médio incompleto</option>
+                    <option value="Médio completo">Médio completo</option>
+                    <option value="Superior incompleto">Superior incompleto</option>
+                    <option value="Superior completo">Superior completo</option>
+                    <option value="Técnico">Técnico</option>
+                    <option value="Outros">Outros</option>
+                </select>
+                <div class="helper-text" id="helper-escolaridade"></div>
+            </div>
+        </div>
+
+        <!-- Campo condicional para nome do curso -->
+        <div class="campo full-width oculto" id="campoCurso">
+            <label>NOME DO CURSO <span class="required-star">*</span></label>
+            <input type="text" id="nomeCurso" placeholder="Digite o nome do curso">
+            <div class="helper-text" id="helper-nomeCurso"></div>
+        </div>
+
+        <div class="form-grid">
+            <div class="campo">
+                <label>ESTADO <span class="required-star">*</span></label>
+                <select id="estado">
+                    <option value="" disabled selected>Selecionar</option>
+                    <option value="AC">Acre</option><option value="AL">Alagoas</option><option value="AP">Amapá</option>
+                    <option value="AM">Amazonas</option><option value="BA">Bahia</option><option value="CE">Ceará</option>
+                    <option value="DF">Distrito Federal</option><option value="ES">Espírito Santo</option><option value="GO">Goiás</option>
+                    <option value="MA">Maranhão</option><option value="MT">Mato Grosso</option><option value="MS">Mato Grosso do Sul</option>
+                    <option value="MG">Minas Gerais</option><option value="PA">Pará</option><option value="PB">Paraíba</option>
+                    <option value="PR">Paraná</option><option value="PE">Pernambuco</option><option value="PI">Piauí</option>
+                    <option value="RJ">Rio de Janeiro</option><option value="RN">Rio Grande do Norte</option><option value="RS">Rio Grande do Sul</option>
+                    <option value="RO">Rondônia</option><option value="RR">Roraima</option><option value="SC">Santa Catarina</option>
+                    <option value="SP">São Paulo</option><option value="SE">Sergipe</option><option value="TO">Tocantins</option>
+                </select>
+                <div class="helper-text" id="helper-estado"></div>
+            </div>
+            <div class="campo">
+                <label>CIDADE <span class="required-star">*</span></label>
+                <select id="cidade">
+                    <option value="" disabled selected>Selecione o estado primeiro</option>
+                </select>
+                <div class="helper-text" id="helper-cidade"></div>
+            </div>
+            <div class="campo full-width">
+                <label>OUTRAS INFORMAÇÕES SOBRE A VAGA</label>
+                <textarea id="outrasInfo" rows="3" placeholder="Benefícios, habilidades desejadas, etc."></textarea>
+                <div class="helper-text" id="helper-outrasInfo"></div>
+            </div>
+        </div>
+
+        <!-- SOBRE A ENTREVISTA -->
+        <div class="section-title">SOBRE A ENTREVISTA</div>
+        <div class="form-grid">
+            <div class="campo full-width">
+                <label>ENDEREÇO PARA ENTREVISTA <span class="required-star">*</span></label>
+                <input type="text" id="enderecoEntrevista" placeholder="Rua, número, bairro, cidade - referência">
+                <div class="helper-text" id="helper-enderecoEntrevista"></div>
+            </div>
+            <div class="campo">
+                <label>SOLICITANTE <span class="required-star">*</span></label>
+                <input type="text" id="solicitante" placeholder="Nome do responsável">
+                <div class="helper-text" id="helper-solicitante"></div>
+            </div>
+            <div class="campo">
+                <label>EMAIL <span class="required-star">*</span></label>
+                <input type="email" id="emailEntrevista" placeholder="contato@empresa.com">
+                <div class="helper-text" id="helper-emailEntrevista"></div>
+            </div>
+            <div class="campo">
+                <label>TELEFONE DE CONTATO <span class="required-star">*</span></label>
+                <input type="text" id="telefoneContato" placeholder="(71) 98888-7777" maxlength="15">
+                <div class="helper-text" id="helper-telefoneContato"></div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn-submit" id="btnEnviar">ENVIAR VAGA</button>
+    </form>
+</div>
+
+<script>
+(function() {
+    // Elementos DOM
+    const dom = {
+        cargo: document.getElementById('cargo'),
+        horario: document.getElementById('horario'),
+        numVagas: document.getElementById('numVagas'),
+        salario: document.getElementById('salario'),
+        tipoContratacao: document.querySelectorAll('input[name="tipoContratacao"]'),
+        sexo: document.getElementById('sexo'),
+        idadeMin: document.getElementById('idadeMin'),
+        idadeMax: document.getElementById('idadeMax'),
+        escolaridade: document.getElementById('escolaridade'),
+        nomeCurso: document.getElementById('nomeCurso'),
+        estado: document.getElementById('estado'),
+        cidade: document.getElementById('cidade'),
+        outrasInfo: document.getElementById('outrasInfo'),
+        enderecoEntrevista: document.getElementById('enderecoEntrevista'),
+        solicitante: document.getElementById('solicitante'),
+        emailEntrevista: document.getElementById('emailEntrevista'),
+        telefoneContato: document.getElementById('telefoneContato'),
+        form: document.getElementById('formVaga'),
+        btn: document.getElementById('btnEnviar'),
+        salarioACombinar: document.getElementById('salarioACombinar')
+    };
+
+    const helpers = {
+        cargo: document.getElementById('helper-cargo'),
+        horario: document.getElementById('helper-horario'),
+        numVagas: document.getElementById('helper-numVagas'),
+        salario: document.getElementById('helper-salario'),
+        tipoContratacao: document.getElementById('helper-tipoContratacao'),
+        sexo: document.getElementById('helper-sexo'),
+        idadeMin: document.getElementById('helper-idadeMin'),
+        idadeMax: document.getElementById('helper-idadeMax'),
+        escolaridade: document.getElementById('helper-escolaridade'),
+        nomeCurso: document.getElementById('helper-nomeCurso'),
+        estado: document.getElementById('helper-estado'),
+        cidade: document.getElementById('helper-cidade'),
+        outrasInfo: document.getElementById('helper-outrasInfo'),
+        enderecoEntrevista: document.getElementById('helper-enderecoEntrevista'),
+        solicitante: document.getElementById('helper-solicitante'),
+        emailEntrevista: document.getElementById('helper-emailEntrevista'),
+        telefoneContato: document.getElementById('helper-telefoneContato')
+    };
+
+    const msgSucesso = document.getElementById('msgSucesso');
+    const msgErro = document.getElementById('msgErro');
+    const campoCursoDiv = document.getElementById('campoCurso');
+    const starSalario = document.getElementById('starSalario');
+
+    // --- Funções auxiliares de UI ---
+    function mostrarErro(helper, elemento, msg) {
+        if (!helper) return;
+        helper.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${msg}`;
+        helper.className = 'helper-text error-msg';
+        if (elemento) {
+            elemento.classList.add('error');
+            elemento.classList.remove('success');
+        }
+    }
+    function mostrarSucesso(helper, elemento, msg) {
+        if (!helper) return;
+        helper.innerHTML = `<i class="fas fa-check-circle"></i> ${msg}`;
+        helper.className = 'helper-text success-msg';
+        if (elemento) {
+            elemento.classList.add('success');
+            elemento.classList.remove('error');
+        }
+    }
+    function limparHelper(helper, elemento) {
+        if (helper && elemento) {
+            helper.innerHTML = '';
+            helper.className = 'helper-text';
+            elemento.classList.remove('error', 'success');
+        }
+    }
+
+    // --- Máscaras ---
+    function mascaraMoeda(e) {
+        if (dom.salarioACombinar.checked) return;
+        let v = e.target.value.replace(/\D/g, '');
+        if (v === '') { e.target.value = ''; return; }
+        v = (parseInt(v) / 100).toFixed(2);
+        v = v.replace('.', ',');
+        v = v.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        e.target.value = 'R$ ' + v;
+    }
+    function mascaraNumeroVagas(e) { e.target.value = e.target.value.replace(/\D/g, ''); }
+    function mascaraTelefone(e) {
+        let v = e.target.value.replace(/\D/g, '');
+        if (v.length > 11) v = v.slice(0, 11);
+        if (v.length > 7) v = v.replace(/^(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+        else if (v.length > 2) v = v.replace(/^(\d{2})(\d{1,5})/, '($1) $2');
+        e.target.value = v;
+    }
+    dom.salario.addEventListener('input', mascaraMoeda);
+    dom.numVagas.addEventListener('input', mascaraNumeroVagas);
+    dom.telefoneContato.addEventListener('input', mascaraTelefone);
+    dom.idadeMin.addEventListener('input', () => dom.idadeMin.value = dom.idadeMin.value.replace(/\D/g, ''));
+    dom.idadeMax.addEventListener('input', () => dom.idadeMax.value = dom.idadeMax.value.replace(/\D/g, ''));
+
+    // --- Toggle "A combinar" ---
+    function toggleSalarioACombinar() {
+        if (dom.salarioACombinar.checked) {
+            dom.salario.disabled = true;
+            dom.salario.value = '';
+            dom.salario.classList.remove('error', 'success');
+            helpers.salario.innerHTML = '<i class="fas fa-check-circle"></i> A combinar';
+            helpers.salario.className = 'helper-text success-msg';
+            starSalario.style.opacity = '0.3';
+        } else {
+            dom.salario.disabled = false;
+            starSalario.style.opacity = '1';
+            if (dom.salario.value.trim() && dom.salario.value !== 'R$ 0,00') {
+                validarSalario();
+            } else {
+                limparHelper(helpers.salario, dom.salario);
+            }
+        }
+    }
+    dom.salarioACombinar.addEventListener('change', toggleSalarioACombinar);
+
+    // --- Validações ---
+    function validarCargo() {
+        const val = dom.cargo.value.trim();
+        if (!val) { mostrarErro(helpers.cargo, dom.cargo, 'Cargo obrigatório'); return false; }
+        if (val.length < 3) { mostrarErro(helpers.cargo, dom.cargo, 'Mínimo 3 caracteres'); return false; }
+        mostrarSucesso(helpers.cargo, dom.cargo, 'Válido');
+        return true;
+    }
+    function validarHorario() {
+        const val = dom.horario.value.trim();
+        if (!val) { mostrarErro(helpers.horario, dom.horario, 'Horário obrigatório'); return false; }
+        mostrarSucesso(helpers.horario, dom.horario, 'Válido');
+        return true;
+    }
+    function validarNumVagas() {
+        const val = dom.numVagas.value.trim();
+        if (!val) { mostrarErro(helpers.numVagas, dom.numVagas, 'Número de vagas obrigatório'); return false; }
+        if (isNaN(val) || parseInt(val) <= 0) { mostrarErro(helpers.numVagas, dom.numVagas, 'Número inválido'); return false; }
+        mostrarSucesso(helpers.numVagas, dom.numVagas, 'Válido');
+        return true;
+    }
+    function validarSalario() {
+        if (dom.salarioACombinar.checked) return true;
+        const val = dom.salario.value.trim();
+        if (!val || val === 'R$ 0,00') { mostrarErro(helpers.salario, dom.salario, 'Salário obrigatório'); return false; }
+        mostrarSucesso(helpers.salario, dom.salario, 'Válido');
+        return true;
+    }
+    function validarTipoContratacao() {
+        let selecionado = false;
+        for (let radio of dom.tipoContratacao) if (radio.checked) selecionado = true;
+        if (!selecionado) { mostrarErro(helpers.tipoContratacao, null, 'Selecione o tipo de contratação'); return false; }
+        mostrarSucesso(helpers.tipoContratacao, null, 'Selecionado');
+        return true;
+    }
+    function validarSexo() {
+        if (!dom.sexo.value) { mostrarErro(helpers.sexo, dom.sexo, 'Selecione uma opção'); return false; }
+        mostrarSucesso(helpers.sexo, dom.sexo, 'Válido');
+        return true;
+    }
+    function validarIdadeMin() {
+        const val = dom.idadeMin.value.trim();
+        if (val && (isNaN(val) || parseInt(val) < 0 || parseInt(val) > 120)) {
+            mostrarErro(helpers.idadeMin, dom.idadeMin, 'Idade inválida (0-120)');
+            return false;
+        }
+        limparHelper(helpers.idadeMin, dom.idadeMin);
+        return true;
+    }
+    function validarIdadeMax() {
+        const val = dom.idadeMax.value.trim();
+        if (val && (isNaN(val) || parseInt(val) < 0 || parseInt(val) > 120)) {
+            mostrarErro(helpers.idadeMax, dom.idadeMax, 'Idade inválida (0-120)');
+            return false;
+        }
+        const min = dom.idadeMin.value.trim();
+        if (min && val && parseInt(val) < parseInt(min)) {
+            mostrarErro(helpers.idadeMax, dom.idadeMax, 'Idade máxima não pode ser menor que a mínima');
+            return false;
+        }
+        limparHelper(helpers.idadeMax, dom.idadeMax);
+        return true;
+    }
+    function validarEscolaridade() {
+        const val = dom.escolaridade.value;
+        if (!val) { mostrarErro(helpers.escolaridade, dom.escolaridade, 'Escolaridade obrigatória'); return false; }
+        mostrarSucesso(helpers.escolaridade, dom.escolaridade, 'Selecionada');
+        return true;
+    }
+    function validarNomeCurso() {
+        const escolaridade = dom.escolaridade.value;
+        if (escolaridade === 'Técnico' || escolaridade === 'Superior completo' || escolaridade === 'Superior incompleto' || escolaridade === 'Outros') {
+            const val = dom.nomeCurso.value.trim();
+            if (!val) { mostrarErro(helpers.nomeCurso, dom.nomeCurso, 'Informe o nome do curso'); return false; }
+            mostrarSucesso(helpers.nomeCurso, dom.nomeCurso, 'Válido');
+            return true;
+        }
+        limparHelper(helpers.nomeCurso, dom.nomeCurso);
+        return true;
+    }
+    function validarEstado() {
+        if (!dom.estado.value) { mostrarErro(helpers.estado, dom.estado, 'Selecione o estado'); return false; }
+        mostrarSucesso(helpers.estado, dom.estado, 'Selecionado');
+        return true;
+    }
+    function validarCidade() {
+        if (!dom.cidade.value) { mostrarErro(helpers.cidade, dom.cidade, 'Selecione a cidade'); return false; }
+        mostrarSucesso(helpers.cidade, dom.cidade, 'Selecionada');
+        return true;
+    }
+    function validarEnderecoEntrevista() {
+        const val = dom.enderecoEntrevista.value.trim();
+        if (!val) { mostrarErro(helpers.enderecoEntrevista, dom.enderecoEntrevista, 'Endereço obrigatório'); return false; }
+        mostrarSucesso(helpers.enderecoEntrevista, dom.enderecoEntrevista, 'Válido');
+        return true;
+    }
+    function validarSolicitante() {
+        const val = dom.solicitante.value.trim();
+        if (!val) { mostrarErro(helpers.solicitante, dom.solicitante, 'Solicitante obrigatório'); return false; }
+        if (val.length < 3) { mostrarErro(helpers.solicitante, dom.solicitante, 'Mínimo 3 caracteres'); return false; }
+        mostrarSucesso(helpers.solicitante, dom.solicitante, 'Válido');
+        return true;
+    }
+    function validarEmailEntrevista() {
+        const val = dom.emailEntrevista.value.trim();
+        if (!val) { mostrarErro(helpers.emailEntrevista, dom.emailEntrevista, 'E-mail obrigatório'); return false; }
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!regex.test(val)) { mostrarErro(helpers.emailEntrevista, dom.emailEntrevista, 'E-mail inválido'); return false; }
+        mostrarSucesso(helpers.emailEntrevista, dom.emailEntrevista, 'Válido');
+        return true;
+    }
+    function validarTelefoneContato() {
+        let val = dom.telefoneContato.value.replace(/\D/g, '');
+        if (!val) { mostrarErro(helpers.telefoneContato, dom.telefoneContato, 'Telefone obrigatório'); return false; }
+        if (val.length !== 10 && val.length !== 11) { mostrarErro(helpers.telefoneContato, dom.telefoneContato, 'Telefone deve ter 10 ou 11 dígitos'); return false; }
+        mostrarSucesso(helpers.telefoneContato, dom.telefoneContato, 'Válido');
+        return true;
+    }
+
+    // Campo condicional curso
+    function toggleCampoCurso() {
+        const escolaridade = dom.escolaridade.value;
+        if (escolaridade === 'Técnico' || escolaridade === 'Superior completo' || escolaridade === 'Superior incompleto' || escolaridade === 'Outros') {
+            campoCursoDiv.classList.remove('oculto');
+            validarNomeCurso();
+        } else {
+            campoCursoDiv.classList.add('oculto');
+            limparHelper(helpers.nomeCurso, dom.nomeCurso);
+            dom.nomeCurso.value = '';
+        }
+    }
+    dom.escolaridade.addEventListener('change', toggleCampoCurso);
+    dom.nomeCurso.addEventListener('blur', validarNomeCurso);
+    dom.nomeCurso.addEventListener('input', validarNomeCurso);
+
+    // Carregar cidades via API IBGE
+    async function carregarCidades(uf) {
+        if (!uf) return;
+        helpers.cidade.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Carregando...';
+        try {
+            const resp = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios`);
+            const cidades = await resp.json();
+            cidades.sort((a,b) => a.nome.localeCompare(b.nome));
+            dom.cidade.innerHTML = '<option value="" disabled selected>Selecione a cidade</option>';
+            cidades.forEach(c => {
+                const opt = document.createElement('option');
+                opt.value = c.nome;
+                opt.textContent = c.nome;
+                dom.cidade.appendChild(opt);
+            });
+            helpers.cidade.innerHTML = `${cidades.length} cidades carregadas`;
+            helpers.cidade.className = 'helper-text success-msg';
+        } catch (err) {
+            dom.cidade.innerHTML = '<option value="" disabled selected>Erro ao carregar</option>';
+            helpers.cidade.innerHTML = 'Erro ao carregar cidades';
+            helpers.cidade.className = 'helper-text error-msg';
+        }
+    }
+    dom.estado.addEventListener('change', () => {
+        if (dom.estado.value) {
+            carregarCidades(dom.estado.value);
+            validarEstado();
+        } else {
+            dom.cidade.innerHTML = '<option value="" disabled selected>Selecione o estado primeiro</option>';
+        }
+    });
+
+    // Eventos de validação em tempo real
+    dom.cargo.addEventListener('blur', validarCargo);
+    dom.cargo.addEventListener('input', validarCargo);
+    dom.horario.addEventListener('blur', validarHorario);
+    dom.horario.addEventListener('input', validarHorario);
+    dom.numVagas.addEventListener('blur', validarNumVagas);
+    dom.numVagas.addEventListener('input', validarNumVagas);
+    dom.salario.addEventListener('blur', validarSalario);
+    for (let radio of dom.tipoContratacao) radio.addEventListener('change', validarTipoContratacao);
+    dom.sexo.addEventListener('change', validarSexo);
+    dom.idadeMin.addEventListener('blur', () => { validarIdadeMin(); validarIdadeMax(); });
+    dom.idadeMax.addEventListener('blur', validarIdadeMax);
+    dom.escolaridade.addEventListener('change', validarEscolaridade);
+    dom.estado.addEventListener('change', validarEstado);
+    dom.cidade.addEventListener('change', validarCidade);
+    dom.enderecoEntrevista.addEventListener('blur', validarEnderecoEntrevista);
+    dom.enderecoEntrevista.addEventListener('input', validarEnderecoEntrevista);
+    dom.solicitante.addEventListener('blur', validarSolicitante);
+    dom.solicitante.addEventListener('input', validarSolicitante);
+    dom.emailEntrevista.addEventListener('blur', validarEmailEntrevista);
+    dom.emailEntrevista.addEventListener('input', validarEmailEntrevista);
+    dom.telefoneContato.addEventListener('blur', validarTelefoneContato);
+    dom.telefoneContato.addEventListener('input', validarTelefoneContato);
+
+    // Validação geral
+    function validarFormulario() {
+        const obrigatorios = [
+            validarCargo(), validarHorario(), validarNumVagas(), validarSalario(),
+            validarTipoContratacao(), validarSexo(), validarEscolaridade(), validarNomeCurso(),
+            validarEstado(), validarCidade(), validarEnderecoEntrevista(), validarSolicitante(),
+            validarEmailEntrevista(), validarTelefoneContato()
+        ];
+        validarIdadeMin();
+        validarIdadeMax();
+        return obrigatorios.every(v => v === true);
+    }
+
+    // Submit
+    dom.form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        msgSucesso.classList.add('oculto');
+        msgErro.classList.add('oculto');
+        if (!validarFormulario()) {
+            msgErro.classList.remove('oculto');
+            const primeiroErro = document.querySelector('.error');
+            if (primeiroErro) primeiroErro.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return;
+        }
+        dom.btn.disabled = true;
+        dom.btn.textContent = 'ENVIANDO...';
+        try {
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            msgSucesso.classList.remove('oculto');
+            dom.form.reset();
+            dom.cidade.innerHTML = '<option value="" disabled selected>Selecione o estado primeiro</option>';
+            dom.estado.value = '';
+            campoCursoDiv.classList.add('oculto');
+            for (let key in dom) if (helpers[key]) limparHelper(helpers[key], dom[key]);
+            if (helpers.salario) limparHelper(helpers.salario, dom.salario);
+            dom.salarioACombinar.checked = false;
+            dom.salario.disabled = false;
+            starSalario.style.opacity = '1';
+            document.querySelectorAll('.error, .success').forEach(el => el.classList.remove('error', 'success'));
+        } catch (err) {
+            msgErro.classList.remove('oculto');
+        } finally {
+            dom.btn.disabled = false;
+            dom.btn.textContent = 'ENVIAR VAGA';
+        }
+    });
+})();
+</script>
+</body>
+</html>
