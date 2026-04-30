@@ -30,97 +30,31 @@
         .helper-text { font-size:11px; margin-left:4px; min-height:18px; display:flex; align-items:center; gap:4px; }
         .helper-text.error-msg { color:#dc2626; }
         .helper-text.success-msg { color:#16a34a; }
-        .btn-submit { background:#005b96; color:white; border:none; padding:14px 32px; font-size:16px; font-weight:600; border-radius:40px; cursor:pointer; transition:0.6s; display:block; margin:32px auto 0; min-width:220px; }
+        .btn-submit { background:#005b96; color:white; border:none; padding:14px 32px; font-size:16px; font-weight:600; border-radius:40px; cursor:pointer; transition:0.3s; display:block; margin:32px auto 0; min-width:220px; }
         .btn-submit:hover:not(:disabled) { background:#F7941D; transform:translateY(-2px); }
         .btn-submit:disabled { background:#ccc; cursor:not-allowed; }
-        .radio-group { display:flex; gap:24px; align-items:center; flex-wrap:wrap; margin-top:8px; }
-        .radio-group label { font-weight:normal; text-transform:none; font-size:14px; gap:6px; }
-        .campo-condicional { margin-top:12px; }
         .mensagem-envio { background:#eaf6e7; border:1px solid #9ec5a0; border-radius:40px; padding:12px 20px; font-size:14px; color:#1f4f2b; text-align:center; margin-bottom:20px; font-weight:500; display:flex; align-items:center; justify-content:center; gap:8px; }
         .mensagem-envio.erro { background:#fee9e7; border-color:#f1a09c; color:#a11f1f; }
         .oculto { display:none; }
         /* Estilos para o toggle ao lado do campo salário */
-        .salario-wrapper {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-        .salario-row {
-            display: flex;
-            gap: 16px;
-            align-items: flex-start;
-            flex-wrap: wrap;
-        }
-        .salario-input-area {
-            flex: 2;
-            min-width: 180px;
-        }
-        .toggle-area {
-            flex: 1;
-            min-width: 130px;
-            margin-top: 30px; /* Alinha com o campo de input */
-        }
-        .toggle-container {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 44px;
-            height: 24px;
-        }
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .3s;
-            border-radius: 24px;
-        }
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 18px;
-            width: 18px;
-            left: 3px;
-            bottom: 3px;
-            background-color: white;
-            transition: .3s;
-            border-radius: 50%;
-        }
-        input:checked + .slider {
-            background-color: #16a34a;
-        }
-        input:checked + .slider:before {
-            transform: translateX(20px);
-        }
-        .toggle-label {
-            font-size: 13px;
-            font-weight: 500;
-            text-transform: none;
-            color: #334155;
-        }
-        @media (max-width: 700px) {
+        .salario-wrapper { display:flex; flex-direction:column; gap:4px; }
+        .salario-row { display:flex; gap:16px; align-items:flex-start; flex-wrap:wrap; }
+        .salario-input-area { flex:2; min-width:180px; }
+        .toggle-area { flex:1; min-width:130px; margin-top:25px; }
+        .toggle-container { display:flex; align-items:center; gap:8px; }
+        .switch { position:relative; display:inline-block; width:44px; height:24px; }
+        .switch input { opacity:0; width:0; height:0; }
+        .slider { position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background-color:#ccc; transition:.3s; border-radius:24px; }
+        .slider:before { position:absolute; content:""; height:18px; width:18px; left:3px; bottom:3px; background-color:white; transition:.3s; border-radius:50%; }
+        input:checked + .slider { background-color:#16a34a; }
+        input:checked + .slider:before { transform:translateX(20px); }
+        .toggle-label { font-size:13px; font-weight:500; text-transform:none; color:#334155; }
+        @media (max-width:700px) {
             .form-grid, .form-grid-3 { grid-template-columns:1fr; }
-            .campo.full-width, .campo.full-width-3 { grid-column:span 1; }
+            .campo.full-width, .campo.full-width-3 { grid-column:span1; }
             .container { padding:20px; }
-            .salario-row {
-                flex-direction: column;
-                gap: 8px;
-            }
-            .toggle-area {
-                margin-top: 0;
-            }
+            .salario-row { flex-direction:column; gap:8px; }
+            .toggle-area { margin-top:0; }
         }
     </style>
 </head>
@@ -177,20 +111,21 @@
         <div class="form-grid">
             <div class="campo">
                 <label>TIPO DE CONTRATAÇÃO <span class="required-star">*</span></label>
-                <div class="radio-group">
-                    <label><input type="radio" name="tipoContratacao" value="Fixa"> Vaga Fixa</label>
-                    <label><input type="radio" name="tipoContratacao" value="Temporária"> Vaga Temporária</label>
-                    <label><input type="radio" name="tipoContratacao" value="Evento"> Evento</label>
-                </div>
+                <select id="tipoContratacao">
+                    <option value="" disabled selected>Selecione</option>
+                    <option value="Fixa">Vaga Fixa</option>
+                    <option value="Temporária">Vaga Temporária</option>
+                    <option value="Evento">Evento</option>
+                </select>
                 <div class="helper-text" id="helper-tipoContratacao"></div>
             </div>
             <div class="campo">
-                <label>SEXO</label>
+                <label>SEXO (PREFERÊNCIA)</label>
                 <select id="sexo">
                     <option value="" selected disabled>Selecione</option>
                     <option value="Masculino">Masculino</option>
                     <option value="Feminino">Feminino</option>
-                    <option value="Outro">Outro</option>
+                    <option value="Ambos">Ambos</option>
                 </select>
                 <div class="helper-text" id="helper-sexo"></div>
             </div>
@@ -215,9 +150,9 @@
                     <option value="Fundamental completo">Fundamental completo</option>
                     <option value="Médio incompleto">Médio incompleto</option>
                     <option value="Médio completo">Médio completo</option>
-                    <option value="Técnico">Técnico</option>
                     <option value="Superior incompleto">Superior incompleto</option>
                     <option value="Superior completo">Superior completo</option>
+                    <option value="Técnico">Técnico</option>
                     <option value="Outros">Outros</option>
                 </select>
                 <div class="helper-text" id="helper-escolaridade"></div>
@@ -299,7 +234,7 @@
         horario: document.getElementById('horario'),
         numVagas: document.getElementById('numVagas'),
         salario: document.getElementById('salario'),
-        tipoContratacao: document.querySelectorAll('input[name="tipoContratacao"]'),
+        tipoContratacao: document.getElementById('tipoContratacao'),
         sexo: document.getElementById('sexo'),
         idadeMin: document.getElementById('idadeMin'),
         idadeMax: document.getElementById('idadeMax'),
@@ -443,10 +378,11 @@
         return true;
     }
     function validarTipoContratacao() {
-        let selecionado = false;
-        for (let radio of dom.tipoContratacao) if (radio.checked) selecionado = true;
-        if (!selecionado) { mostrarErro(helpers.tipoContratacao, null, 'Selecione o tipo de contratação'); return false; }
-        mostrarSucesso(helpers.tipoContratacao, null, 'Selecionado');
+        if (!dom.tipoContratacao.value) {
+            mostrarErro(helpers.tipoContratacao, dom.tipoContratacao, 'Selecione o tipo de contratação');
+            return false;
+        }
+        mostrarSucesso(helpers.tipoContratacao, dom.tipoContratacao, 'Selecionado');
         return true;
     }
     function validarSexo() {
@@ -589,7 +525,7 @@
     dom.numVagas.addEventListener('blur', validarNumVagas);
     dom.numVagas.addEventListener('input', validarNumVagas);
     dom.salario.addEventListener('blur', validarSalario);
-    for (let radio of dom.tipoContratacao) radio.addEventListener('change', validarTipoContratacao);
+    dom.tipoContratacao.addEventListener('change', validarTipoContratacao);
     dom.sexo.addEventListener('change', validarSexo);
     dom.idadeMin.addEventListener('blur', () => { validarIdadeMin(); validarIdadeMax(); });
     dom.idadeMax.addEventListener('blur', validarIdadeMax);
