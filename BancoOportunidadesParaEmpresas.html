@@ -154,7 +154,7 @@
         }
         .mensagem-envio.erro {
             background: #fee9e7;
-            border-color: #f1a09c;
+            border-color: #c26661;
             color: #a11f1f;
         }
         .oculto {
@@ -439,7 +439,7 @@
         // --- Validações individuais (obrigatórias) ---
         function validarNomeFantasia() {
             const val = dom.nomeFantasia.value.trim();
-            if (!val) { mostrarErro(helpers.nomeFantasia, dom.nomeFantasia, 'Nome fantasia obrigatório'); return false; }
+            if(!val) {mostrarErro(helpers.nomeFantasia, dom.nomeFantasia, 'Nome fantasia obrigatório'); return false; } 
             if (val.length < 3) { mostrarErro(helpers.nomeFantasia, dom.nomeFantasia, 'Mínimo 3 caracteres'); return false; }
             mostrarSucesso(helpers.nomeFantasia, dom.nomeFantasia, 'Válido');
             return true;
@@ -565,7 +565,6 @@
                 const resp = await fetch(`https://viacep.com.br/ws/${cepNumerico}/json/`);
                 const data = await resp.json();
                 if (data.erro) throw new Error('CEP não encontrado');
-                // Preencher campos
                 dom.endereco.value = data.logradouro || '';
                 dom.bairro.value = data.bairro || '';
                 if (data.uf) {
@@ -628,107 +627,96 @@
         });
 
         // ========== CONSULTA CNPJ COM MÚLTIPLAS APIs ==========
-        // Lista de APIs em ordem de tentativa
         const apisCNPJ = [
             {
                 nome: 'cnpj.ws',
                 url: (cnpj) => `https://publica.cnpj.ws/cnpj/${cnpj}`,
-                processar: (data) => {
-                    return {
-                        razao_social: data.razao_social,
-                        nome_fantasia: data.nome_fantasia,
-                        cnae: data.estabelecimento?.cnae_fiscal_descricao,
-                        logradouro: data.estabelecimento?.logradouro,
-                        numero: data.estabelecimento?.numero,
-                        complemento: data.estabelecimento?.complemento,
-                        bairro: data.estabelecimento?.bairro,
-                        cep: data.estabelecimento?.cep,
-                        uf: data.estabelecimento?.estado?.sigla,
-                        municipio: data.estabelecimento?.cidade?.nome,
-                        telefone1: data.estabelecimento?.telefone1,
-                        telefone2: data.estabelecimento?.telefone2
-                    };
-                }
+                processar: (data) => ({
+                    razao_social: data.razao_social,
+                    nome_fantasia: data.nome_fantasia,
+                    cnae: data.estabelecimento?.cnae_fiscal_descricao,
+                    logradouro: data.estabelecimento?.logradouro,
+                    numero: data.estabelecimento?.numero,
+                    complemento: data.estabelecimento?.complemento,
+                    bairro: data.estabelecimento?.bairro,
+                    cep: data.estabelecimento?.cep,
+                    uf: data.estabelecimento?.estado?.sigla,
+                    municipio: data.estabelecimento?.cidade?.nome,
+                    telefone1: data.estabelecimento?.telefone1,
+                    telefone2: data.estabelecimento?.telefone2
+                })
             },
             {
                 nome: 'OpenCNPJ',
                 url: (cnpj) => `https://opencnpj.org/api/v1/cnpj/${cnpj}`,
-                processar: (data) => {
-                    return {
-                        razao_social: data.razao_social,
-                        nome_fantasia: data.nome_fantasia,
-                        cnae: data.cnae_fiscal_principal?.descricao,
-                        logradouro: data.logradouro,
-                        numero: data.numero,
-                        complemento: data.complemento,
-                        bairro: data.bairro,
-                        cep: data.cep,
-                        uf: data.uf,
-                        municipio: data.municipio,
-                        telefone1: data.ddd_telefone_1,
-                        telefone2: data.ddd_telefone_2
-                    };
-                }
+                processar: (data) => ({
+                    razao_social: data.razao_social,
+                    nome_fantasia: data.nome_fantasia,
+                    cnae: data.cnae_fiscal_principal?.descricao,
+                    logradouro: data.logradouro,
+                    numero: data.numero,
+                    complemento: data.complemento,
+                    bairro: data.bairro,
+                    cep: data.cep,
+                    uf: data.uf,
+                    municipio: data.municipio,
+                    telefone1: data.ddd_telefone_1,
+                    telefone2: data.ddd_telefone_2
+                })
             },
             {
                 nome: 'BrasilAPI',
                 url: (cnpj) => `https://brasilapi.com.br/api/cnpj/v1/${cnpj}`,
-                processar: (data) => {
-                    return {
-                        razao_social: data.razao_social,
-                        nome_fantasia: data.nome_fantasia,
-                        cnae: data.cnae_fiscal_descricao,
-                        logradouro: data.logradouro,
-                        numero: data.numero,
-                        complemento: data.complemento,
-                        bairro: data.bairro,
-                        cep: data.cep,
-                        uf: data.uf,
-                        municipio: data.municipio,
-                        telefone1: data.ddd_telefone_1,
-                        telefone2: data.ddd_telefone_2
-                    };
-                }
+                processar: (data) => ({
+                    razao_social: data.razao_social,
+                    nome_fantasia: data.nome_fantasia,
+                    cnae: data.cnae_fiscal_descricao,
+                    logradouro: data.logradouro,
+                    numero: data.numero,
+                    complemento: data.complemento,
+                    bairro: data.bairro,
+                    cep: data.cep,
+                    uf: data.uf,
+                    municipio: data.municipio,
+                    telefone1: data.ddd_telefone_1,
+                    telefone2: data.ddd_telefone_2
+                })
             },
             {
                 nome: 'MinhaReceita',
                 url: (cnpj) => `https://minhareceita.org/api/v1/cnpj/${cnpj}`,
-                processar: (data) => {
-                    return {
-                        razao_social: data.razao_social,
-                        nome_fantasia: data.nome_fantasia,
-                        cnae: data.cnae_fiscal_descricao,
-                        logradouro: data.logradouro,
-                        numero: data.numero,
-                        complemento: data.complemento,
-                        bairro: data.bairro,
-                        cep: data.cep,
-                        uf: data.uf,
-                        municipio: data.municipio,
-                        telefone1: data.ddd_telefone_1,
-                        telefone2: data.ddd_telefone_2
-                    };
-                }
+                processar: (data) => ({
+                    razao_social: data.razao_social,
+                    nome_fantasia: data.nome_fantasia,
+                    cnae: data.cnae_fiscal_descricao,
+                    logradouro: data.logradouro,
+                    numero: data.numero,
+                    complemento: data.complemento,
+                    bairro: data.bairro,
+                    cep: data.cep,
+                    uf: data.uf,
+                    municipio: data.municipio,
+                    telefone1: data.ddd_telefone_1,
+                    telefone2: data.ddd_telefone_2
+                })
             },
             {
                 nome: 'ReceitaWS (com proxy)',
                 url: (cnpj) => `https://cors-anywhere.herokuapp.com/https://receitaws.com.br/v1/cnpj/${cnpj}`,
-                processar: (data) => {
-                    return {
-                        razao_social: data.nome,
-                        nome_fantasia: data.fantasia,
-                        cnae: data.atividade_principal?.text,
-                        logradouro: data.logradouro,
-                        numero: data.numero,
-                        complemento: data.complemento,
-                        bairro: data.bairro,
-                        cep: data.cep,
-                        uf: data.uf,
-                        municipio: data.municipio,
-                        telefone1: data.telefone,
-                        telefone2: null
-                    };
-                }
+                processar: (data) => ({
+                    razao_social: data.nome,
+                    nome_fantasia: data.fantasia,
+                    cnae: data.atividade_principal?.text,
+                    logradouro: data.logradouro,
+                    numero: data.numero,
+                    complemento: data.complemento,
+                    bairro: data.bairro,
+                    cep: data.cep,
+                    uf: data.uf,
+                    municipio: data.municipio,
+                    telefone1: data.telefone,
+                    telefone2: null
+                })
             }
         ];
 
@@ -740,31 +728,17 @@
             if (cnpjNum.length !== 14) return;
             if (consultandoCNPJ) return;
             consultandoCNPJ = true;
-
             helpers.cnpj.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Consultando CNPJ...';
             helpers.cnpj.className = 'helper-text';
-
             let sucesso = false;
-            let ultimoErro = null;
-
             for (const api of apisCNPJ) {
                 try {
-                    if (api.nome === 'ReceitaWS (com proxy)') {
-                        helpers.cnpj.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Tentando ${api.nome}...`;
-                    }
                     const url = api.url(cnpjNum);
-                    const resp = await fetch(url, {
-                        headers: api.nome === 'ReceitaWS (com proxy)' ? { 'Origin': 'https://example.com' } : {}
-                    });
-                    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+                    const resp = await fetch(url);
+                    if (!resp.ok) throw new Error();
                     const data = await resp.json();
-                    
-                    // Verifica se a API retornou erro
-                    if (data.status === 'ERROR' || data.error) throw new Error('API retornou erro');
-                    
+                    if (data.status === 'ERROR' || data.error) throw new Error();
                     const dados = api.processar(data);
-                    
-                    // Preencher campos
                     if (dados.razao_social) dom.razaoSocial.value = dados.razao_social;
                     if (dados.nome_fantasia) dom.nomeFantasia.value = dados.nome_fantasia;
                     if (dados.cnae) dom.ramoAtividade.value = dados.cnae;
@@ -807,23 +781,17 @@
                         if (tel.length === 10) tel = tel.replace(/^(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
                         dom.outroTelefone.value = tel;
                     }
-
                     mostrarSucesso(helpers.cnpj, dom.cnpj, `CNPJ encontrado via ${api.nome}! Dados preenchidos.`);
                     sucesso = true;
                     break;
                 } catch (error) {
-                    ultimoErro = error;
-                    console.warn(`Erro na API ${api.nome}:`, error);
-                    continue; // Tenta próxima API
+                    continue;
                 }
             }
-
             if (!sucesso) {
                 mostrarErro(helpers.cnpj, dom.cnpj, 'CNPJ inválido ou API indisponível. Tente novamente.');
-                validarCNPJ(); // Valida o formato
+                validarCNPJ();
             }
-
-            // Disparar validações dos campos preenchidos
             validarRazaoSocial();
             validarNomeFantasia();
             validarRamoAtividade();
@@ -832,23 +800,18 @@
             validarBairro();
             validarCEP();
             validarEstado();
-
             consultandoCNPJ = false;
         }
 
-        // Gatilhos para consulta CNPJ
         dom.cnpj.addEventListener('blur', () => {
             const len = dom.cnpj.value.replace(/\D/g, '').length;
             if (len === 14) consultarCNPJ();
             else validarCNPJ();
         });
-        
         dom.cnpj.addEventListener('input', () => {
             clearTimeout(debounceTimer);
             const len = dom.cnpj.value.replace(/\D/g, '').length;
-            if (len === 14) {
-                debounceTimer = setTimeout(() => consultarCNPJ(), 1200);
-            }
+            if (len === 14) debounceTimer = setTimeout(() => consultarCNPJ(), 1200);
         });
 
         // --- Eventos de validação em tempo real ---
@@ -879,19 +842,9 @@
         // --- Validação geral e submit ---
         function validarFormulario() {
             const obrigatorios = [
-                validarNomeFantasia(),
-                validarRazaoSocial(),
-                validarRamoAtividade(),
-                validarCNPJ(),
-                validarEndereco(),
-                validarNumero(),
-                validarCEP(),
-                validarBairro(),
-                validarEstado(),
-                validarCidade(),
-                validarCelular(),
-                validarNomeContato(),
-                validarEmailContato()
+                validarNomeFantasia(), validarRazaoSocial(), validarRamoAtividade(), validarCNPJ(),
+                validarEndereco(), validarNumero(), validarCEP(), validarBairro(), validarEstado(),
+                validarCidade(), validarCelular(), validarNomeContato(), validarEmailContato()
             ];
             validarTelefoneOpcional(dom.telefone, helpers.telefone);
             validarTelefoneOpcional(dom.outroTelefone, helpers.outroTelefone);
@@ -901,7 +854,7 @@
 
         dom.form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            msgSucesso.classList.add('oculto');s
+            msgSucesso.classList.add('oculto');
             msgErro.classList.add('oculto');
             if (!validarFormulario()) {
                 msgErro.classList.remove('oculto');
