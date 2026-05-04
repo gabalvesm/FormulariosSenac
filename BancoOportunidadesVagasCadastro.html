@@ -392,8 +392,8 @@
     }
     function validarIdadeMin() {
         const val = dom.idadeMin.value.trim();
-        if (val && (isNaN(val) || parseInt(val) < 0 || parseInt(val) > 120)) {
-            mostrarErro(helpers.idadeMin, dom.idadeMin, 'Idade inválida (0-120)');
+        if (val && (isNaN(val) || parseInt(val) < 0 || parseInt(val) > 80)) {
+            mostrarErro(helpers.idadeMin, dom.idadeMin, 'Idade inválida (0-80)');
             return false;
         }
         limparHelper(helpers.idadeMin, dom.idadeMin);
@@ -401,8 +401,8 @@
     }
     function validarIdadeMax() {
         const val = dom.idadeMax.value.trim();
-        if (val && (isNaN(val) || parseInt(val) < 0 || parseInt(val) > 120)) {
-            mostrarErro(helpers.idadeMax, dom.idadeMax, 'Idade inválida (0-120)');
+        if (val && (isNaN(val) || parseInt(val) < 0 || parseInt(val) > 80)) {
+            mostrarErro(helpers.idadeMax, dom.idadeMax, 'Idade inválida (0-80)');
             return false;
         }
         const min = dom.idadeMin.value.trim();
